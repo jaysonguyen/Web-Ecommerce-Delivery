@@ -1,0 +1,59 @@
+:root {
+  --primary-color: #4d28d2;
+  --primary-dark: #3015be;
+  --text-color-primary: #323030;
+  --border-color: #ccc;
+  --tab-color: #424242;
+  --text-color-gray: #c8c8c8;
+  --text-white: #fff;
+  
+  --border-radius-3: 3px;
+  --border-weight: 600;
+  --text-size-12: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.padding-none {
+  padding: 0;
+}
+
+.margin-none {
+  margin: 0;
+}
