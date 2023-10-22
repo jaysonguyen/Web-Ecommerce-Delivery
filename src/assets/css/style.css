@@ -2,6 +2,7 @@
   --primary-color: #4d28d2;
   --primary-dark: #3015be;
   --text-color-primary: #323030;
+  --text-color-primary-rgba: 50, 48, 48;
   --border-color: #ccc;
   --tab-color: #424242;
   --text-color-gray: #c8c8c8;
@@ -56,4 +57,12 @@ ul {
 
 .margin-none {
   margin: 0;
+}
+
+.font-weight-b{
+  font-weight: bold;
+}
+
+.font-weight-br{
+  font-weight: bolder;
 }

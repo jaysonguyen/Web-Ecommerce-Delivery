@@ -1,0 +1,42 @@
+.myTable {
+    /*width: max-content;*/
+}
+
+.my_table_wrapper {
+    padding: 0 20px;
+    color: var(--text-color-primary);
+}
+
+.my_table_row {
+    /*margin-bottom: 5px;*/
+}
+
+.my_table_cell {
+    background-color: #ffffff;
+    padding: 20px 10px;
+    border-bottom: 1px solid rgba(61, 61, 61, 0.2);
+    /*border: 1px solid rgba(61, 61, 61, 0.2);*/
+}
+
+.my_table_cell .main_content{
+    color: ;
+}
+
+.my_table_cell .sub_content{
+
+}
+
+
+.table_header {
+    color: rgba(var(--text-color-primary-rgba), 0.6);
+    font-weight: bold;
+}
+
+.my_table_cell {
+    font-weight: bold;
+    display: flex;
+}
+
+.checkbox {
+    margin-right: 20px;
+}
