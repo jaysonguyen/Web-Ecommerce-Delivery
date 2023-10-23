@@ -2,6 +2,12 @@
     /*width: max-content;*/
 }
 
+.myTable h3{
+    text-transform: capitalize;
+    font-weight: bolder;
+    color: rgba(var(--text-color-second-rgba), 0.8);
+}
+
 .my_table_wrapper {
     padding: 0 20px;
     color: var(--text-color-primary);
@@ -11,25 +17,33 @@
     /*margin-bottom: 5px;*/
 }
 
+.my_table_cell.checkbox {
+    width: 20px;
+}
+
 .my_table_cell {
     background-color: #ffffff;
-    padding: 20px 10px;
+    padding: 20px 7px;
     border-bottom: 1px solid rgba(61, 61, 61, 0.2);
     /*border: 1px solid rgba(61, 61, 61, 0.2);*/
 }
 
 .my_table_cell .main_content{
-    color: ;
+    color: rgba(var(--text-color-primary-rgba));
 }
 
 .my_table_cell .sub_content{
-
+    color: rgba(var(--text-color-second-rgba));
+    font-size: var(--text-size-title);
 }
 
-
 .table_header {
-    color: rgba(var(--text-color-primary-rgba), 0.6);
     font-weight: bold;
+    text-transform: capitalize;
+}
+
+.table_header .my_table_cell .main_content{
+    color: rgba(var(--text-color-second-rgba), 0.6);
 }
 
 .my_table_cell {

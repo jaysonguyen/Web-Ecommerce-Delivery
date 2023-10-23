@@ -4,7 +4,7 @@ import "./MyButton.css";
 export const MyButton = ({
   text,
   callback,
-  icon = "",
+  icon = <div></div>,
   bgColor = "rgba(179,179,179,0.6)",
   fontColor = "#3d3d3d",
   height = 35,
@@ -31,7 +31,7 @@ export const MyButton = ({
       onMouseLeave={() => setIsHovered(false)}
       onClick={callback}
       style={style}
-      className="mybutton mx-1"
+      className="mybutton d-inline-flex justify-content-around align align-items-center"
     >
       <div>{icon}</div>
       <div>{text}</div>
