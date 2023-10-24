@@ -31,3 +31,18 @@
     font-weight: var(--text-weight);
     
 }
+
+
+/* INPUT */
+
+.input_container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.input_container input {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 10px;
+  outline: none;
+  width: 100%;
+}

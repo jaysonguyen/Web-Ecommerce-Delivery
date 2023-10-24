@@ -16,6 +16,9 @@ import "./index.css";
 //import pages;
 import { StaffScreen } from "./pages/admin/staff/StaffScreen";
 import App from "./App";
+import Login from "./pages/Authentication/Login";
+import Forget from "./pages/Authentication/Forget";
+import Register from "./pages/Authentication/Register";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +32,18 @@ const router = createBrowserRouter([
       {
         path: "admin/staff",
         element: <StaffScreen />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/forget",
+        element: <Forget />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
     ],
   },

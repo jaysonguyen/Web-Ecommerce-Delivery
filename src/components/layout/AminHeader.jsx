@@ -3,7 +3,7 @@ import React, { useState } from "react";
 //css
 import "../../assets/css/navigation/adminHeader.css";
 import { Dropdown, SearchText, Notification } from "../index";
-import { BellSimple, FolderSimplePlus } from "phosphor-react";
+import { BellSimple, Drop, FolderSimplePlus, User } from "phosphor-react";
 import { ICON_SIZE_BIG, ICON_SIZE_EXTRA_LARGE } from "../../utils/constraint";
 
 function AminHeader(props) {
@@ -19,11 +19,11 @@ function AminHeader(props) {
 
   const handleShowNotification = () => {
     setIsShowNoti(true);
-  }
+  };
 
   const handleCLoseNotification = () => {
-    setIsShowNoti(false)
-  }
+    setIsShowNoti(false);
+  };
   return (
     <div className="admin_header flex-center-between">
       <Dropdown
@@ -37,10 +37,23 @@ function AminHeader(props) {
         <FolderSimplePlus weight="fill" size={ICON_SIZE_BIG} />
         Lên đơn hàng
       </button>
-      <BellSimple onClick={handleShowNotification} className="adminHeader_icon" size={ICON_SIZE_EXTRA_LARGE} />
+      <div>
+        <BellSimple
+          onClick={handleShowNotification}
+          className="adminHeader_icon"
+          size={ICON_SIZE_EXTRA_LARGE}
+        />
+        <User
+          onClick={handleShowNotification}
+          className="adminHeader_icon user_icon"
+          size={ICON_SIZE_EXTRA_LARGE}
+        />
+      
+      </div>
+
       {isShowNoti && (
         <div className="notification_container">
-          <Notification closeNoti={handleCLoseNotification}/>
+          <Notification heading={"Thông báo mới"} closeNoti={handleCLoseNotification} />
         </div>
       )}
     </div>

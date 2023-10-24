@@ -9,11 +9,11 @@ import "../../../assets/css/modal/notification.css";
 //img
 import { emptyNotification } from "../../../assets/img";
 
-function Notification({ closeNoti }) {
+function Notification({ closeNoti, heading }) {
   return (
     <div style={{ width: "22%" }} className="notification_container">
       <h6 className="title_size text_white text_center flex-center-center">
-        Trung tâm thông báo
+        {heading}
         <X
           onClick={closeNoti}
           className="notification_close"

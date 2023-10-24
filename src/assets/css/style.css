@@ -86,6 +86,11 @@ a {
   justify-content: space-between;
 }
 
+.flex-direction-column {
+  display: flex;
+  flex-direction: column;
+}
+
 .padding-none {
   padding: 0;
 }
@@ -129,9 +134,18 @@ a {
 
 .title_size {
   font-size: var(--text-size-title);
-  color: var(--text-white);
 }
 
+.text_primary {
+  color: var(--primary-color);
+}
 
+.text_gray {
+  color: var(--text-color-gray);
+}
+
+.text_decoration_none {
+  text-decoration: none;
+}
 
 /* DISTANCE */

@@ -13,8 +13,9 @@
   background-color: var(--admin-header-backgroundColor);
 }
 
-.adminHeader_icon {
+.adminHeader_icon:nth-child(2) {
   cursor: pointer;
+  margin-left: 20px;
 }
 
 .adminHeader_icon:hover {

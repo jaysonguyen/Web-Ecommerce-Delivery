@@ -5,7 +5,7 @@ import { ICON_SIZE_BIG } from "../../utils/constraint";
 
 //css
 import "../../assets/css/dropdown.css";
-function DropDown({ isShowIcon, item, isShowSearchField, isBoxShadow }) {
+function DropDown({ isShowIcon = false, item = [], isShowSearchField = false, isBoxShadow = false}) {
   const [isShowDropDown, setIsShowDropDown] = useState(false);
   const [itemSelect, setItemSelect] = useState("Default value");
   const handleShowDropdown = () => {

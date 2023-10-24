@@ -3,4 +3,5 @@ import Dropdown from "./Dropdown/DropDown";
 import AdminHeader from "./layout/AminHeader";
 import SearchText from "./template/input/SearchText";
 import Notification from "./template/Modal/Notification";
-export { Sidebar, Dropdown, AdminHeader, SearchText, Notification };
+import Input from "./template/input/Input";
+export { Sidebar, Dropdown, AdminHeader, SearchText, Notification, Input };

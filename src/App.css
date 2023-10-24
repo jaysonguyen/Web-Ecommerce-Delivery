@@ -37,9 +37,7 @@
   }
 }
 /* Config app */
-.app_container {
-  display: flex;
-}
+
 
 .content_container {
   margin-left: calc(var(--sidebar-width)) ;
