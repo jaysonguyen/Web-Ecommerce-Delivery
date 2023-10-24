@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+/* Config app */
+.app_container {
+  display: flex;
+}
+
+.content_container {
+  margin-left: calc(var(--sidebar-width) + 20px) ;
+}

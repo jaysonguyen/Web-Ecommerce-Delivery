@@ -1,16 +1,43 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import store from "./store/store";
+//lib
+import React, { lazy, Suspense } from "react";
 import { Provider } from "react-redux";
+import ReactDOM from "react-dom/client";
+import reportWebVitals from "./reportWebVitals";
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  Router,
+  RouterProvider,
+} from "react-router-dom";
 
+import store from "./store/store";
+import "./index.css";
+
+//import pages;
+import { StaffScreen } from "./pages/admin/staff/StaffScreen";
+import App from "./App";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        index: true,
+        element: <StaffScreen />,
+      },
+      {
+        path: "admin/staff",
+        element: <StaffScreen />,
+      },
+    ],
+  },
+]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>
 );
