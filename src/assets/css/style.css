@@ -1,15 +1,22 @@
 :root {
   --primary-color: #4d28d2;
   --primary-dark: #3015be;
-  --text-color-primary: #323030;
+  --text-color-primary: #0D497F;
+  --text-color-primary-rgba: 13, 73, 127;
+  --text-color-second-rgba: 66, 66, 66;
   --border-color: #ccc;
   --tab-color: #424242;
   --text-color-gray: #c8c8c8;
   --text-white: #fff;
-  
+
+  --color-warning: rgb(245, 245, 53);
+  --color-error: rgb(245, 39, 39);
+  --color-success: rgb(41, 147, 0);
+
   --border-radius-3: 3px;
   --border-weight: 600;
   --text-size-12: 12px;
+  --text-size-title: 22px;
 }
 
 * {
@@ -56,4 +63,12 @@ ul {
 
 .margin-none {
   margin: 0;
+}
+
+.font-weight-b{
+  font-weight: bold;
+}
+
+.font-weight-br{
+  font-weight: bolder;
 }
