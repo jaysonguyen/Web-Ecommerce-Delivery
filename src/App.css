@@ -42,5 +42,5 @@
 }
 
 .content_container {
-  margin-left: calc(var(--sidebar-width) + 20px) ;
+  margin-left: calc(var(--sidebar-width)) ;
 }

@@ -6,7 +6,7 @@ import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.mi
 import { Table } from "phosphor-react";
 import { ICON_SIZE_BIG } from "./utils/constraint";
 import { StaffScreen } from "./pages/admin/staff/StaffScreen";
-import Sidebar from "./components/layout/Sidebar";
+import {Sidebar, AdminHeader} from "./components/index";
 
 function App() {
   const sidebarContent = [
@@ -30,6 +30,7 @@ function App() {
         tab={sidebarContent}
       />
       <div className="content_container">
+        <AdminHeader />
         <Outlet />
       </div>
     </div>
