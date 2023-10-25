@@ -19,6 +19,7 @@ import App from "./App";
 import Login from "./pages/Authentication/Login";
 import Forget from "./pages/Authentication/Forget";
 import Register from "./pages/Authentication/Register";
+import Customer from "./pages/customer/Customer";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/customer/account",
+        element: <Customer />,
       },
     ],
   },

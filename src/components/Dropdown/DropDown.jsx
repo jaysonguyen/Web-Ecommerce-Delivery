@@ -16,9 +16,9 @@ function DropDown({ isShowIcon = false, item = [], isShowSearchField = false, is
     setIsShowDropDown(false);
   };
 
-  const handleSelectItem = (e) => {
-    handleCloseModal();
-    setItemSelect(e);
+  const handleSelectItem = async (e) => {
+    await setItemSelect(e);
+    await handleCloseModal();
   };
 
   return (
