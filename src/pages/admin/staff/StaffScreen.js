@@ -32,7 +32,7 @@ export const StaffScreen = () => {
   let myTitle = "Staff Management";
 
   return (
-    <div className="">
+    <div className="padding-body">
       <MyTable
         list={items}
         headerAction={myHeaderAction}

@@ -95,6 +95,10 @@ a {
   padding: 0;
 }
 
+.padding-body {
+  padding-top: calc(var(--admin-header-height) + 10px);
+}
+
 .margin-none {
   margin: 0;
 }

@@ -34,13 +34,14 @@ function App() {
           tab={sidebarContent}
         />
       )}
-
-      {display.isShowHeader && (
-        <div className="content_container">
-          <AdminHeader />
-        </div>
-      )}
-      <Outlet />
+      <div className="content_container">
+        {display.isShowHeader && (
+          <div>
+            <AdminHeader />
+          </div>
+        )}
+        <Outlet />
+      </div>
     </div>
   );
 }
