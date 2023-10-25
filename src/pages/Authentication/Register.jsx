@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import displaySlice from "../../features/Display/displaySlice";
 import { loginBackground } from "../../assets/img/index";
 import { Link } from "react-router-dom";
 import "../../assets/css/Pages/login.css";
-import { Input } from "../../components/index";
+import { Dropdown, Input, SelectInput } from "../../components/index";
 function Register(props) {
   const dispatch = useDispatch();
 
@@ -25,13 +25,23 @@ function Register(props) {
         <form className="register_form">
           <div className="row">
             <div className="col col-6">
-              <Input label="Mục đích sử dụng" placeholder="Cá nhân" />
+              <Dropdown
+                placeholder="Nhập mục đích..."
+                label={"Mục đích sử dụng"}
+                textColor="var(--text-color-gray)"
+                margin="0"
+              />
             </div>
             <div className="col col-6">
               <Input label="Tài khoản" placeholder="Nhập tài khoản" />
             </div>
             <div className="col col-6">
-              <Input label="Qui mô vận chuyển" placeholder="Nhập tài khoản" />
+              <Dropdown
+                placeholder="Chọn quy mô vận chuyển..."
+                label={"Quy mô vận chuyển"}
+                textColor="var(--text-color-gray)"
+                margin="0"
+              />
             </div>
             <div className="col col-6">
               <Input label="Ngành hàng" placeholder="Nhập ngành hàng" />

@@ -40,12 +40,14 @@
 }
 
 .dropdown_item {
-  padding: 10px 0;
   z-index: 10;
 }
 
 .dropdown_item button {
+  width: 100%;
+  text-align: left;
   background-color: inherit;
+  padding: 10px 0;
 }
 
 .dropdown_item button.active {

@@ -31,6 +31,9 @@ function AminHeader(props) {
         item={itemDropDown}
         isShowSearchField={true}
         isBoxShadow={false}
+        margin="0 30px"
+        placeholder="Default value"
+        textColor="var(--primary-color)"
       />
       <SearchText />
       <button className="adminHeader_button button button_primary font-weight-bold flex-align-center">
@@ -48,12 +51,14 @@ function AminHeader(props) {
           className="adminHeader_icon user_icon"
           size={ICON_SIZE_EXTRA_LARGE}
         />
-      
       </div>
 
       {isShowNoti && (
         <div className="notification_container">
-          <Notification heading={"Thông báo mới"} closeNoti={handleCLoseNotification} />
+          <Notification
+            heading={"Thông báo mới"}
+            closeNoti={handleCLoseNotification}
+          />
         </div>
       )}
     </div>

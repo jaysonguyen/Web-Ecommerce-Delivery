@@ -3,14 +3,14 @@ import React from "react";
 import { ICON_SIZE_BIG } from "../../../utils/constraint";
 import "../../../assets/css/input/input.css";
 
-function SearchText(props) {
+function SearchText({ width = "100%", padding = "5px", isShowIcon = true }) {
   return (
     <div
       style={{ width: "40%", padding: "5px" }}
       className="search_container flex-align-center"
     >
       <div className="flex-center">
-      <MagnifyingGlass className="search_icon" size={ICON_SIZE_BIG} />
+        <MagnifyingGlass className="search_icon" size={ICON_SIZE_BIG} />
       </div>
       <input
         type="text"

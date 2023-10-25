@@ -1,13 +1,22 @@
 import { CaretDown, Storefront } from "phosphor-react";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 //constraint
 import { ICON_SIZE_BIG } from "../../utils/constraint";
 
 //css
 import "../../assets/css/dropdown.css";
-function DropDown({ isShowIcon = false, item = [], isShowSearchField = false, isBoxShadow = false}) {
+function DropDown({
+  isShowIcon = false,
+  label = "",
+  item = [],
+  isShowSearchField = false,
+  isBoxShadow = false,
+  textColor = "#000",
+  margin = "0",
+  placeholder = "",
+}) {
   const [isShowDropDown, setIsShowDropDown] = useState(false);
-  const [itemSelect, setItemSelect] = useState("Default value");
+  const [itemSelect, setItemSelect] = useState(placeholder);
   const handleShowDropdown = () => {
     setIsShowDropDown(true);
   };
@@ -16,13 +25,15 @@ function DropDown({ isShowIcon = false, item = [], isShowSearchField = false, is
     setIsShowDropDown(false);
   };
 
-  const handleSelectItem = (e) => {
-    handleCloseModal();
-    setItemSelect(e);
+  const handleSelectItem = async (e) => {
+    await setItemSelect(e);
+    await setIsShowDropDown(false);
   };
 
   return (
     <>
+      {label && <label className="text_dark font-weight-b">{label}</label>}
+
       <div
         className="dropdown_container flex-align-center"
         style={{
@@ -37,41 +48,42 @@ function DropDown({ isShowIcon = false, item = [], isShowSearchField = false, is
             <Storefront size={ICON_SIZE_BIG} weight="fill" />
           </span>
         )}
-        <h6>{itemSelect}</h6>
+        <h6 style={{ margin: margin, color: textColor }}>{itemSelect}</h6>
         <span className="dropdown_icon">
           <CaretDown size={ICON_SIZE_BIG} />
         </span>
-        {isShowDropDown && (
-          <div className="dropdown_content">
-            {isShowSearchField && (
-              <input
-                className="dropdown_input"
-                placeholder="Enter your field"
-              />
-            )}
-            <ul className="dropdown_list">
-              {item.map((item, index) => {
-                return (
-                  <li key={index} className="dropdown_item">
-                    <button
-                      className={
-                        item.content == itemSelect
-                          ? "font-weight-b active"
-                          : "font-weight-b"
-                      }
-                      value={item.content}
-                      onClick={(e) => handleSelectItem(e.target.value)}
-                    >
-                      {item.content}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        )}
+        {item.length > 0 &&
+          isShowDropDown && (
+            <div className="dropdown_content">
+              {isShowSearchField && (
+                <input
+                  className="dropdown_input"
+                  placeholder="Enter your field"
+                />
+              )}
+              <ul className="dropdown_list">
+                {item.map((item, index) => {
+                  return (
+                    <li key={index} className="dropdown_item">
+                      <button
+                        className={
+                          item.content == itemSelect
+                            ? "font-weight-b active"
+                            : "font-weight-b"
+                        }
+                        value={item.content}
+                        onClick={(e) => handleSelectItem(e.target.value)}
+                      >
+                        {item.content}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
       </div>
-      {isShowDropDown && (
+      {item.length > 0 && isShowDropDown && (
         <div onClick={handleCloseModal} className="overlay"></div>
       )}
     </>
