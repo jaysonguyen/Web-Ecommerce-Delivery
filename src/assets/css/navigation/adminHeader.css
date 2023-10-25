@@ -8,7 +8,7 @@
   position: fixed;
   width: calc(100% - var(--sidebar-width));
   height: var(--admin-header-height);
-  box-shadow: 5px 5px 10px var(--box-shadow);
+  box-shadow: 5px 5px 10px var(--box-shadow-color);
   z-index: 10;
   background-color: var(--admin-header-backgroundColor);
 }

@@ -20,7 +20,7 @@ import Login from "./pages/Authentication/Login";
 import Forget from "./pages/Authentication/Forget";
 import Register from "./pages/Authentication/Register";
 import Customer from "./pages/customer/Customer";
-
+import AddCustomer from "./components/template/Modal/AddCustomer";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -49,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/customer/account",
         element: <Customer />,
+      },
+      {
+        path: "/customer/add",
+        element: <AddCustomer />,
       },
     ],
   },
