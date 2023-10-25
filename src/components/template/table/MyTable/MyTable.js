@@ -1,6 +1,7 @@
 import React from "react";
 import "./MyTable.css";
 import { MyTableRow } from "./MyTableRow";
+import { Toolkit } from "../../../project/toolkit/Toolkit";
 
 export const MyTable = ({
   list = [],
@@ -27,6 +28,7 @@ export const MyTable = ({
         </div>
         <div className="col text-end">{headerAction}</div>
       </div>
+      <Toolkit />
       <div className="my_table_wrapper">
         <MyTableRow
           showCheckBox={showCheckBox}

@@ -19,6 +19,14 @@ import App from "./App";
 import Login from "./pages/Authentication/Login";
 import Forget from "./pages/Authentication/Forget";
 import Register from "./pages/Authentication/Register";
+import { Table } from "phosphor-react";
+import {
+  ICON_SIZE_BIG,
+  URL_STAFF,
+  URL_FORGET,
+  URL_LOGIN,
+  URL_REGISTER,
+} from "./utils/constraint";
 
 const router = createBrowserRouter([
   {
@@ -30,31 +38,32 @@ const router = createBrowserRouter([
         element: <StaffScreen />,
       },
       {
-        path: "admin/staff",
+        path: URL_STAFF,
         element: <StaffScreen />,
       },
       {
-        path: "/login",
+        path: URL_LOGIN,
         element: <Login />,
       },
       {
-        path: "/forget",
+        path: URL_FORGET,
         element: <Forget />,
       },
       {
-        path: "/register",
+        path: URL_REGISTER,
         element: <Register />,
       },
     ],
   },
 ]);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

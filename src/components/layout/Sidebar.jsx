@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 //img
 import { userDefaultAvatar } from "../../assets/img";
-import { User, Coin } from "phosphor-react";
+import { User, Coin, Table } from "phosphor-react";
 //css
 import "../../assets/css/navigation/sidebar.css";
-import { ICON_SIZE_SMALL } from "../../utils/constraint";
+import { ICON_SIZE_BIG, ICON_SIZE_SMALL } from "../../utils/constraint";
 import { Link } from "react-router-dom";
+//contraints
+import {
+  URL_STAFF,
+  URL_FORGET,
+  URL_LOGIN,
+  URL_REGISTER,
+} from "../../utils/constraint";
 function Sidebar({ show, heading, isShowUser, tab }) {
   const [activeTab, setActiveTab] = useState(1);
 
