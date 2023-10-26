@@ -95,8 +95,10 @@ function Customer(props) {
               
             
             </div>
-           
-            <MyTable list={items}  showCheckBox={true} />
+          
+             <MyTable list={items}  showCheckBox={true} />  
+          
+            
             <div onClick={handleShowDetail} >
                 Show Detail Customer
             </div>
