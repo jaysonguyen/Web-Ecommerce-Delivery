@@ -28,6 +28,8 @@ import {
   URL_REGISTER,
 } from "./utils/constraint";
 
+import Customer from "./pages/customer/Customer";
+import AddCustomer from "./components/template/Modal/AddCustomer";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -53,17 +55,24 @@ const router = createBrowserRouter([
         path: URL_REGISTER,
         element: <Register />,
       },
+      {
+        path: "/customer/account",
+        element: <Customer />,
+      },
+      {
+        path: "/customer/add",
+        element: <AddCustomer />,
+      },
     ],
   },
 ]);
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

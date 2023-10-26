@@ -33,6 +33,7 @@ export const StaffScreen = () => {
 
   return (
     <div className="padding-body">
+     
       <MyTable
         list={items}
         headerAction={myHeaderAction}
