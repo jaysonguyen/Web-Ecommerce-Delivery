@@ -7,6 +7,7 @@ export const MyTableRow = ({
   isHeader = false,
   rowHeight = 65,
   showCheckBox = false,
+  callback = function () {},
 }) => {
   let className = isHeader
     ? "my_table_row table_header row"
@@ -21,7 +22,7 @@ export const MyTableRow = ({
   };
 
   return (
-    <div style={rowStyle} className={className}>
+    <div style={rowStyle} className={className} onClick={callback}>
       <div className={checkBoxClassName}>
         <input className="checkbox" type="checkbox" />
       </div>

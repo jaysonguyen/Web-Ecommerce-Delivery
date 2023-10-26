@@ -29,7 +29,7 @@ import {
 } from "./utils/constraint";
 
 import Customer from "./pages/customer/Customer";
-import AddCustomer from "./components/template/Modal/AddCustomer";
+import AddCustomer from "./components/project/customer/AddCustomer";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -72,7 +72,7 @@ root.render(
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js";
 import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js";
 import { Table } from "phosphor-react";
-import { ICON_SIZE_BIG, URL_STAFF } from "./utils/constraint";
+import { ICON_SIZE_BIG, URL_STAFF, URL_CUSTOMER } from "./utils/constraint";
 import { StaffScreen } from "./pages/admin/staff/StaffScreen";
 import { Sidebar, AdminHeader } from "./components/index";
 import { displaySelector } from "./selectors/displaySelector";
@@ -17,7 +17,7 @@ function App() {
     {
       icon: <Table size={ICON_SIZE_BIG} weight="fill" />,
       label: "Quản lý khách hàng",
-      link: URL_STAFF,
+      link: URL_CUSTOMER,
     },
     {
       icon: <Table size={ICON_SIZE_BIG} weight="fill" />,
