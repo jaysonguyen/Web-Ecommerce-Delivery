@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MyTable } from '../../components/template/table/MyTable/MyTable';
 import { MyButton } from '../../components/template/button/MyButton/MyButton';
-import {Dropdown} from '../../components/index';
-import {Input} from '../../components/index';
+import {Dropdown,DetailCustomer} from '../../components/index';
 import { Link } from "react-router-dom";
 import '../../assets/css/Pages/customer.css'
+
+
 function Customer(props) {
+    const [isShowDetail, setIsShowDetail] = useState(false);
+
+    const handleShowDetail = () => {
+      setIsShowDetail(true);
+    };
+    const handleCloseDetail = () => {
+      setIsShowDetail(false);
+    }
 
     let items =[
         {
@@ -52,7 +61,7 @@ function Customer(props) {
     ]
     
     return (
-        <div className='padding-body'>
+        <div className='padding-body' id='list_customer'>
             <div className='header_of_customer'>
     
 
@@ -87,8 +96,13 @@ function Customer(props) {
             
             </div>
            
-            
-            <MyTable list={items}  showCheckBox={true}/>
+            <MyTable list={items}  showCheckBox={true} />
+            <div onClick={handleShowDetail} >
+                Show Detail Customer
+            </div>
+         { isShowDetail &&  (<div className='detail_customer_container'>
+                <DetailCustomer closeDetail={handleCloseDetail}/>
+           </div>)}
         </div>
     );
 }
