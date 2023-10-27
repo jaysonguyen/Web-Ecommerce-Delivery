@@ -14,13 +14,12 @@ export const MyTable = ({
   title,
   rowHeight = 45,
 }) => {
+  const [selectedList, setSelectedList] = useState([]);
   const headers = list.length > 0 ? Object.keys(list[0]) : [];
 
   if (list.length === 0) {
     return <p>No data to display.</p>; // Render a message when the list is empty
   }
-
-  const [selectedList, setSelectedList] = useState([]);
 
   let handleChecked = (event) => {
     let selected = [...selectedList];
@@ -47,7 +46,12 @@ export const MyTable = ({
           isHeader={true}
         />
         {list.map((e, index) => (
-          <MyTableRow callback={callback}  showCheckBox={showCheckBox} key={index} data={e} />
+          <MyTableRow
+            callback={callback}
+            showCheckBox={showCheckBox}
+            key={index}
+            data={e}
+          />
         ))}
       </div>
     </div>

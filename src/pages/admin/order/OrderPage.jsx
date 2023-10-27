@@ -23,8 +23,8 @@ export const OrderPage = () => {
   ];
 
   return (
-    <div>
-      <CustomMultiSelect />
+    <div className="padding-body">
+      {/*<CustomMultiSelect />*/}
       <MyTable list={items} title="Order Management" showCheckBox={true} />
     </div>
   );
