@@ -36,7 +36,7 @@ export const MyTable = ({
           isHeader={true}
         />
         {list.map((e, index) => (
-          <MyTableRow showCheckBox={showCheckBox} key={index} data={e} />
+          <MyTableRow callback={callback}  showCheckBox={showCheckBox} key={index} data={e} />
         ))}
       </div>
     </div>

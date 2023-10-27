@@ -156,5 +156,7 @@ a {
 .text_decoration_none {
   text-decoration: none;
 }
-
+.bg_overlay{
+  background-color: rgba(0,0,0,0.8);
+}
 /* DISTANCE */

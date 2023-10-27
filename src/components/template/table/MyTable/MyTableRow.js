@@ -22,7 +22,7 @@ export const MyTableRow = ({
   };
 
   return (
-    <div style={rowStyle} className={className} onClick={callback}>
+    <div style={rowStyle} className={className} onClick={() => callback(data)}>
       <div className={checkBoxClassName}>
         <input className="checkbox" type="checkbox" />
       </div>
