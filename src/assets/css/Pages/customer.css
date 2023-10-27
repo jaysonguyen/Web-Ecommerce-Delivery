@@ -30,13 +30,14 @@
     
 }
 .option_dropdown{
-    width: 34%;
+    width: 40%;
    margin-left: 20px;
 }
 .feature_of_customer{
     display: flex;
     justify-content: end;
 }
+
 
 /* --------------------------------------------ADD CUSTOMER----------------------------------- */
 .full_add_customer_page{
@@ -89,35 +90,37 @@
     font-size: 15px;
 }
 /* -------------------------------------Detail customer--------- */
-.list_customer{ display: block;}
+
+
 .detail_customer_container{
-    position: absolute;
-    background-color: #ffffff;
-    margin: 10px;
+    margin: 0 10px;
     display: flex;
+    justify-content: space-between; 
 }
 
-.close_detail_frame{
-    width: 88px;
 
-}
 .close_detail_icon{
     background-color: #ffffff;
     box-shadow: 0 4px 8px 0 #0d161905, 0 12px 20px 0 #0d161929;
     cursor: pointer;
     transition: background 300ms ease;
     border-radius: 50%;
-    width: 56px;
-    height: 56px;
+    width: 35px;
+    height: 35px;
 }
 .content_detail_cus{
     box-shadow: 0 4px 8px 0 #0d161905, 0 12px 20px 0 #0d161929;
     display: flex;
     padding: 10px;
     margin: 0 20px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    width: 100%;
+    height: auto;
 }
 .count_quantity_type_order_cus{
     padding: 10px;
+    width: 120px;
 }
 
 .quantity_info{
@@ -161,7 +164,7 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 24px;
+    min-height: 40px;
     padding: 2px 10px;
     margin-top: 10px;
 
@@ -185,6 +188,7 @@ p {
     border-radius: 8px;
     box-shadow: var(--button-no-shadow, 0 4px 6px 0 rgba(16, 25, 40, 0.1));
 }
+
 h4{
     font-size: 17px;
     font-weight: 700;
@@ -212,6 +216,7 @@ h1 {
 .container {
     width:860px;
     margin: 0 auto;
+    height: auto;
 }
 
 .tabs {
@@ -224,7 +229,7 @@ h1 {
     border: none;
     color: #888888;
     cursor: pointer;
-    padding: 25px;
+    padding: 15px 10px;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.1);
     transition: all 0.5s ease-out;
@@ -252,7 +257,7 @@ h1 {
     padding: 50px 80px;
     background-color: rgb(201, 201, 201);
     font-weight: 300;
-    line-height: 30px;
+    line-height: auto;
     font-size: 16px;
     text-align: justify;
    
