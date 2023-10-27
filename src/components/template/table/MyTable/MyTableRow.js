@@ -8,6 +8,7 @@ export const MyTableRow = ({
   rowHeight = 65,
   showCheckBox = false,
   callback = function () {},
+  handleCheck = function () {},
 }) => {
   let className = isHeader
     ? "my_table_row table_header row"
@@ -24,7 +25,16 @@ export const MyTableRow = ({
   return (
     <div style={rowStyle} className={className} onClick={callback}>
       <div className={checkBoxClassName}>
-        <input className="checkbox" type="checkbox" />
+        {/*<input className="checkbox" type="checkbox" />*/}
+        {/*<span className="checkmark"></span>*/}
+        <div className="checkbox-circle2">
+          <input
+            type="checkbox"
+            id="checkbox-circle2"
+            name="check"
+            onChange={handleCheck}
+          />
+        </div>
       </div>
       {Object.values(data).map((e, index) => (
         <MyTableCell key={index} data={e} />

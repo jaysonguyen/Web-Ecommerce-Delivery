@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import "./MyTable.css";
 import { MyTableRow } from "./MyTableRow";
-import { Toolkit } from "../../../project/toolkit/Toolkit";
+import { Toolkit } from "../../toolkit/Toolkit";
 
 export const MyTable = ({
   list = [],
@@ -20,6 +20,17 @@ export const MyTable = ({
     return <p>No data to display.</p>; // Render a message when the list is empty
   }
 
+  const [selectedList, setSelectedList] = useState([]);
+
+  let handleChecked = (event) => {
+    let selected = [...selectedList];
+    if (event.target.checked) {
+      selected = [...selectedList, event.target.value];
+    } else {
+      selected.splice(selectedList.indexOf(event.target.value), 1);
+    }
+    setSelectedList(selected);
+  };
   return (
     <div className="myTable">
       <div className="row mx-2">

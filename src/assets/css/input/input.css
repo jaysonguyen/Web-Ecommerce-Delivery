@@ -35,14 +35,15 @@
 
 .input_container {
   width: 100%;
-  margin-bottom: 20px;
-}
-.input_container input {
+  /*margin-bottom: 20px;*/
   box-shadow: 0 0 5px var(--box-shadow-color);
   border-radius: var(--border-radius);
   padding: 10px;
-  outline: none;
+}
+.input_container input {
   width: 100%;
+  outline: none;
+  background-color: transparent;
 }
 
 .input_container input::placeholder {

@@ -17,6 +17,11 @@
     /*margin-bottom: 5px;*/
 }
 
+.my_table_row:not(:first-child):hover .my_table_cell{
+    background-color: var(--bg-light);
+    cursor: pointer;
+}
+
 .my_table_cell.checkbox {
     width: 20px;
 }
@@ -25,6 +30,8 @@
     background-color: #ffffff;
     padding: 20px 7px;
     border-bottom: 1px solid rgba(61, 61, 61, 0.2);
+    font-weight: bold;
+    display: flex;
     /*border: 1px solid rgba(61, 61, 61, 0.2);*/
 }
 
@@ -37,6 +44,67 @@
     font-size: var(--text-size-title);
 }
 
+.my_table_cell.checkbox {
+    position: relative;
+}
+
+.my_table_cell.checkbox .checkbox{
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+/* checkbox-circle2 */
+.checkbox-circle2 input[type="checkbox"] {
+    display: none;
+}
+.checkbox-circle2 input[type="checkbox"] {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 20px;
+    font: 14px/20px "Open Sans", Arial, sans-serif;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+.checkbox-circle2 input[type="checkbox"]:hover {
+    color: var(--primary-color);
+}
+.checkbox-circle2 input[type="checkbox"]:hover {
+    border: 1px solid #343a3f;
+    box-shadow: 2px 1px 0 #343a3f;
+}
+.checkbox-circle2 input[type="checkbox"]  {
+    margin-bottom: 0;
+}
+.checkbox-circle2 input[type="checkbox"]  {
+    content: "";
+    display: block;
+    width: 1.5em;
+    height: 1.5em;
+    border: 1px solid #343a3f;
+    border-radius: 1em;
+    position: absolute;
+    left: 0;
+    top: 22px;
+    -webkit-transition: all 0.2s, background 0.2s ease-in-out;
+    transition: all 0.2s, background 0.2s ease-in-out;
+    background: #f3f3f3;
+    box-shadow: -2px -1px 0 #343a3f;
+}
+.checkbox-circle2 input[type="checkbox"]:checked  {
+    border-radius: 1em;
+    border: 2px solid #fff;
+    width: 1.15em;
+    height: 1.15em;
+    background: #50565a;
+    box-shadow: 2px 1px 0 #50565a;
+}
+/* checkbox-circle2 end */
+
 .table_header {
     font-weight: bold;
     text-transform: capitalize;
@@ -44,13 +112,4 @@
 
 .table_header .my_table_cell .main_content{
     color: rgba(var(--text-color-second-rgba), 0.6);
-}
-
-.my_table_cell {
-    font-weight: bold;
-    display: flex;
-}
-
-.checkbox {
-    margin-right: 20px;
 }

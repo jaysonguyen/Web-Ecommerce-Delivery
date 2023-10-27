@@ -8,11 +8,13 @@
   --tab-color: #424242;
   --text-color-gray: #848484;
   --text-white: #fff;
+  --bg-light: #F8F8FB;
+  --bg-semi-light: #a0a0ff;
 
   --color-warning: rgb(245, 245, 53);
-  --color-error: rgb(245, 39, 39);
+  --color-error: rgb(255, 108, 108);
   --color-success: rgb(41, 147, 0);
-  --box-shadow: 0 0 5px var(#cdcdcd);
+  --box-shadow: 0 0 5px #cdcdcd;
   --box-shadow-color: #cdcdcd;
 
   --border-radius: 3px;
@@ -97,7 +99,9 @@ a {
 }
 
 .padding-body {
-  padding-top: calc(var(--admin-header-height) + 10px);
+  padding-top: calc(var(--admin-header-height) + 35px);
+  padding-left: 4%;
+  padding-right: 4%;
 }
 
 .margin-none {

@@ -7,6 +7,7 @@ import Input from "./template/Input/Input";
 import SelectInput from "./template/Input/SelectInput";
 import DetailCustomer from "./project/customer/DetailCustomer";
 import AddCustomer from "./project/customer/AddCustomer";
+import { MyButton } from "./template/button/MyButton/MyButton";
 export {
   Sidebar,
   Dropdown,
@@ -14,6 +15,7 @@ export {
   SearchText,
   Notification,
   Input,
+  MyButton,
   SelectInput,
   DetailCustomer,
   AddCustomer,

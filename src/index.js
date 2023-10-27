@@ -14,15 +14,15 @@ import store from "./store/store";
 import "./index.css";
 
 //import pages;
-import { StaffScreen } from "./pages/admin/staff/StaffScreen";
+import { StaffPage } from "./pages/admin/staff/StaffPage";
 import App from "./App";
 import Login from "./pages/Authentication/Login";
 import Forget from "./pages/Authentication/Forget";
 import Register from "./pages/Authentication/Register";
 import { Table } from "phosphor-react";
 import {
-  ICON_SIZE_BIG,
   URL_STAFF,
+  URL_ORDER,
   URL_FORGET,
   URL_LOGIN,
   URL_REGISTER,
@@ -30,6 +30,7 @@ import {
 
 import Customer from "./pages/customer/Customer";
 import AddCustomer from "./components/project/customer/AddCustomer";
+import { OrderPage } from "./pages/admin/order/OrderPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -37,11 +38,15 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <StaffScreen />,
+        element: <StaffPage />,
       },
       {
         path: URL_STAFF,
-        element: <StaffScreen />,
+        element: <StaffPage />,
+      },
+      {
+        path: URL_ORDER,
+        element: <OrderPage />,
       },
       {
         path: URL_LOGIN,

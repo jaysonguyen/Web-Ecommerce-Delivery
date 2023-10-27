@@ -1,9 +1,8 @@
-import React from "react";
 import { MyTable } from "../../../components/template/table/MyTable/MyTable";
-import { MyButton } from "../../../components/template/button/MyButton/MyButton";
-import { Plus, Trash } from "phosphor-react";
+import React from "react";
+import { CustomMultiSelect } from "../../../components/template/multiselect/CustomMultiSelect/CustomMultiSelect";
 
-export const StaffScreen = () => {
+export const OrderPage = () => {
   let items = [
     {
       STT: "1",
@@ -23,23 +22,10 @@ export const StaffScreen = () => {
     },
   ];
 
-  let myHeaderAction = (
-    <div>
-      <MyButton text="Add" icon={<Plus size={16} />} />
-      <MyButton text="Delete" icon={<Trash size={16} />} />
-    </div>
-  );
-  let myTitle = "Staff Management";
-
   return (
-    <div className="padding-body">
-     
-      <MyTable
-        list={items}
-        headerAction={myHeaderAction}
-        title={myTitle}
-        showCheckBox={true}
-      />
+    <div>
+      <CustomMultiSelect />
+      <MyTable list={items} title="Order Management" showCheckBox={true} />
     </div>
   );
 };
