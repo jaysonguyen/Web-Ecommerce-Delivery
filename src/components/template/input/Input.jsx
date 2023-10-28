@@ -10,6 +10,7 @@ function Input({
   width = "100%",
   borderRadius = "10px",
   icon,
+  onChange,
 }) {
   let style = {
     width: width,
@@ -23,7 +24,12 @@ function Input({
       )}
       <div className="d-flex">
         {icon && <MyButton bgColor="transparent" prefix={icon} />}
-        <input className="text_dark" placeholder={placeholder} type={type} />
+        <input
+          className="text_dark"
+          placeholder={placeholder}
+          type={type}
+          onChange={(v) => onChange(v)}
+        />
       </div>
     </div>
   );

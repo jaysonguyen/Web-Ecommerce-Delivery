@@ -68,19 +68,26 @@ export const OrderPage = () => {
 
   return (
     <div className="padding-body">
-      <div className="title_total_number_table">
-        <h3 className="title_table">Order List </h3>
-        <p className="total_number_table">{items.length}</p>
-      </div>
-      <CustomMultiSelect selectList={state} />
-      <MyTable
-        list={items}
-        showCheckBox={true}
-        callback={handleShowDetail}
-        // actionsElement={<OrderButtons data={rowData} />}
-      />
+      {!isShowDetail && (
+        <>
+          <div className="title_total_number_table">
+            <h3 className="title_table">Order List </h3>
+            <p className="total_number_table">{items.length}</p>
+          </div>
+          <CustomMultiSelect selectList={state} />
+          <MyTable
+            list={items}
+            showCheckBox={true}
+            callback={handleShowDetail}
+            // actionsElement={<OrderButtons data={rowData} />}
+          />
+        </>
+      )}
       {isShowDetail && (
-        <DetailCustomer closeDetail={handleCloseDetail} data={userSelected} />
+        <DetailCustomer
+          closeDetail={handleCloseDetail}
+          userSelected={userSelected}
+        />
       )}
     </div>
   );

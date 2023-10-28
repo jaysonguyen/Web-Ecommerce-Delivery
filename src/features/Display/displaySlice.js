@@ -14,13 +14,8 @@ const displaySlice = createSlice({
     displayHeader: (state, action) => {
       state.isShowHeader = action.payload;
     },
-    openDetails: (state, action) => {
-      state.data = action.payload;
-      state.isShowDetails = true;
-    },
-    closeDetails: (state, action) => {
-      state.data = {};
-      state.isShowDetails = false;
+    displayDetails: (state, action) => {
+      state.isShowDetails = action.payload;
     },
   },
 });

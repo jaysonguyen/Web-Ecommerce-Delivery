@@ -14,7 +14,6 @@ import store from "./store/store";
 import "./index.css";
 
 //import pages;
-import { StaffScreen } from "./pages/admin/staff/StaffScreen";
 import App from "./App";
 import Login from "./pages/Authentication/Login";
 import Forget from "./pages/Authentication/Forget";
@@ -27,10 +26,13 @@ import {
   URL_FORGET,
   URL_LOGIN,
   URL_REGISTER,
+  URL_ORDER,
 } from "./utils/constraint";
 
 import Customer from "./pages/customer/Customer";
 import AddCustomer from "./components/project/customer/AddCustomer";
+import { StaffPage } from "./pages/admin/staff/StaffPage";
+import { OrderPage } from "./pages/admin/order/OrderPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,7 +40,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <StaffScreen />,
+        element: <StaffPage />,
       },
       {
         path: URL_STAFF,

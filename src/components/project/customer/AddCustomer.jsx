@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../../assets/css/Pages/customer.css";
 import Input from "../../template/Input/Input";
 import { Radio, X, PlusCircle } from "phosphor-react";
@@ -36,6 +36,21 @@ function AddCustomer(props) {
   ];
 
 
+  const [name, setName] = useState("");
+  const [des, setDes] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = () => {
+    const user = {
+      fullName: name,
+      des: des,
+      email: email,
+      password: password,
+      role: "2",
+    };
+  };
+
   return (
     <div className="padding-body">
       <div className="full_add_customer_page">
@@ -64,6 +79,7 @@ function AddCustomer(props) {
                     <Input
                       label={"First name"}
                       placeholder={"Enter client's first name"}
+                      onChange={setName}
                     />
                   </div>
                   <div className="col-6">
@@ -86,6 +102,7 @@ function AddCustomer(props) {
                     <Input
                       label={"Email address"}
                       placeholder={"Enter client's email address   "}
+                      onChange={setEmail}
                     />
                   </div>
                 </div>

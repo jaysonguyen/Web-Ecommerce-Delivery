@@ -1,7 +1,7 @@
 import React from "react";
 import { MyTable } from "../../../components/template/table/MyTable/MyTable";
-import { MyButton } from "../../../components/template/button/MyButton/MyButton";
 import { Plus } from "phosphor-react";
+import { MyButton } from "../../../components";
 
 export const StaffPage = () => {
   let items = [
