@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import "../../assets/css/Pages/customer.css";
 
 function Customer(props) {
-  const [isShowDetail, setIsShowDetail] = useState(false);
   const [userSelected, setUserSelected] = useState({});
+  const [isShowDetail, setIsShowDetail] = useState(false);
 
   const handleShowDetail = async (data) => {
     await setUserSelected(data);
@@ -75,12 +75,10 @@ function Customer(props) {
       )}
 
       {isShowDetail && (
-        
-          <DetailCustomer
-            closeDetail={handleCloseDetail}
-            userSelected={userSelected}
-          />
-        
+        <DetailCustomer
+          closeDetail={handleCloseDetail}
+          userSelected={userSelected}
+        />
       )}
     </div>
   );

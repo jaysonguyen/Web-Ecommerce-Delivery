@@ -1,33 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./MyTable.css";
 import { MyTableCell } from "./MyTableCell";
+import { MyButton } from "../../button/MyButton/MyButton";
+
+function OrderButton() {
+  return null;
+}
 
 export const MyTableRow = ({
   data = {},
   isHeader = false,
-  rowHeight = 65,
   showCheckBox = false,
-  callback = function () {},
+  callback = function (data) {},
   handleCheck = function () {},
-  actionsElement,
+  handleGetData = function (e) {},
 }) => {
   let className = isHeader
     ? "my_table_row table_header row"
     : "my_table_row row";
 
   let checkBoxClassName = showCheckBox
-    ? "my_table_cell col-1 checkbox"
+    ? `my_table_cell col-1 checkbox`
     : `my_table_cell col-1 checkbox d-none`;
-  let actionClassName = actionsElement
-    ? "my_table_cell col-1"
-    : `my_table_cell col-1 d-none`;
 
   let rowStyle = {
-    height: rowHeight,
+    // height: rowHeight,
+    height: "auto",
   };
 
+  useEffect(() => {
+    handleGetData(data);
+    console.log(data);
+  }, []);
+
   return (
-    <div style={rowStyle} className={className} onClick={() => callback(data)}>
+    <div style={rowStyle} className={className}>
       <div className={checkBoxClassName}>
         {/*<input className="checkbox" type="checkbox" />*/}
         {/*<span className="checkmark"></span>*/}
@@ -40,16 +47,25 @@ export const MyTableRow = ({
           />
         </div>
       </div>
-      {Object.values(data).map((e, index) => (
-        <MyTableCell key={index} data={e} />
-      ))}
-      {actionsElement && (
-        <div className={actionClassName}>
-          {/*<input className="checkbox" type="checkbox" />*/}
-          {/*<span className="checkmark"></span>*/}
-          <div className="checkbox-circle2">{actionsElement}</div>
-        </div>
+      {Object.values(data).map((e, index) => {
+        if (index === 0)
+          return <MyTableCell key={index} data={e} width={`-1`} />;
+        return <MyTableCell key={index} data={e} width={``} />;
+      })}
+      {!isHeader && (
+        <MyTableCell
+          data={
+            <MyButton
+              text={"Details"}
+              margin="5px 15px"
+              borderRadius="20px"
+              callback={() => callback(data)}
+            />
+          }
+          width={``}
+        />
       )}
+      {/*{actionsElement && <MyTableCell data={actionsElement} onClick={() => callback(data)}/>}*/}
     </div>
   );
 };

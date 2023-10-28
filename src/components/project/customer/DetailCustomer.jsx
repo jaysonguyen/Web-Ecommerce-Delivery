@@ -4,8 +4,9 @@ import "../../../assets/css/Pages/customer.css";
 import { DotsThreeVertical, X } from "phosphor-react";
 import { ICON_SIZE_EXTRA_LARGE } from "../../../utils/constraint";
 
-function DetailCustomer({ closeDetail, userSelected }) {
+function DetailCustomer({ closeDetail, data = {} }) {
   const [currentTab, setCurrentTab] = useState("1");
+
   const tabs = [
     {
       id: 1,
@@ -84,8 +85,8 @@ function DetailCustomer({ closeDetail, userSelected }) {
               <span>D</span>
             </div>
             <div className="name_email_cus">
-              <h3>{userSelected.name}</h3>
-              <a>{userSelected.email}</a>
+              <h3>{data.name}</h3>
+              <a>{data.email}</a>
             </div>
           </div>
           <div className="type_cus">New client</div>

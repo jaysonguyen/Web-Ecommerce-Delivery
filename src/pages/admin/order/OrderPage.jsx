@@ -1,23 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CustomMultiSelect from "../../../components/template/multiselect/CustomMultiSelect/CustomMultiSelect";
+import { MyTable } from "../../../components/template/table/MyTable/MyTable";
+import { OrderButtons } from "../../../components/project/table_action/order_buttons";
+import { DetailCustomer } from "../../../components";
+import { useDispatch, useSelector } from "react-redux";
+import displayDetails from "../../../features/Display/displayDetails";
+import "../../../assets/css/Pages/customer.css";
+import displaySlice from "../../../features/Display/displaySlice";
 
 export const OrderPage = () => {
   let items = [
     {
-      STT: "1",
-      "Mã đơn": "5DHS232",
-      "Bên nhận": "Nguyễn Ngọc Thảo My",
-      "Tổng phí dịch vụ": 110.5,
-      "Thu hộ/ COD": 110.5,
-      "Tùy chọn thanh toán": "Bên gửi trả phí",
+      ID: "1",
+      code: "5DHS232",
+      name: "Nguyễn Ngọc Thảo My",
+      cost: 110.5,
+      email: "thaomy@gmail.com",
+      payment: "Bên gửi trả phí",
     },
     {
-      STT: "1",
-      "Mã đơn": "3DHS100",
-      "Bên nhận": "Nguyễn Ngọc Linh Chi",
-      "Tổng phí dịch vụ": 110.5,
-      "Thu hộ/ COD": 0,
-      "Tùy chọn thanh toán": "Bên nhận trả phí",
+      ID: "1",
+      code: "3DHS100",
+      name: "Nguyễn Ngọc Linh Chi",
+      cost: 110.5,
+      email: "thaomy@gmail.com",
+      payment: "Bên nhận trả phí",
     },
   ];
 
@@ -48,13 +55,33 @@ export const OrderPage = () => {
     },
   ];
 
+  const [userSelected, setUserSelected] = useState({});
+  const [isShowDetail, setIsShowDetail] = useState(false);
+
+  const handleShowDetail = async (data) => {
+    await setUserSelected(data);
+    await setIsShowDetail(true);
+  };
+  const handleCloseDetail = () => {
+    setIsShowDetail(false);
+  };
+
   return (
     <div className="padding-body">
       <div className="title_total_number_table">
         <h3 className="title_table">Order List </h3>
         <p className="total_number_table">{items.length}</p>
       </div>
-      <CustomMultiSelect dataList={items} selectList={state} />
+      <CustomMultiSelect selectList={state} />
+      <MyTable
+        list={items}
+        showCheckBox={true}
+        callback={handleShowDetail}
+        // actionsElement={<OrderButtons data={rowData} />}
+      />
+      {isShowDetail && (
+        <DetailCustomer closeDetail={handleCloseDetail} data={userSelected} />
+      )}
     </div>
   );
 };
