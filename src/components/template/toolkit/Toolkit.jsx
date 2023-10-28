@@ -28,6 +28,7 @@ export const Toolkit = ({
         text="Filter"
         height="44px"
         width="12%"
+        hoverColor="var(--text-white)"
         bgColor="var(--primary-color)"
         fontColor="var(--text-white)"
         borderRadius="20px"
@@ -41,6 +42,7 @@ export const Toolkit = ({
             <MyButton
               prefix={<X size={18} />}
               bgColor="transparent"
+              fontColor="var(--primary-color)"
               padding="0"
               width="40px"
             />
@@ -50,6 +52,7 @@ export const Toolkit = ({
             height="44px"
             bgColor="var(--color-error)"
             fontColor="var(--text-white)"
+            hoverColor="var(--text-white)"
             borderRadius="5px"
           />
         </div>

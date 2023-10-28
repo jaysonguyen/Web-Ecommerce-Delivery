@@ -9,6 +9,7 @@ export const MyTableRow = ({
   showCheckBox = false,
   callback = function () {},
   handleCheck = function () {},
+  actionsElement,
 }) => {
   let className = isHeader
     ? "my_table_row table_header row"
@@ -17,6 +18,9 @@ export const MyTableRow = ({
   let checkBoxClassName = showCheckBox
     ? "my_table_cell col-1 checkbox"
     : `my_table_cell col-1 checkbox d-none`;
+  let actionClassName = actionsElement
+    ? "my_table_cell col-1"
+    : `my_table_cell col-1 d-none`;
 
   let rowStyle = {
     height: rowHeight,
@@ -39,6 +43,13 @@ export const MyTableRow = ({
       {Object.values(data).map((e, index) => (
         <MyTableCell key={index} data={e} />
       ))}
+      {actionsElement && (
+        <div className={actionClassName}>
+          {/*<input className="checkbox" type="checkbox" />*/}
+          {/*<span className="checkmark"></span>*/}
+          <div className="checkbox-circle2">{actionsElement}</div>
+        </div>
+      )}
     </div>
   );
 };

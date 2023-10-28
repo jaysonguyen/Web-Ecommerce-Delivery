@@ -7,28 +7,32 @@ export const MyButton = ({
   callback,
   prefix = null,
   surfix = null,
-  bgColor = "rgba(179,179,179,0.6)",
+  bgColor,
   fontColor = "#3d3d3d",
-  height = 35,
-  width = 80,
+  height = "35px",
+  width = "80px",
   fontSize = 14,
   borderRadius = 2,
   padding = "5px 10px",
-  hoverColor = bgColor,
+  margin = "0",
+  hoverColor,
+  borderColor,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const style = {
-    backgroundColor: isHovered ? hoverColor : bgColor,
+    backgroundColor: isHovered && hoverColor ? hoverColor : bgColor,
     width: width,
     height: height,
     cursor: "pointer",
     fontSize: fontSize,
     fontWeight: "bold",
-    color: fontColor,
+    color: isHovered && bgColor && hoverColor ? bgColor : fontColor,
     borderRadius: borderRadius,
     transition: "transform 0.3s ease",
     padding: padding,
+    margin: margin,
+    border: borderColor ? `1px solid ${borderColor}` : "",
   };
 
   return (

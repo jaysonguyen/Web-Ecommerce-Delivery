@@ -12,10 +12,12 @@ export const MyTable = ({
   columns,
   callback,
   title,
+  actionsElement,
   rowHeight = 45,
 }) => {
   const [selectedList, setSelectedList] = useState([]);
   const headers = list.length > 0 ? Object.keys(list[0]) : [];
+  headers.push("Thao tác");
 
   if (list.length === 0) {
     return <p>No data to display.</p>; // Render a message when the list is empty
@@ -51,6 +53,7 @@ export const MyTable = ({
             showCheckBox={showCheckBox}
             key={index}
             data={e}
+            actionsElement={actionsElement}
           />
         ))}
       </div>

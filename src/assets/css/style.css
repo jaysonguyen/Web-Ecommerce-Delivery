@@ -108,6 +108,14 @@ a {
   margin: 0;
 }
 
+.margin-b-10{
+  margin-bottom: 10px;
+}
+
+.margin-b-20{
+  margin-bottom: 20px;
+}
+
 .font-weight-b {
   font-weight: bold;
 }
@@ -160,7 +168,30 @@ a {
 .text_decoration_none {
   text-decoration: none;
 }
+
 .bg_overlay{
   background-color: rgba(0,0,0,0.8);
 }
+
+/*CUSTOM STYLE*/
+.title_table{
+  margin-bottom: 0 ;
+}
+.title_total_number_table{
+  display: flex;
+  align-items: center;
+}
+.total_number_table{
+  margin-left: 10px;
+  border: 1px solid #bab8b8;
+  padding: 0 8px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 400;
+
+
+}
+
 /* DISTANCE */
+
+
