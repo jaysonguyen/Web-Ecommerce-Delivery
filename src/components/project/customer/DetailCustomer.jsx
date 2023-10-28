@@ -1,12 +1,42 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../assets/css/Pages/customer.css";
-import { DotsThreeVertical, X } from "phosphor-react";
+import {
+  DotsThreeVertical,
+  X,
+  PencilSimple,
+  Phone,
+  Warning,
+} from "phosphor-react";
 import { ICON_SIZE_EXTRA_LARGE } from "../../../utils/constraint";
-import { Dropdown } from "../../../components/index"
+import ActionCustomer from "./ActionCustomer";
+import { Input, Dropdown } from "../../index";
 
 function DetailCustomer({ closeDetail, userSelected }) {
   const [currentTab, setCurrentTab] = useState("1");
+  const [isShowAction, setIsShowAction] = useState(false);
+
+  const handleShowAction = () => {
+    const flag = !isShowAction;
+    setIsShowAction(flag);
+  };
+  const handleCloseAction = () => {
+    setIsShowAction(false);
+  };
+  const itemBank = [
+    {
+      content: "Vietcombank",
+    },
+    {
+      content: "Techcombank",
+    },
+    {
+      content: "CB Bank",
+    },
+    {
+      content: "VietTinBank",
+    },
+  ];
   const tabs = [
     {
       id: 1,
@@ -37,27 +67,25 @@ function DetailCustomer({ closeDetail, userSelected }) {
 
   const actions = [
     {
-        content: "Edit details",
+      action: "Edit details",
     },
     {
-        content: "Block client",
+      action: "Block client",
     },
     {
-        content: "Delete client",
+      action: "Delete client",
     },
-
   ];
-
   const handleTabClick = (e) => {
     setCurrentTab(e.target.id);
   };
   return (
-    
+    <>
       <div className="detail_customer_container">
         <div className="close_detail_frame" onClick={closeDetail}>
           <Link>
             <button className="close_detail_icon">
-              <X size={ICON_SIZE_EXTRA_LARGE}  />
+              <X size={ICON_SIZE_EXTRA_LARGE} />
             </button>
           </Link>
         </div>
@@ -88,18 +116,41 @@ function DetailCustomer({ closeDetail, userSelected }) {
               </div>
               <div className="name_email_cus">
                 <h3>{userSelected.name}</h3>
-                <a>{userSelected.email}</a>
+                <div className="email_phone_frame">
+                  <a href="#">{userSelected.email}</a>
+                  <div className="phone_number_cus">
+                    <Phone size={13} className="phone_number_icon" />
+                    <div className="over_lay">
+                      <a href="#" className="phone_number_data">
+                        <Phone size={16} className="icon_mini_phone" />
+                        {userSelected.phone}
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="type_cus">New client</div>
+            <div className="status_customer_blaclist_frame">
+              <div className="type_cus">{userSelected.status}</div>
+              <div className="blacklist_frame ">
+                <Warning size={20} />
+              </div>
+            </div>
+
             <div className="action_cus_frame">
-              <button className="dotthree_icon">
+              <button className="dotthree_icon" onClick={handleShowAction}>
                 <DotsThreeVertical size={32} />
               </button>
               <div>
                 <button className="btn_Order"> Order</button>
               </div>
             </div>
+            {isShowAction && (
+              <ActionCustomer
+                item={actions}
+                icon={<PencilSimple size={17} />}
+              />
+            )}
 
             <div className="container">
               <div className="tabs">
@@ -120,7 +171,48 @@ function DetailCustomer({ closeDetail, userSelected }) {
                     {currentTab === `${tab.id}` && (
                       <div>
                         <p className="title">{tab.title}</p>
-                        <p className="content_info">{tab.content}</p>
+                        <p className="content_info">
+                          <div className="row" >
+                            <div className="col -6">
+                              <Input
+                                placeholder={userSelected.name}
+                                label="Name"
+                              />
+                              <Input
+                                placeholder={userSelected.email}
+                                label="Email"
+                              />
+                              <Input
+                                placeholder={userSelected.address}
+                                label="Address"
+                              />
+                              <Input
+                                placeholder={userSelected.sales}
+                                label="Total sales"
+                              />
+                            </div>
+                            <div className="col -6">
+                              <div className="bank_account_info">
+                                NGUYEN VU THANH NGUYEN - 0200105062002 MB
+                              </div>
+                              <Dropdown
+                                placeholder="Choose a bank"
+                                label="Bank"
+                                item={itemBank}
+                                className="dropdown_bank"
+                              />
+                              <Input
+                                placeholder="Enter name"
+                                label="Account name"
+                              />
+                              <Input
+                                placeholder="Enter account number"
+                                label="Account number"
+                              />
+                              <button className="btnAdd btnAccount">Add new acount</button>
+                            </div>
+                          </div>
+                        </p>
                       </div>
                     )}
                   </div>
@@ -130,8 +222,8 @@ function DetailCustomer({ closeDetail, userSelected }) {
           </div>
         </div>
       </div>
-
-
+      
+    </>
   );
 }
 

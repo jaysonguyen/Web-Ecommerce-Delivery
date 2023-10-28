@@ -21,8 +21,10 @@ function Customer(props) {
       name: "Nguyễn Ngọc Thảo My",
       phone: "0902637839",
       email: "thaomy@gmail.com",
-      reviews: "okela",
+      address: "Tp.HoChiMinh",
       sales: 8000000,
+      status: "New client",
+
     },
   ];
 

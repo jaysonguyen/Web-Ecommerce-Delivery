@@ -20,6 +20,7 @@ import Login from "./pages/Authentication/Login";
 import Forget from "./pages/Authentication/Forget";
 import Register from "./pages/Authentication/Register";
 import { Table } from "phosphor-react";
+import StatusButton from "./components/project/order/StatusButton";
 import {
   ICON_SIZE_BIG,
   URL_STAFF,
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "/customer/add",
         element: <AddCustomer />,
+      },
+      {
+        path: "/statusbutton",
+        element: <StatusButton />,
       },
     ],
   },

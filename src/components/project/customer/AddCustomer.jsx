@@ -19,6 +19,22 @@ function AddCustomer(props) {
       content: "Frefer not to say",
     },
   ];
+  const itemBank = [
+
+    {
+      content: "Vietcombank",
+    },
+    {
+      content: "Techcombank",
+    },
+    {
+      content: "CB Bank",
+    },
+    {
+      content: "VietTinBank",
+    },
+  ];
+
 
   return (
     <div className="padding-body">
@@ -90,6 +106,11 @@ function AddCustomer(props) {
                   />
                 </div>
               </div>
+              <Dropdown
+                    placeholder="Choose a bank"
+                    label="Bank"
+                    item={itemBank}
+                  />
               <div>
                 <h4 className="title_info_frame">Address</h4>
 
@@ -99,6 +120,9 @@ function AddCustomer(props) {
                   </p>
                   <p className="text_add_new">Add new address</p>{" "}
                 </Link>
+              </div>
+              <div>
+              
               </div>
             </div>
           </div>
