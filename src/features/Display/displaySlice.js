@@ -5,6 +5,7 @@ const displaySlice = createSlice({
   initialState: {
     isShowSidebar: true,
     isShowHeader: true,
+    isShowNotification: false,
     details: {},
   },
   reducers: {
@@ -13,6 +14,9 @@ const displaySlice = createSlice({
     },
     displayHeader: (state, action) => {
       state.isShowHeader = action.payload;
+    },
+    displayNotification: (state, action) => {
+      state.isShowNotification = action.payload;
     },
     displayDetails: (state, action) => {
       state.isShowDetails = action.payload;

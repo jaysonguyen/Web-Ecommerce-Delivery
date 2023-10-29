@@ -3,7 +3,17 @@ import "./assets/css/plugin.css";
 import { Outlet } from "react-router-dom";
 import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js";
 import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js";
-import { Table } from "phosphor-react";
+import {
+  BellSimple,
+  Clock,
+  GearSix,
+  Lifebuoy,
+  ListNumbers,
+  ShoppingBag,
+  SignOut,
+  Table,
+  UsersFour,
+} from "phosphor-react";
 import {
   ICON_SIZE_BIG,
   URL_STAFF,
@@ -13,44 +23,96 @@ import {
 import { StaffPage } from "./pages/admin/staff/StaffPage";
 import { Sidebar, AdminHeader } from "./components/index";
 import { displaySelector } from "./selectors/displaySelector";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import displaySlice from "./features/Display/displaySlice";
 import React from "react";
 
 function App() {
   const display = useSelector(displaySelector);
+  const dispatch = useDispatch();
   const sidebarContent = [
     {
-      icon: <Table size={ICON_SIZE_BIG} weight="fill" />,
-      label: "Quản lý khách hàng",
+      icon: <BellSimple size={ICON_SIZE_BIG} />,
+      label: "Activity",
       link: URL_CUSTOMER,
+      position: "header",
+      option: {
+        count: 10,
+      },
+      callback: () => {
+        dispatch(
+          displaySlice.actions.displayNotification(!display.displayNotification)
+        );
+      },
     },
     {
-      icon: <Table size={ICON_SIZE_BIG} weight="fill" />,
-      label: "Quản lý đơn hàng",
+      icon: <ShoppingBag size={ICON_SIZE_BIG} />,
+      label: "Customer",
+      link: URL_CUSTOMER,
+      position: "body",
+    },
+    {
+      icon: <ListNumbers size={ICON_SIZE_BIG} />,
+      label: "Order",
       link: URL_ORDER,
+      position: "body",
     },
     {
-      icon: <Table size={ICON_SIZE_BIG} weight="fill" />,
-      label: "Quản lý nhân viên",
+      icon: <UsersFour size={ICON_SIZE_BIG} />,
+      label: "Employee",
       link: URL_STAFF,
+      position: "body",
+    },
+    {
+      icon: <GearSix size={ICON_SIZE_BIG} />,
+      label: "Setting",
+      link: URL_STAFF,
+      position: "footer",
+    },
+    {
+      icon: <Lifebuoy size={ICON_SIZE_BIG} />,
+      label: "Help",
+      link: URL_STAFF,
+      position: "footer",
+    },
+    {
+      icon: <Clock size={ICON_SIZE_BIG} />,
+      label: "History",
+      link: URL_STAFF,
+      position: "sub",
+    },
+    {
+      icon: <SignOut size={ICON_SIZE_BIG} />,
+      label: "Logout",
+      link: URL_STAFF,
+      position: "sub",
     },
   ];
+
+  const handleShowNotification = () => {
+    dispatch(
+      displaySlice.actions.displayNotification(!display.isShowNotification)
+    );
+  };
+
   return (
     <div className="app_container">
       {display.isShowSidebar && (
         <Sidebar
+          displayNotification={display.isShowNotification}
+          handleShowNotification={handleShowNotification}
           show={true}
-          heading="GiaoHangNhanh"
+          heading="DeliHub"
           isShowUser={true}
           tab={sidebarContent}
         />
       )}
       <div className="content_container">
-        {display.isShowHeader && (
+        {/* {display.isShowHeader && (
           <div>
             <AdminHeader />
           </div>
-        )}
+        )} */}
         <Outlet />
       </div>
     </div>

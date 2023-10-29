@@ -33,7 +33,6 @@ function DropDown({
   return (
     <>
       {label && <label className="text_dark font-weight-b">{label}</label>}
-
       <div
         className="dropdown_container flex-align-center"
         style={{
