@@ -1,12 +1,26 @@
-import React, { useState } from "react";
-import { MyTable } from "../../components/template/table/MyTable/MyTable";
-import { Dropdown, DetailCustomer } from "../../components/index";
+import React, { useEffect, useState } from "react";
+import { MyTable } from "../../../components/template/table/MyTable/MyTable";
+import { Dropdown, DetailCustomer } from "../../../components";
 import { Link } from "react-router-dom";
-import "../../assets/css/Pages/customer.css";
+import "../../../assets/css/Pages/customer.css";
+import { getUserList } from "../../../services/UserService";
+import toast from "react-hot-toast";
 
 function Customer(props) {
   const [userSelected, setUserSelected] = useState({});
   const [isShowDetail, setIsShowDetail] = useState(false);
+  const [userList, setUserList] = useState([]);
+
+  const initData = async () => {
+    let data = await getUserList();
+    console.log(data);
+    if (data != null) await setUserList(data);
+    return data;
+  };
+
+  useEffect(() => {
+    initData().then((r) => r === null && toast.error("Something went wrong!"));
+  }, [userList]);
 
   const handleShowDetail = async (data) => {
     await setUserSelected(data);
@@ -16,17 +30,16 @@ function Customer(props) {
     setIsShowDetail(false);
   };
 
-  const items = [
-    {
-      name: "Nguyễn Ngọc Thảo My",
-      phone: "0902637839",
-      email: "thaomy@gmail.com",
-      address: "Tp.HoChiMinh",
-      sales: 8000000,
-      status: "New client",
-
-    },
-  ];
+  // const items = [
+  //   {
+  //     name: "Nguyễn Ngọc Thảo My",
+  //     phone: "0902637839",
+  //     email: "thaomy@gmail.com",
+  //     address: "Tp.HoChiMinh",
+  //     sales: 8000000,
+  //     status: "New client",
+  //   },
+  // ];
 
   const itemOptions = [
     {
@@ -47,7 +60,7 @@ function Customer(props) {
                 <div className="header_bar_left_Cus ">
                   <div className="title_total_number_Cus">
                     <h3 className="title_Cus">Clients list </h3>
-                    <p className="total_number_Cus">{items.length}</p>
+                    <p className="total_number_Cus">{userList.length}</p>
                   </div>
                   <p className="introduce_Cus">
                     View, add, edit and delete your client's details.{" "}
@@ -69,7 +82,7 @@ function Customer(props) {
           </div>
 
           <MyTable
-            list={items}
+            list={userList}
             showCheckBox={true}
             callback={handleShowDetail}
           />

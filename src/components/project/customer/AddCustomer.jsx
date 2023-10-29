@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../../assets/css/Pages/customer.css";
-import Input from "../../template/input/Input";
+import Input from "../../template/Input/Input";
 import { Radio, X, PlusCircle } from "phosphor-react";
 import { Link } from "react-router-dom";
 import { Dropdown } from "../../index";
@@ -20,7 +20,6 @@ function AddCustomer(props) {
     },
   ];
   const itemBank = [
-
     {
       content: "Vietcombank",
     },
@@ -34,7 +33,6 @@ function AddCustomer(props) {
       content: "VietTinBank",
     },
   ];
-
 
   const [name, setName] = useState("");
   const [des, setDes] = useState("");
@@ -124,10 +122,10 @@ function AddCustomer(props) {
                 </div>
               </div>
               <Dropdown
-                    placeholder="Choose a bank"
-                    label="Bank"
-                    item={itemBank}
-                  />
+                placeholder="Choose a bank"
+                label="Bank"
+                item={itemBank}
+              />
               <div>
                 <h4 className="title_info_frame">Address</h4>
 
@@ -138,9 +136,7 @@ function AddCustomer(props) {
                   <p className="text_add_new">Add new address</p>{" "}
                 </Link>
               </div>
-              <div>
-              
-              </div>
+              <div></div>
             </div>
           </div>
           <div className="col"></div>

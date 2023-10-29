@@ -26,6 +26,7 @@ import { displaySelector } from "./selectors/displaySelector";
 import { useDispatch, useSelector } from "react-redux";
 import displaySlice from "./features/Display/displaySlice";
 import React from "react";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const display = useSelector(displaySelector);
@@ -41,7 +42,9 @@ function App() {
       },
       callback: () => {
         dispatch(
-          displaySlice.actions.displayNotification(!display.displayNotification)
+          displaySlice.actions.displayNotification(
+            !display.displayNotification,
+          ),
         );
       },
     },
@@ -91,12 +94,13 @@ function App() {
 
   const handleShowNotification = () => {
     dispatch(
-      displaySlice.actions.displayNotification(!display.isShowNotification)
+      displaySlice.actions.displayNotification(!display.isShowNotification),
     );
   };
 
   return (
     <div className="app_container">
+      <Toaster />
       {display.isShowSidebar && (
         <Sidebar
           displayNotification={display.isShowNotification}
