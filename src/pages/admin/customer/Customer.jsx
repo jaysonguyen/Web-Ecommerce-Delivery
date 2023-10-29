@@ -10,17 +10,35 @@ function Customer(props) {
   const [userSelected, setUserSelected] = useState({});
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [userList, setUserList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const initData = async () => {
-    let data = await getUserList();
-    console.log(data);
-    if (data != null) await setUserList(data);
-    return data;
+    // let data = await getUserList();
+    // if (Array.isArray(data)) await setUserList(data);
+    // return data;
+    if (isLoading) {
+      // If a request is already in progress, don't make another one
+      return -1;
+    }
+
+    setIsLoading(true);
+    try {
+      const data = await getUserList();
+      if (Array.isArray(data)) {
+        setUserList(data);
+      }
+      return data;
+    } catch (error) {
+      // Handle the error here
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     initData().then((r) => r === null && toast.error("Something went wrong!"));
-  }, [userList]);
+  }, []);
 
   const handleShowDetail = async (data) => {
     await setUserSelected(data);

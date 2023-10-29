@@ -30,7 +30,7 @@ export const MyTableRow = ({
 
   useEffect(() => {
     handleGetData(data);
-    console.log(data);
+    // console.log(data);
   }, []);
 
   return (
