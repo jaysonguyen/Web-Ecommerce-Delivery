@@ -10,7 +10,7 @@ function Input({
   width = "100%",
   borderRadius = "10px",
   icon,
-  onChange,
+  onChange = () => {},
 }) {
   let style = {
     width: width,
