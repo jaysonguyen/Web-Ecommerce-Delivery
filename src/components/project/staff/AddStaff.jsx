@@ -3,11 +3,21 @@ import Input from "../../template/Input/Input";
 import { insertUser } from "../../../services/UserService";
 import toast from "react-hot-toast";
 
-function AddStaff(props) {
-  const [nameStaff, setNameStaff] = useState("");
-  const [account, setAccount] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+function AddStaff({
+  setNameStaff,
+  nameStaff,
+  setAccount,
+  account,
+  setEmail,
+  email,
+  setRole,
+  role,
+  phoneNum,
+  setPhoneNum,
+  des,
+  setDes,
+  clearInput,
+}) {
   const handleNameStaffOnChange = (e) => {
     setNameStaff(e.target.value);
   };
@@ -24,21 +34,29 @@ function AddStaff(props) {
     setRole(e.target.value);
   };
 
+  const handlePhoneNumChange = (e) => {
+    setPhoneNum(e.target.value);
+  };
+
+  const handleDesChange = (e) => {
+    setDes(e.target.value);
+  };
+
   const handleInsertStaff = async () => {
     try {
-      const insertInfor = {
-        name: nameStaff,
-        account: account,
-        email: email,
-        role: role,
-      };
-
-      const checkInsert = await insertUser(insertInfor);
-      console.log(checkInsert);
+      const checkInsert = await insertUser(
+        nameStaff,
+        account,
+        email,
+        role,
+        phoneNum,
+        des
+      );
       if (checkInsert != 200) {
         toast.error("insert failed");
       } else {
         toast.success("Insert success");
+        clearInput();
       }
     } catch (error) {
       console.log(error);
@@ -59,6 +77,12 @@ function AddStaff(props) {
         </div>
         <div className="col col-6">
           <Input onChange={handleRoleChange} label={"Role"} />
+        </div>
+        <div className="col col-6">
+          <Input onChange={handlePhoneNumChange} label={"Phone number"} />
+        </div>
+        <div className="col col-12">
+          <Input onChange={handleDesChange} label={"Description"} />
         </div>
       </div>
       <button onClick={handleInsertStaff} className="btnAdd">

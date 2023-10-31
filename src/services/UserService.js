@@ -36,14 +36,22 @@ export const getStoreByUser = async (userId) => {
   }
 };
 
-export const insertUser = async ({ name, account, email, password, role }) => {
+export const insertUser = async (
+  nameStaff,
+  account,
+  email,
+  role,
+  phoneNum,
+  des
+) => {
   try {
-    const checkData = await axios.post("/api/user", {
-      name,
-      account,
-      email,
-      password,
-      role,
+    const checkData = await axios.post(URL_USER, {
+      fullName: nameStaff,
+      des: des,
+      account: account,
+      email: email,
+      phone: phoneNum,
+      role: role,
     });
     return checkData.status;
   } catch (error) {
@@ -59,3 +67,14 @@ export const deleteUser = async ({ id }) => {
     return error;
   }
 };
+
+export const updateUSer = async (account) => {
+  try {
+    const checkData = await axios.delete(URL_USER + `/${account}`);
+    return checkData.status;
+  } catch (error) {
+    return error;
+  }
+};
+
+
