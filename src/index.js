@@ -1,12 +1,10 @@
 //lib
-import React, { lazy, Suspense } from "react";
+import React from "react";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import {
-  BrowserRouter,
   createBrowserRouter,
-  Router,
   RouterProvider,
 } from "react-router-dom";
 
@@ -22,7 +20,6 @@ import Branch from "./pages/admin/branch/Branch";
 import { Table } from "phosphor-react";
 import StatusButton from "./components/project/order/StatusButton";
 import {
-  ICON_SIZE_BIG,
   URL_STAFF,
   URL_FORGET,
   URL_LOGIN,
@@ -35,6 +32,7 @@ import Customer from "./pages/admin/customer/Customer";
 import AddCustomer from "./components/project/customer/AddCustomer";
 import { StaffPage } from "./pages/admin/staff/StaffPage";
 import { OrderPage } from "./pages/admin/order/OrderPage";
+
 const router = createBrowserRouter([
   {
     path: "/",
