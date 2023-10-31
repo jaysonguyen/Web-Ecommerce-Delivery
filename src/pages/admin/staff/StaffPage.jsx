@@ -60,11 +60,17 @@ export const StaffPage = () => {
     handleClearInput();
   };
 
+  const handleAddButton = () => {
+    setIsShowAdd(true);
+    setButtonType("Add");
+  }
+
   const handleButtonAction = async (data, type) => {
     switch (type) {
       case "details": {
         await setIsShowAdd(true);
         await setData(data);
+        await setButtonType("Save");
         break;
       }
       case "delete": {
@@ -157,6 +163,7 @@ export const StaffPage = () => {
             setPhoneNum={setPhoneNum}
             des={des}
             buttonType={buttonType}
+            setButtonType={setButtonType}
             setDes={setDes}
             clearInput={handleDisplayInsertStaff}
           />

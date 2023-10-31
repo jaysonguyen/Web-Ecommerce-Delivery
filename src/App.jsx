@@ -14,6 +14,7 @@ import {
   Table,
   UsersFour,
   Graph,
+  Wallet,
 } from "phosphor-react";
 import {
   ICON_SIZE_BIG,
@@ -75,7 +76,9 @@ function App() {
       position: "body",
     },
     {
-      icon: <UsersFour size={ICON_SIZE_BIG} />,
+     
+
+      icon: <Wallet size={ICON_SIZE_BIG} />,
       label: "Voucher",
       link: URL_VOUCHER,
       position: "body",
