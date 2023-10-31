@@ -42,7 +42,3 @@
 .content_container {
   margin-left: calc(var(--sidebar-width)) ;
 }
-
-.app_container {
-  /*display: flex;*/
-}
