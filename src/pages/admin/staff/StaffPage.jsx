@@ -60,11 +60,17 @@ export const StaffPage = () => {
     handleClearInput();
   };
 
+  const handleAddButton = () => {
+    setIsShowAdd(true);
+    setButtonType("Add");
+  }
+
   const handleButtonAction = async (data, type) => {
     switch (type) {
       case "details": {
         await setIsShowAdd(true);
         await setData(data);
+        await setButtonType("Save");
         break;
       }
       case "delete": {
@@ -90,7 +96,7 @@ export const StaffPage = () => {
         <>
           <div className="pd-bt-10 staff_page_header flex-center-between">
             <h3>Staff management</h3>
-            <button onClick={() => setIsShowAdd(true)} className="btnAdd">
+            <button onClick={handleAddButton} className="btnAdd">
               {" "}
               <Plus size={ICON_SIZE_BIG} />
               Add
@@ -136,6 +142,7 @@ export const StaffPage = () => {
             setPhoneNum={setPhoneNum}
             des={des}
             buttonType={buttonType}
+            setButtonType={setButtonType}
             setDes={setDes}
             clearInput={handleDisplayInsertStaff}
           />

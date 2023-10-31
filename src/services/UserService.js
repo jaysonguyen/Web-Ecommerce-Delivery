@@ -46,7 +46,7 @@ export const insertUser = async (
   email,
   role,
   phoneNum,
-  des,
+  des
 ) => {
   try {
     const checkData = await axios.post(URL_USER, {
@@ -72,9 +72,21 @@ export const deleteUser = async ({ id }) => {
   }
 };
 
-export const updateUSer = async (account) => {
+export const updateUSer = async ({
+  account,
+  nameStaff,
+  email,
+  phoneNum,
+  des,
+}) => {
   try {
-    const checkData = await axios.delete(URL_USER + `/${account}`);
+    const checkData = await axios.put(URL_USER, {
+      fullName: nameStaff,
+      des: des,
+      account: account,
+      email: email,
+      phone: phoneNum,
+    });
     return checkData.status;
   } catch (error) {
     return error;

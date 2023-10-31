@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../template/Input/Input";
-import { insertUser } from "../../../services/UserService";
+import { insertUser, updateUSer } from "../../../services/UserService";
 import toast from "react-hot-toast";
 
 function AddStaff({
   setNameStaff,
   nameStaff,
+  setButtonType,
   setAccount,
   account,
   setEmail,
@@ -67,16 +68,23 @@ function AddStaff({
 
   const handleUpdateStaff = async () => {
     try {
-      const checkInsert = await insertUser(
-        nameStaff,
-        account,
-        email,
-        role,
-        phoneNum,
-        des
+      console.log(
+        "consolt: " + data.fullName,
+        data.account,
+        data.email,
+        data.role,
+        data.phoneNum,
+        data.des
+      );
+      const checkInsert = await updateUSer(
+        data.account,
+        nameStaff || data.fullName,
+        email || data.email,
+        phoneNum || data.phoneNumber,
+        des || data.des
       );
       if (checkInsert != 200) {
-        toast.error("insert failed");
+        toast.error("Update failed");
       } else {
         toast.success("Insert success");
         clearInput();
