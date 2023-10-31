@@ -3,13 +3,19 @@ import { MyTable } from "../../../components/template/table/MyTable/MyTable";
 import { AddStaff, DetailCustomer, Dropdown } from "../../../components";
 import { Link } from "react-router-dom";
 import "../../../assets/css/Pages/customer.css";
-import { getVoucherList } from "../../../services/VoucherService";
+import {
+  deleteVoucher,
+  getVoucherList,
+} from "../../../services/VoucherService";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { displaySelector } from "../../../selectors/displaySelector";
 import { ICON_SIZE_BIG, URL_VOUCHER_ADD } from "../../../utils/constraint";
 import { CaretLeft } from "phosphor-react";
 import AddVoucher from "../../../components/project/voucher/AddVoucher";
+import { tableSelector } from "../../../selectors/consumerSelector";
+import { deleteUser } from "../../../services/UserService";
+import tableSlice from "../../../features/table/tableSlice";
 
 function VoucherPage(props) {
   const [voucherSelected, setVoucherSelected] = useState({});
@@ -18,7 +24,8 @@ function VoucherPage(props) {
   const [isLoading, setIsLoading] = useState(false);
   // const [selectedList, setSelectedList] = useState([]);
   const [isShowAdd, setIsShowAdd] = useState(false);
-
+  const tableData = useSelector(tableSelector);
+  const dispatch = useDispatch();
   const initData = async () => {
     // let data = await getVoucherList();
     // if (Array.isArray(data)) await setVoucherList(data);
@@ -43,22 +50,30 @@ function VoucherPage(props) {
       setIsLoading(false);
     }
   };
-  const selectList = useSelector(displaySelector);
+
+  const handleDelete = async () => {
+    let list = [...tableData.selectList];
+    if (list.length === 0) {
+      toast.error("Choose item to delete");
+      return;
+    }
+
+    for (let i = 0; i < list.length; i++) {
+      let res = await deleteVoucher(list[i].voucherId);
+      if (res.status != 200) {
+        toast.error("Something went wrong");
+        return;
+      }
+    }
+    toast.success("Deleted successfully");
+    dispatch(tableSlice.actions.handleSelected([]));
+    initData().then((r) => r === null && toast.error("Something went wrong!"));
+  };
 
   useEffect(() => {
+    dispatch(tableSlice.actions.handleSelected([]));
     initData().then((r) => r === null && toast.error("Something went wrong!"));
-    console.log(selectList.selectList);
-  }, []);
-
-  // const handleSelect = (e, data) => {
-  //   console.log(selectedList);
-  //   let ids = selectedList.map((ele) => ele.id);
-  //   if (e.target.checked) setSelectedList(data);
-  //   else {
-  //     let index = ids.indexOf(data.id);
-  //     selectedList.splice(index, 1);
-  //   }
-  // };
+  }, [isShowAdd]);
 
   const handleButtonAction = async (data, type) => {
     console.log("click");
@@ -123,6 +138,7 @@ function VoucherPage(props) {
             showCheckBox={true}
             callback={handleButtonAction}
             hideDetails={true}
+            deleteCallback={handleDelete}
           />
         </>
       )}

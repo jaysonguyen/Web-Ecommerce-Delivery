@@ -7,6 +7,10 @@ import { getStaffList, getShipperList } from "../../../services/StaffService";
 import { useDispatch, useSelector } from "react-redux";
 import consumerSlice from "../../../features/consumer/consumerSlice";
 import "../../../assets/css/Pages/staff.css";
+import { deleteUser } from "../../../services/UserService";
+import toast from "react-hot-toast";
+import tableSlice from "../../../features/table/tableSlice";
+import { tableSelector } from "../../../selectors/consumerSelector";
 
 export const StaffPage = () => {
   const [staffs, setStaffs] = useState([]);
@@ -20,8 +24,8 @@ export const StaffPage = () => {
   const [data, setData] = useState({});
   const [buttonType, setButtonType] = useState("Add");
 
+  const tableData = useSelector(tableSelector);
   const dispatch = useDispatch();
-
   const getStaff = async () => {
     try {
       const data = await getStaffList();
@@ -60,10 +64,29 @@ export const StaffPage = () => {
     handleClearInput();
   };
 
+  const handleDelete = async () => {
+    let list = [...tableData.selectList];
+    if (list.length === 0) {
+      toast.error("Choose item to delete");
+      return;
+    }
+
+    for (let i = 0; i < list.length; i++) {
+      let res = await deleteUser(list[i].id);
+      if (!res) {
+        toast.error("Something went wrong");
+        return;
+      }
+    }
+    toast.success("Deleted successfully");
+    dispatch(tableSlice.actions.handleSelected([]));
+    getStaff();
+  };
+
   const handleAddButton = () => {
     setIsShowAdd(true);
     setButtonType("Add");
-  }
+  };
 
   const handleButtonAction = async (data, type) => {
     switch (type) {
@@ -83,8 +106,8 @@ export const StaffPage = () => {
   };
 
   useEffect(() => {
+    dispatch(tableSlice.actions.handleSelected([]));
     getStaff();
-
     return () => {
       console.log("Not thing");
     };
@@ -136,6 +159,7 @@ export const StaffPage = () => {
               callback={handleButtonAction}
               list={staffs && staffs}
               showCheckBox={true}
+              deleteCallback={handleDelete}
             />
           </div>
         </>

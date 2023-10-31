@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../Input/Input";
 import { MyButton } from "../../index.js";
 import { X } from "phosphor-react";
 import * as Icon from "phosphor-react";
+import { useSelector } from "react-redux";
+import { tableSelector } from "../../../selectors/consumerSelector";
 export const Toolkit = ({
   borderRadius = "10px",
   bgColor = "var(--bg-light)",
-  selectedList = [],
   deleteCallback = function () {},
 }) => {
   const style = {
@@ -14,7 +15,10 @@ export const Toolkit = ({
     borderRadius: borderRadius,
   };
 
-  useEffect(() => {}, [selectedList]);
+  const tableData = useSelector(tableSelector);
+  const [selectCount, setSelectCount] = useState(tableData.selectList.length);
+
+  useEffect(() => {}, [tableData.selectList]);
 
   return (
     <div
@@ -42,7 +46,7 @@ export const Toolkit = ({
       <div className="w-100">
         <div className="w-100 d-flex align-items-center justify-content-around">
           <div className="d-flex align-items-center">
-            <div>{selectedList.length.toString()} Item selected</div>
+            <div>{selectCount.toString()} Item selected</div>
             <MyButton
               prefix={<X size={18} />}
               bgColor="transparent"

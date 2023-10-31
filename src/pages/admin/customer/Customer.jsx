@@ -58,11 +58,10 @@ function Customer(props) {
       setIsLoading(false);
     }
   };
-  const selectList = useSelector(displaySelector);
 
   useEffect(() => {
+    dispatch(tableSlice.actions.handleSelected([]));
     initData().then((r) => r === null && toast.error("Something went wrong!"));
-    console.log(selectList.selectList);
   }, [isShowAdd, isShowDetail]);
 
   const handleButtonAction = async (data, type) => {
@@ -87,8 +86,11 @@ function Customer(props) {
   };
   const handleDelete = async () => {
     let list = [...tableData.selectList];
+    if (list.length === 0) {
+      toast.error("Choose item to delete");
+      return;
+    }
     for (let i = 0; i < list.length; i++) {
-      console.log(list[i]);
       let res = await deleteUser(list[i].id);
       if (!res) {
         toast.error("Something went wrong");
