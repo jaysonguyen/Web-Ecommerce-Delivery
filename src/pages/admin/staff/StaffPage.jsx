@@ -11,6 +11,12 @@ import "../../../assets/css/Pages/staff.css";
 export const StaffPage = () => {
   const [staffs, setStaffs] = useState([]);
   const [isShowAdd, setIsShowAdd] = useState(false);
+  const [nameStaff, setNameStaff] = useState("");
+  const [account, setAccount] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+  const [phoneNum, setPhoneNum] = useState("");
+  const [des, setDes] = useState("");
 
   const dispatch = useDispatch();
 
@@ -37,6 +43,24 @@ export const StaffPage = () => {
       console.log(error);
     }
   };
+
+  const handleClearInput = () => {
+    setNameStaff("");
+    setAccount("");
+    setEmail("");
+    setRole("");
+    setPhoneNum("");
+    setDes("");
+  };
+
+  const handleDisplayInsertStaff = () => {
+    setIsShowAdd(false);
+    handleClearInput();
+  };
+
+  const handleEditDetails = () => {
+    
+  }
 
   useEffect(() => {
     getStaff();
@@ -75,12 +99,26 @@ export const StaffPage = () => {
         <div className="add_employee_container">
           <div className="go_back_button_container">
             <CaretLeft
+              onClick={handleDisplayInsertStaff}
               size={ICON_SIZE_BIG}
-              onClick={() => setIsShowAdd(false)}
             />
           </div>
           <h3>Add staff</h3>
-          <AddStaff />
+          <AddStaff
+            setNameStaff={setNameStaff}
+            nameStaff={nameStaff}
+            setAccount={setAccount}
+            account={account}
+            setEmail={setEmail}
+            email={email}
+            setRole={setRole}
+            role={role}
+            phoneNum={phoneNum}
+            setPhoneNum={setPhoneNum}
+            des={des}
+            setDes={setDes}
+            clearInput={handleDisplayInsertStaff}
+          />
         </div>
       )}
     </div>
