@@ -1,3 +1,4 @@
+import { AxiosResponse, AxiosError } from "axios";
 import axios from "../config/axios";
 import { URL_GET_CUSTOMER, URL_GET_SHIPPER } from "../utils/constraint";
 
@@ -37,14 +38,14 @@ export const getStoreByUser = async (userId) => {
 
 export const insertUser = async ({ name, account, email, password, role }) => {
   try {
-    let data = await axios.post("/api/user", {
+    const checkData = await axios.post("/api/user", {
       name,
       account,
       email,
       password,
       role,
     });
-    return data;
+    return checkData.status;
   } catch (error) {
     return error;
   }

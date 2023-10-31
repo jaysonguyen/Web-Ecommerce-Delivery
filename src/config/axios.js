@@ -12,12 +12,15 @@ instance.interceptors.request.use(
   },
   function (error) {
     return Promise.reject(error);
-  },
+  }
 );
 
 instance.interceptors.response.use(
   function (response) {
-    return response.data;
+    return {
+      data: response.data,
+      status: response.status,
+    };
   },
 
   function (error) {
@@ -58,7 +61,7 @@ instance.interceptors.response.use(
         return Promise.reject(error);
       }
     }
-  },
+  }
 );
 
 export default instance;
