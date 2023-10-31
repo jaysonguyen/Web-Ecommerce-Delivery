@@ -4,8 +4,12 @@ const tableSlice = createSlice({
   name: "table",
   initialState: {
     selectList: [],
+    detail: {},
   },
   reducers: {
+    detailButton: (state, action) => {
+      state.detail = action.payload;
+    },
     handleSelected: (state, action) => {
       state.isShowSidebar = action.payload;
       let ids = state.selectList.map((ele) => ele.id);

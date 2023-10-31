@@ -17,6 +17,8 @@ export const StaffPage = () => {
   const [role, setRole] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
   const [des, setDes] = useState("");
+  const [data, setData] = useState({});
+  const [buttonType, setButtonType] = useState("Add");
 
   const dispatch = useDispatch();
 
@@ -58,9 +60,21 @@ export const StaffPage = () => {
     handleClearInput();
   };
 
-  const handleEditDetails = () => {
-    
-  }
+  const handleButtonAction = async (data, type) => {
+    switch (type) {
+      case "details": {
+        await setIsShowAdd(true);
+        await setData(data);
+        break;
+      }
+      case "delete": {
+        console.log(type);
+        break;
+      }
+      default:
+        break;
+    }
+  };
 
   useEffect(() => {
     getStaff();
@@ -91,7 +105,11 @@ export const StaffPage = () => {
                 Shipper
               </button>
             </div>
-            <MyTable list={staffs && staffs} showCheckBox={true} />
+            <MyTable
+              callback={handleButtonAction}
+              list={staffs && staffs}
+              showCheckBox={true}
+            />
           </div>
         </>
       )}
@@ -112,10 +130,12 @@ export const StaffPage = () => {
             setEmail={setEmail}
             email={email}
             setRole={setRole}
+            data={data}
             role={role}
             phoneNum={phoneNum}
             setPhoneNum={setPhoneNum}
             des={des}
+            buttonType={buttonType}
             setDes={setDes}
             clearInput={handleDisplayInsertStaff}
           />

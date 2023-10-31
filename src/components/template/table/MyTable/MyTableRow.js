@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import "./MyTable.css";
 import { MyTableCell } from "./MyTableCell";
 import { MyButton } from "../../button/MyButton/MyButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import tableSlice from "../../../../features/table/tableSlice";
+import { tableSelector } from "../../../../selectors/consumerSelector";
 
 function OrderButton() {
   return null;
@@ -20,6 +21,7 @@ export const MyTableRow = ({
   hideDelete = false,
 }) => {
   const dispatch = useDispatch();
+  const tableDetail = useSelector(tableSelector);
 
   let className = isHeader
     ? "my_table_row table_header row"
@@ -36,10 +38,11 @@ export const MyTableRow = ({
 
   useEffect(() => {
     handleGetData(data);
+    console.log(tableDetail);
   }, []);
 
   const handleActionButtons = async (data, type) => {
-    console.log("click");
+    dispatch(tableSlice.actions.detailButton(data));
     await callback(data, type);
   };
 
