@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {MyTable} from "../../../components/template/table/MyTable/MyTable";
 import {getBranchList} from "../../../services/BranchService";
-import { Link } from "react-router-dom";
 import "../../../assets/css/Pages/branch.css"
+import AddBranch from '../../../components/project/branch/AddBranch';
 function Branch(props) {
     const [branchList, setBranchList] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -41,9 +41,9 @@ function Branch(props) {
 
     return (
         <div className='padding-body'>
-            <Link to="/customer/add">
+           
                 <button className="btnBranch btnAdd" >Add branch</button>
-            </Link>
+                <AddBranch/>
             <MyTable showCheckBox = {true} title={"Branch List"} list={branchList} />
         </div>
     );

@@ -36,7 +36,7 @@ export const MyTable = ({
           <div className="col text-end">{headerAction}</div>
         </div>
         <Toolkit selectedList={select} />
-        {list.length === 0 ? (
+        {list && list.length === 0 ? (
           <div className="center">
             <p>No data to display.</p>
           </div>
@@ -48,17 +48,18 @@ export const MyTable = ({
               isHeader={true}
             />
 
-            {list.map((e, index) => (
-              <MyTableRow
-                callback={callback}
-                showCheckBox={showCheckBox}
-                handleCheck={testCheck}
-                key={index}
-                data={e}
-                handleGetData={handleGetData}
-                actionsElement={actionsElement}
-              />
-            ))}
+            {list &&
+              list.map((e, index) => (
+                <MyTableRow
+                  callback={callback}
+                  showCheckBox={showCheckBox}
+                  handleCheck={testCheck}
+                  key={index}
+                  data={e}
+                  handleGetData={handleGetData}
+                  actionsElement={actionsElement}
+                />
+              ))}
           </div>
         )}
       </div>

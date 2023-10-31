@@ -16,3 +16,17 @@ export const getUserById = async (id) => {
     return error;
   }
 };
+
+export const insertUser = async ({ name, account, email, role }) => {
+  try {
+    let data = await axios.post("/api/user", {
+      name,
+      account,
+      email,
+      role,
+    });
+    return data;
+  } catch (error) {
+    return error;
+  }
+};

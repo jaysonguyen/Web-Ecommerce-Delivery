@@ -27,8 +27,9 @@ import { Sidebar, AdminHeader } from "./components/index";
 import { displaySelector } from "./selectors/displaySelector";
 import { useDispatch, useSelector } from "react-redux";
 import displaySlice from "./features/Display/displaySlice";
-import React from "react";
+import React, { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
+import { getStaffList } from "./services/StaffService";
 
 function App() {
   const display = useSelector(displaySelector);
@@ -103,6 +104,8 @@ function App() {
       displaySlice.actions.displayNotification(!display.isShowNotification)
     );
   };
+
+ 
 
   return (
     <div className="app_container">

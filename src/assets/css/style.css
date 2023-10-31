@@ -106,7 +106,7 @@ a {
 }
 
 .padding-body {
-  padding-top: calc(var(--admin-header-height) + 10px);
+  padding-top: calc(var(--admin-header-height) + -20px);
   padding-left: 4%;
   padding-right: 4%;
 }
@@ -218,3 +218,6 @@ a {
 }
 
 /* DISTANCE */
+.pd-bt-10 {
+  padding-bottom: 10px;
+}
