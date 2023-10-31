@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import displaySlice from "../features/Display/displaySlice";
-import displayDetails from "../features/Display/displayDetails";
+import tableSlice from "../features/table/tableSlice";
 
 const store = configureStore({
   reducer: {
     display: displaySlice.reducer,
+    table: tableSlice.reducer,
   },
 });
 
