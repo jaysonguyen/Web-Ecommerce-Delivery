@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { MyTable } from "../../../components/template/table/MyTable/MyTable";
-import { Dropdown, DetailCustomer } from "../../../components";
+import {
+  Dropdown,
+  DetailCustomer,
+  AddCustomer,
+  AddStaff,
+} from "../../../components";
 import { Link } from "react-router-dom";
 import "../../../assets/css/Pages/customer.css";
 import {
@@ -11,12 +16,19 @@ import {
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { displaySelector } from "../../../selectors/displaySelector";
+import { tableSelector } from "../../../selectors/consumerSelector";
+import tableSlice from "../../../features/table/tableSlice";
+import { CaretLeft } from "phosphor-react";
+import { ICON_SIZE_BIG } from "../../../utils/constraint";
 
 function Customer(props) {
   const [userSelected, setUserSelected] = useState({});
   const [isShowDetail, setIsShowDetail] = useState(false);
+  const [isShowAdd, setIsShowAdd] = useState(false);
   const [userList, setUserList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const tableData = useSelector(tableSelector);
+  const dispatch = useDispatch();
   // const [selectedList, setSelectedList] = useState([]);
 
   const initData = async () => {
@@ -51,31 +63,7 @@ function Customer(props) {
   useEffect(() => {
     initData().then((r) => r === null && toast.error("Something went wrong!"));
     console.log(selectList.selectList);
-  }, []);
-
-  // const handleSelect = (e, data) => {
-  //   console.log(selectedList);
-  //   let ids = selectedList.map((ele) => ele.id);
-  //   if (e.target.checked) setSelectedList(data);
-  //   else {
-  //     let index = ids.indexOf(data.id);
-  //     selectedList.splice(index, 1);
-  //   }
-  // };
-
-  const deleteUser = async (id) => {
-    try {
-      let res = await deleteUser(id);
-
-      if (res) {
-        toast.success("Delete successfully");
-      } else {
-        toast.error("Delete failed! Try again");
-      }
-    } catch (error) {
-      toast.error("Error from server");
-    }
-  };
+  }, [isShowAdd, isShowDetail]);
 
   const handleButtonAction = async (data, type) => {
     console.log(type);
@@ -97,6 +85,20 @@ function Customer(props) {
   const handleCloseDetail = () => {
     setIsShowDetail(false);
   };
+  const handleDelete = async () => {
+    let list = [...tableData.selectList];
+    for (let i = 0; i < list.length; i++) {
+      console.log(list[i]);
+      let res = await deleteUser(list[i].id);
+      if (!res) {
+        toast.error("Something went wrong");
+        return;
+      }
+    }
+    toast.success("Deleted successfully");
+    dispatch(tableSlice.actions.handleSelected([]));
+    initData().then((r) => r === null && toast.error("Something went wrong!"));
+  };
 
   const itemOptions = [
     {
@@ -109,7 +111,7 @@ function Customer(props) {
 
   return (
     <div className="padding-body">
-      {!isShowDetail && (
+      {!isShowDetail && !isShowAdd && (
         <>
           <div className="header_of_customer">
             <div className="row">
@@ -130,9 +132,9 @@ function Customer(props) {
                   <div className="option_dropdown">
                     <Dropdown placeholder="Options" item={itemOptions} />
                   </div>
-                  <Link to="/customer/add">
-                    <button className="btnAdd">Add client</button>
-                  </Link>
+                  <button className="btnAdd" onClick={() => setIsShowAdd(true)}>
+                    Add client
+                  </button>
                 </div>
               </div>
             </div>
@@ -142,8 +144,8 @@ function Customer(props) {
             list={userList}
             showCheckBox={true}
             callback={handleButtonAction}
-            // select={selectedList}
-            // handleCheck={handleSelect}
+            deleteCallback={handleDelete}
+            hideDelete={true}
           />
         </>
       )}
@@ -153,6 +155,12 @@ function Customer(props) {
           closeDetail={handleCloseDetail}
           userSelected={userSelected}
         />
+      )}
+
+      {isShowAdd && (
+        <div className="add_employee_container">
+          <AddCustomer showAdd={setIsShowAdd} />
+        </div>
       )}
     </div>
   );

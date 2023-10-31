@@ -11,14 +11,15 @@ const tableSlice = createSlice({
       state.detail = action.payload;
     },
     handleSelected: (state, action) => {
-      state.isShowSidebar = action.payload;
-      let ids = state.selectList.map((ele) => ele.id);
-      if (!state.selectList.contains(action.payload))
-        state.selectList.push(action.payload);
-      else {
-        let index = ids.indexOf(action.payload.id);
-        state.selectList.splice(index, 1);
-      }
+      // state.isShowSidebar = action.payload;
+      // let ids = state.selectList.map((ele) => ele.id);
+      // if (!state.selectList.contains(action.payload))
+      //   state.selectList.push(action.payload);
+      // else {
+      //   let index = ids.indexOf(action.payload.id);
+      //   state.selectList.splice(index, 1);
+      // }
+      state.selectList = [...action.payload];
     },
   },
 });

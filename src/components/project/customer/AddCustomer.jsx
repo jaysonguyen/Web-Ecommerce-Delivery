@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Dropdown } from "../../index";
 import { createUser, insertUser } from "../../../services/UserService";
 import toast from "react-hot-toast";
-function AddCustomer(props) {
+function AddCustomer({ showAdd = (v) => {} }) {
   const itemDropDown = [
     {
       content: "Male",
@@ -38,6 +38,7 @@ function AddCustomer(props) {
 
   const [name, setName] = useState("");
   const [account, setAccount] = useState("");
+  const [phone, setPhone] = useState("");
   const [des, setDes] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -45,14 +46,17 @@ function AddCustomer(props) {
   const handleSubmit = async () => {
     try {
       let res = await insertUser({
-        name: name,
+        fullName: name,
         account: account,
         email: email,
+        phone: phone,
+        des: des,
         password: password,
         role: "2",
       });
       if (res) {
         toast.success("Create user successfully");
+        showAdd(false);
       } else {
         toast.error("Please try again");
       }
@@ -63,17 +67,12 @@ function AddCustomer(props) {
   };
 
   return (
-    <div className="padding-body">
+    <div className="">
       <div className="full_add_customer_page">
         <div className="header_add_customer_page">
-          <Link
-            to="/customer/account"
-            className="go_back_login text_decoration_none"
-          >
-            <button className="btnClose">
-              <X size={32} />
-            </button>
-          </Link>
+          <button className="btnClose" onClick={() => showAdd(false)}>
+            <X size={32} />
+          </button>
           <div className="title_add_cus">
             <h3>Add a new client</h3>
           </div>
@@ -110,6 +109,7 @@ function AddCustomer(props) {
                     <Input
                       label={"Phone number"}
                       placeholder={"Enter client's phone number"}
+                      onChange={(v) => setPhone(v.target.value)}
                     />
                   </div>
                   <div className="col-6">

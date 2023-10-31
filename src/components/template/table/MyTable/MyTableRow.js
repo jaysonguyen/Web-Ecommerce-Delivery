@@ -21,7 +21,7 @@ export const MyTableRow = ({
   hideDelete = false,
 }) => {
   const dispatch = useDispatch();
-  const tableDetail = useSelector(tableSelector);
+  const tableData = useSelector(tableSelector);
 
   let className = isHeader
     ? "my_table_row table_header row"
@@ -38,12 +38,24 @@ export const MyTableRow = ({
 
   useEffect(() => {
     handleGetData(data);
-    console.log(tableDetail);
   }, []);
 
   const handleActionButtons = async (data, type) => {
     dispatch(tableSlice.actions.detailButton(data));
     await callback(data, type);
+  };
+
+  const handleSelect = async (e) => {
+    let list = [...tableData.selectList];
+    let ids = list.map((ele) => ele.id);
+    if (e.target.checked) list.push(data);
+    else {
+      console.log(ids);
+      let index = ids.indexOf(data.id);
+      list.splice(index, 1);
+    }
+    console.log(list);
+    dispatch(tableSlice.actions.handleSelected(list));
   };
 
   return (
@@ -54,9 +66,7 @@ export const MyTableRow = ({
             type="checkbox"
             id="checkbox-circle2"
             name="check"
-            // onChange={(e) => {
-            //   dispatch(tableSlice.actions.handleSelected(data));
-            // }}
+            onChange={(e) => handleSelect(e)}
           />
         </div>
       </div>
@@ -83,7 +93,9 @@ export const MyTableRow = ({
                 bgColor="var(--color-error)"
                 fontColor="var(--text-white)"
                 hide={hideDelete}
-                callback={() => handleActionButtons(data, "delete")}
+                callback={() => {
+                  console.log(tableData.selectList);
+                }}
               />
             </div>
           }
