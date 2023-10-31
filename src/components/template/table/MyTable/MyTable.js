@@ -10,6 +10,7 @@ export const MyTable = ({
   select = [],
   handleCheck = function (e, data) {},
   callback = function (data, type) {},
+  deleteCallback = function () {},
   title,
   actionsElement,
   hideDetails = false,
@@ -40,8 +41,8 @@ export const MyTable = ({
           </div>
           <div className="col text-end">{headerAction}</div>
         </div>
-        <Toolkit selectedList={select} />
-        {list && list.length === 0 ? (
+        <Toolkit selectedList={select} deleteCallback={deleteCallback} />
+        {list.length === 0 ? (
           <div className="center">
             <p>No data to display.</p>
           </div>

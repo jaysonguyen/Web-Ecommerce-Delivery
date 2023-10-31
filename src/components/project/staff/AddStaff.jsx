@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../template/Input/Input";
 import { insertUser } from "../../../services/UserService";
 import toast from "react-hot-toast";
@@ -16,6 +16,8 @@ function AddStaff({
   setPhoneNum,
   des,
   setDes,
+  data,
+  buttonType,
   clearInput,
 }) {
   const handleNameStaffOnChange = (e) => {
@@ -63,30 +65,78 @@ function AddStaff({
     }
   };
 
+  const handleUpdateStaff = async () => {
+    try {
+      const checkInsert = await insertUser(
+        nameStaff,
+        account,
+        email,
+        role,
+        phoneNum,
+        des
+      );
+      if (checkInsert != 200) {
+        toast.error("insert failed");
+      } else {
+        toast.success("Insert success");
+        clearInput();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="add_staff_container">
       <div className="row">
         <div className="col col-6">
-          <Input onChange={handleNameStaffOnChange} label={"Full name"} />
+          <Input
+            onChange={handleNameStaffOnChange}
+            label={"Full name"}
+            placeholder={data.fullName || ""}
+          />
         </div>
         <div className="col col-6">
-          <Input onChange={handleAccountChange} label={"Account"} />
+          <Input
+            onChange={handleAccountChange}
+            label={"Account"}
+            placeholder={data.account || ""}
+          />
         </div>
         <div className="col col-6">
-          <Input onChange={handleEmailChange} label={"Email"} />
+          <Input
+            onChange={handleEmailChange}
+            label={"Email"}
+            placeholder={data.email || ""}
+          />
         </div>
         <div className="col col-6">
-          <Input onChange={handleRoleChange} label={"Role"} />
+          <Input
+            onChange={handleRoleChange}
+            label={"Role"}
+            placeholder={data.roleName || ""}
+          />
         </div>
         <div className="col col-6">
-          <Input onChange={handlePhoneNumChange} label={"Phone number"} />
+          <Input
+            onChange={handlePhoneNumChange}
+            label={"Phone number"}
+            placeholder={data.phoneNumber || ""}
+          />
         </div>
         <div className="col col-12">
-          <Input onChange={handleDesChange} label={"Description"} />
+          <Input
+            onChange={handleDesChange}
+            label={"Description"}
+            placeholder={data.des || ""}
+          />
         </div>
       </div>
-      <button onClick={handleInsertStaff} className="btnAdd">
-        Add
+      <button
+        onClick={buttonType == "Add" ? handleInsertStaff : handleUpdateStaff}
+        className="btnAdd"
+      >
+        {buttonType}
       </button>
     </div>
   );
