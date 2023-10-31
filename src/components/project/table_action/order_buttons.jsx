@@ -1,7 +1,6 @@
 import React from "react";
 import { MyButton } from "../../template/button/MyButton/MyButton";
 import { useDispatch, useSelector } from "react-redux";
-import displayDetails from "../../../features/Display/displayDetails";
 import displaySlice from "../../../features/Display/displaySlice";
 
 export const OrderButtons = ({ rowData = {} }) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./MyTable.css";
 import { MyTableRow } from "./MyTableRow";
 import { Toolkit } from "../../toolkit/Toolkit";
@@ -7,21 +7,24 @@ export const MyTable = ({
   list = [],
   headerAction,
   showCheckBox = false,
-  select,
+  select = [],
+  handleCheck = function (e, data) {},
   listDataModel,
   columns,
-  callback = function (data) {},
+  callback = function (data, type) {},
   title,
   actionsElement,
   handleGetData = function (e) {},
 }) => {
-  const [selectedList, setSelectedList] = useState([]);
   const headers = list.length > 0 ? Object.keys(list[0]) : [];
   headers.push("Thao tác");
 
-  if (list.length === 0) {
-    return <p>No data to display.</p>; // Render a message when the list is empty
-  }
+  const testCheck = (e, data) => {
+    console.log("test check function");
+    handleCheck(e, data);
+  };
+
+  useEffect(() => {}, [select]);
 
   return (
     <>
@@ -32,24 +35,32 @@ export const MyTable = ({
           </div>
           <div className="col text-end">{headerAction}</div>
         </div>
-        <Toolkit />
-        <div className="my_table_wrapper">
-          <MyTableRow
-            showCheckBox={showCheckBox}
-            data={headers}
-            isHeader={true}
-          />
-          {list.map((e, index) => (
+        <Toolkit selectedList={select} />
+        {list.length === 0 ? (
+          <div className="center">
+            <p>No data to display.</p>
+          </div>
+        ) : (
+          <div className="my_table_wrapper">
             <MyTableRow
-              callback={callback}
               showCheckBox={showCheckBox}
-              key={index}
-              data={e}
-              handleGetData={handleGetData}
-              actionsElement={actionsElement}
+              data={headers}
+              isHeader={true}
             />
-          ))}
-        </div>
+
+            {list.map((e, index) => (
+              <MyTableRow
+                callback={callback}
+                showCheckBox={showCheckBox}
+                handleCheck={testCheck}
+                key={index}
+                data={e}
+                handleGetData={handleGetData}
+                actionsElement={actionsElement}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </>
   );

@@ -55,7 +55,7 @@ function DetailCustomer({ closeDetail, userSelected }) {
     },
     {
       id: 4,
-      tabTitle: "Invoices",
+      tabTitle: "Store",
       title: "Invoices",
       content: "Contenido de tab 4.",
     },

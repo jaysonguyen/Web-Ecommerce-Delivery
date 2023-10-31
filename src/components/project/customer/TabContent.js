@@ -50,6 +50,27 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
     }
   };
 
+  const getStoreList = async () => {
+    if (isLoading) {
+      // If a request is already in progress, don't make another one
+      return -1;
+    }
+
+    setIsLoading(true);
+    try {
+      const data = await getUserById(userID);
+      if (data != null) {
+        setCustomerInfo(data);
+      }
+      return data;
+    } catch (error) {
+      // Handle the error here
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const initData = async () => {
     switch (tab) {
       case "1": {
@@ -68,7 +89,8 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
         break;
       }
       case "4": {
-        // invoices
+        // store
+
         break;
       }
       default:

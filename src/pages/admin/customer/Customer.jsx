@@ -5,12 +5,15 @@ import { Link } from "react-router-dom";
 import "../../../assets/css/Pages/customer.css";
 import { getUserList } from "../../../services/UserService";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { displaySelector } from "../../../selectors/displaySelector";
 
 function Customer(props) {
   const [userSelected, setUserSelected] = useState({});
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [userList, setUserList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  // const [selectedList, setSelectedList] = useState([]);
 
   const initData = async () => {
     // let data = await getUserList();
@@ -35,29 +38,39 @@ function Customer(props) {
       setIsLoading(false);
     }
   };
+  const selectList = useSelector(displaySelector);
 
   useEffect(() => {
     initData().then((r) => r === null && toast.error("Something went wrong!"));
+    console.log(selectList.selectList);
   }, []);
 
-  const handleShowDetail = async (data) => {
-    await setUserSelected(data);
-    await setIsShowDetail(true);
+  // const handleSelect = (e, data) => {
+  //   console.log(selectedList);
+  //   let ids = selectedList.map((ele) => ele.id);
+  //   if (e.target.checked) setSelectedList(data);
+  //   else {
+  //     let index = ids.indexOf(data.id);
+  //     selectedList.splice(index, 1);
+  //   }
+  // };
+
+  const handleButtonAction = async (data, type) => {
+    switch (type) {
+      case "details": {
+        await setUserSelected(data);
+        await setIsShowDetail(true);
+        break;
+      }
+      case "delete": {
+      }
+      default:
+        break;
+    }
   };
   const handleCloseDetail = () => {
     setIsShowDetail(false);
   };
-
-  // const items = [
-  //   {
-  //     name: "Nguyễn Ngọc Thảo My",
-  //     phone: "0902637839",
-  //     email: "thaomy@gmail.com",
-  //     address: "Tp.HoChiMinh",
-  //     sales: 8000000,
-  //     status: "New client",
-  //   },
-  // ];
 
   const itemOptions = [
     {
@@ -102,7 +115,9 @@ function Customer(props) {
           <MyTable
             list={userList}
             showCheckBox={true}
-            callback={handleShowDetail}
+            callback={handleButtonAction}
+            // select={selectedList}
+            // handleCheck={handleSelect}
           />
         </>
       )}

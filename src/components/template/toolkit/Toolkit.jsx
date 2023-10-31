@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Input from "../Input/Input";
 import { MyButton } from "../../index.js";
 import { X } from "phosphor-react";
@@ -6,11 +6,14 @@ import * as Icon from "phosphor-react";
 export const Toolkit = ({
   borderRadius = "10px",
   bgColor = "var(--bg-light)",
+  selectedList = [],
 }) => {
   const style = {
     backgroundColor: bgColor,
     borderRadius: borderRadius,
   };
+
+  useEffect(() => {}, [selectedList]);
 
   return (
     <div
@@ -38,7 +41,7 @@ export const Toolkit = ({
       <div className="w-100">
         <div className="w-100 d-flex align-items-center justify-content-around">
           <div className="d-flex align-items-center">
-            <div>{"1"} Item selected</div>
+            <div>{selectedList.length.toString()} Item selected</div>
             <MyButton
               prefix={<X size={18} />}
               bgColor="transparent"
