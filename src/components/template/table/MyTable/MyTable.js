@@ -48,17 +48,18 @@ export const MyTable = ({
               isHeader={true}
             />
 
-            {list.map((e, index) => (
-              <MyTableRow
-                callback={callback}
-                showCheckBox={showCheckBox}
-                handleCheck={testCheck}
-                key={index}
-                data={e}
-                handleGetData={handleGetData}
-                actionsElement={actionsElement}
-              />
-            ))}
+            {list &&
+              list.map((e, index) => (
+                <MyTableRow
+                  callback={callback}
+                  showCheckBox={showCheckBox}
+                  handleCheck={testCheck}
+                  key={index}
+                  data={e}
+                  handleGetData={handleGetData}
+                  actionsElement={actionsElement}
+                />
+              ))}
           </div>
         )}
       </div>
