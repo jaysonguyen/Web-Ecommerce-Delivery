@@ -58,21 +58,9 @@ export const deleteUser = async (id) => {
   }
 };
 
-export const updateUSer = async ({
-  account,
-  nameStaff,
-  email,
-  phoneNum,
-  des,
-}) => {
+export const updateUSer = async (obj) => {
   try {
-    const checkData = await axios.put(URL_USER, {
-      fullName: nameStaff,
-      des: des,
-      account: account,
-      email: email,
-      phone: phoneNum,
-    });
+    const checkData = await axios.put(URL_USER, obj);
     return checkData.status;
   } catch (error) {
     return error;

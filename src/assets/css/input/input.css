@@ -37,7 +37,7 @@
   width: 100%;
   /*margin-bottom: 20px;*/
   border-radius: var(--border-radius);
-  padding: 10px;
+  margin: 10px 0;
 }
 .input_container .input_content {
   outline: none;

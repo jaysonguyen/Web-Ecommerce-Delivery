@@ -66,8 +66,6 @@ function Customer(props) {
   }, [isShowAdd, isShowDetail]);
 
   const handleButtonAction = async (data, type) => {
-    console.log(type);
-
     switch (type) {
       case "details": {
         await setUserSelected(data);
