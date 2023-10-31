@@ -8,7 +8,7 @@ function Input({
   placeholder = "",
   type = "text",
   width = "100%",
-  borderRadius = "10px",
+  borderRadius = "3px",
   icon,
   onChange = function (v) {},
 }) {

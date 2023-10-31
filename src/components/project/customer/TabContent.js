@@ -1,9 +1,26 @@
 import { Dropdown, Input } from "../../index";
 import { useEffect, useState } from "react";
-import { getStoreByUser, getUserById } from "../../../services/UserService";
+import {
+  getStoreByUser,
+  getUserById,
+  updateUSer,
+} from "../../../services/UserService";
 import { getBankList } from "../../../services/BankService";
-import "../../../assets/css/Pages/customer.css"
-export const TabContent = ({ tab = "1", userID = "" }) => {
+import toast from "react-hot-toast";
+
+export const TabContent = ({
+  nameUser,
+  setNameUser,
+  des,
+  setDes,
+  phoneNum,
+  setPhoneNum,
+  email,
+  setEmail,
+  tab = "1",
+  userID = "",
+  clearData,
+}) => {
   const [bankList, setBankList] = useState([]);
   const [customerInfo, setCustomerInfo] = useState([]);
   const [storeInfo, setStoreInfo] = useState([]);
@@ -100,6 +117,43 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
     }
   };
 
+  const handleNameUser = (e) => {
+    setNameUser(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePhoneNumChange = (e) => {
+    setPhoneNum(e.target.value);
+  };
+
+  const handleDesChange = (e) => {
+    setDes(e.target.value);
+  };
+
+  const handleUpdateCustomer = async () => {
+    try {
+      const checkInsert = await updateUSer({
+        fullName: nameUser || customerInfo.fullName,
+        email: email || customerInfo.email,
+        account: customerInfo.account,
+        purpose: "nothing",
+        phone: phoneNum || customerInfo.phoneNumber,
+        des: des || customerInfo.des,
+      });
+      if (checkInsert != 200) {
+        toast.error("Update failed");
+      } else {
+        toast.success("Insert success");
+        clearData();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     initData();
     console.log("fetch data tab");
@@ -110,17 +164,31 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
       {tab === "1" && !isLoading && (
         <div className="row">
           <div className="col">
-            <Input placeholder={customerInfo.fullName} label="Name" />
-            <Input placeholder={customerInfo.email} label="Email" />
-            <Input placeholder={customerInfo.phone} label="Phone" />
-            <Input placeholder={customerInfo.des} label="Description" />
+            <Input
+              onChange={handleNameUser}
+              placeholder={customerInfo.fullName}
+              label="Name"
+            />
+            <Input
+              onChange={handleEmailChange}
+              placeholder={customerInfo.email}
+              label="Email"
+            />
+            <Input
+              onChange={handlePhoneNumChange}
+              placeholder={customerInfo.phone}
+              label="Phone"
+            />
+            <Input
+              onChange={handleDesChange}
+              placeholder={customerInfo.des}
+              label="Description"
+            />
           </div>
           <div className="col">
-            <div className="bank_account_info">
-              NGUYEN VU THANH NGUYEN - 0200105062002 MB
-            </div>
+            {/* div className="bank_account_info"></div> */}
             <Dropdown
-              placeholder="Choose a bank"
+              placeholder="NGUYEN VU THANH NGUYEN - 0200105062002 MB"
               label="Bank"
               item={
                 bankList.length > 0 &&
@@ -129,9 +197,15 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
               className="dropdown_bank"
             />
             <Input placeholder={customerInfo.account} label="Account" />
-            <Input placeholder={customerInfo.created} label="Created" />
-            <Input placeholder={customerInfo.updated} label="Updated" />
-            <button className="btnAdd btnAccount">Add new acount</button>
+            <p className="changePassword_button">Change password?</p>
+            <div>
+              <button
+                onClick={handleUpdateCustomer}
+                className="btnAdd btnAccount buttonSave_info"
+              >
+                Save
+              </button>
+            </div>
           </div>
         </div>
       )}

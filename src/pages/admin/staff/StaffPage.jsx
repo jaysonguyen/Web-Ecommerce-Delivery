@@ -26,7 +26,8 @@ export const StaffPage = () => {
 
   const tableData = useSelector(tableSelector);
   const dispatch = useDispatch();
-  const getStaff = async () => {
+
+  const fetchStaff = async () => {
     try {
       const data = await getStaffList();
       if (data) {
@@ -38,7 +39,7 @@ export const StaffPage = () => {
     }
   };
 
-  const getShipper = async () => {
+  const fetchShipper = async () => {
     try {
       const data = await getShipperList();
       if (data) {
@@ -57,11 +58,12 @@ export const StaffPage = () => {
     setRole("");
     setPhoneNum("");
     setDes("");
+    setData({});
   };
 
-  const handleDisplayInsertStaff = () => {
-    setIsShowAdd(false);
-    handleClearInput();
+  const handleDisplayInsertStaff = async () => {
+    await setIsShowAdd(false);
+    await handleClearInput();
   };
 
   const handleDelete = async () => {
@@ -80,7 +82,7 @@ export const StaffPage = () => {
     }
     toast.success("Deleted successfully");
     dispatch(tableSlice.actions.handleSelected([]));
-    getStaff();
+    fetchStaff();
   };
 
   const handleAddButton = () => {
@@ -106,8 +108,8 @@ export const StaffPage = () => {
   };
 
   useEffect(() => {
-    dispatch(tableSlice.actions.handleSelected([]));
-    getStaff();
+    fetchStaff();
+
     return () => {
       console.log("Not thing");
     };
@@ -132,7 +134,7 @@ export const StaffPage = () => {
                   padding="5px 20px"
                   margin="0 10px 0 0"
                   borderColor="var(--primary-color)"
-                  callback={getStaff}
+                  callback={fetchStaff}
                 />
                 <MyButton
                   text="Shipper"
@@ -144,11 +146,11 @@ export const StaffPage = () => {
                   borderRadius="5px"
                   padding="5px 20px"
                   borderColor="var(--primary-color)"
-                  callback={getShipper}
+                  callback={fetchShipper}
                 />
               </div>
             </div>
-            <button onClick={() => setIsShowAdd(true)} className="btnAdd">
+            <button onClick={handleAddButton} className="btnAdd">
               {" "}
               <Plus size={ICON_SIZE_BIG} />
               Add
@@ -179,6 +181,8 @@ export const StaffPage = () => {
             setAccount={setAccount}
             account={account}
             setEmail={setEmail}
+            fetchShipper={fetchShipper}
+            fetchStaff={fetchStaff}
             email={email}
             setRole={setRole}
             data={data}

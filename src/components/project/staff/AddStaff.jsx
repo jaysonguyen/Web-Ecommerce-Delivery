@@ -20,6 +20,8 @@ function AddStaff({
   data,
   buttonType,
   clearInput,
+  fetchStaff,
+  fetchShipper,
 }) {
   const handleNameStaffOnChange = (e) => {
     setNameStaff(e.target.value);
@@ -60,6 +62,7 @@ function AddStaff({
       } else {
         toast.success("Insert success");
         clearInput();
+        fetchStaff();
       }
     } catch (error) {
       console.log(error);
@@ -68,26 +71,20 @@ function AddStaff({
 
   const handleUpdateStaff = async () => {
     try {
-      console.log(
-        "consolt: " + data.fullName,
-        data.account,
-        data.email,
-        data.role,
-        data.phoneNum,
-        data.des
-      );
-      const checkInsert = await updateUSer(
-        data.account,
-        nameStaff || data.fullName,
-        email || data.email,
-        phoneNum || data.phoneNumber,
-        des || data.des
-      );
+      const checkInsert = await updateUSer({
+        fullName: nameStaff || data.fullName,
+        email: email || data.email,
+        account: data.account,
+        purpose: "nothing",
+        phone: phoneNum || data.phoneNumber,
+        des: des || data.des,
+      });
       if (checkInsert != 200) {
         toast.error("Update failed");
       } else {
         toast.success("Insert success");
         clearInput();
+        fetchStaff();
       }
     } catch (error) {
       console.log(error);
