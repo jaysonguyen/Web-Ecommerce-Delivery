@@ -12,4 +12,4 @@ export const URL_FORGET = "/forget";
 /* API */
 export const URL_GET_STAFF = "/api/user/staff";
 export const URL_GET_SHIPPER = "/api/user/shipper";
-export const URL_INSERT_USER = "/api/user";
+export const URL_USER = "/api/user";
