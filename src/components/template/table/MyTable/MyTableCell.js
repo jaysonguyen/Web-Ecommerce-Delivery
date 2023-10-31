@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "./MyTable.css";
+import { useDispatch } from "react-redux";
 
 export const MyTableCell = ({ data, subData = "", width = "" }) => {
   return (

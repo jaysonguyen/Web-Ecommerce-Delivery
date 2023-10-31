@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import "./MyTable.css";
 import { MyTableCell } from "./MyTableCell";
 import { MyButton } from "../../button/MyButton/MyButton";
+import { useDispatch } from "react-redux";
+import tableSlice from "../../../../features/table/tableSlice";
 
 function OrderButton() {
   return null;
@@ -11,10 +13,12 @@ export const MyTableRow = ({
   data = {},
   isHeader = false,
   showCheckBox = false,
-  callback = function (data) {},
-  handleCheck = function () {},
+  callback = function (data, type) {},
+  handleCheck = function (e, data) {},
   handleGetData = function (e) {},
 }) => {
+  const dispatch = useDispatch();
+
   let className = isHeader
     ? "my_table_row table_header row"
     : "my_table_row row";
@@ -30,20 +34,19 @@ export const MyTableRow = ({
 
   useEffect(() => {
     handleGetData(data);
-    console.log(data);
   }, []);
 
   return (
     <div style={rowStyle} className={className}>
       <div className={checkBoxClassName}>
-        {/*<input className="checkbox" type="checkbox" />*/}
-        {/*<span className="checkmark"></span>*/}
         <div className="checkbox-circle2">
           <input
             type="checkbox"
             id="checkbox-circle2"
             name="check"
-            onChange={handleCheck}
+            // onChange={(e) => {
+            //   dispatch(tableSlice.actions.handleSelected(data));
+            // }}
           />
         </div>
       </div>
@@ -55,12 +58,22 @@ export const MyTableRow = ({
       {!isHeader && (
         <MyTableCell
           data={
-            <MyButton
-              text={"Details"}
-              margin="5px 15px"
-              borderRadius="20px"
-              callback={() => callback(data)}
-            />
+            <div>
+              <MyButton
+                text={"Details"}
+                margin="5px 15px"
+                borderRadius="20px"
+                callback={() => callback(data, "details")}
+              />
+              <MyButton
+                text={"Delete"}
+                margin="5px 15px"
+                borderRadius="20px"
+                bgColor="var(--color-error)"
+                fontColor="var(--text-white)"
+                callback={() => callback(data, "delete")}
+              />
+            </div>
           }
           width={``}
         />

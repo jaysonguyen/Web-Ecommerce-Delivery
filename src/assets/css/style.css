@@ -25,6 +25,7 @@
   --text-weight: 500;
   --text-size-12: 12px;
   --text-size-title: 16px;
+  --text-size-content: 14px;
   --sidebar-width: 15%;
 }
 
@@ -105,7 +106,7 @@ a {
 }
 
 .padding-body {
-  padding-top: calc(var(--admin-header-height) + 35px);
+  padding-top: calc(var(--admin-header-height) + 10px);
   padding-left: 4%;
   padding-right: 4%;
 }
@@ -186,6 +187,17 @@ a {
   border-radius: 100%;
   display: inline-block;
   background-color: var(--border-color);
+}
+
+.table_center {
+  align-items: center;
+  width: fit-content;
+  margin: 18% auto;
+}
+
+.center {
+  width: fit-content;
+  margin: 20% auto;
 }
 
 /*CUSTOM STYLE*/

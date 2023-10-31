@@ -25,7 +25,7 @@ import {
   URL_ORDER,
 } from "./utils/constraint";
 
-import Customer from "./pages/customer/Customer";
+import Customer from "./pages/admin/customer/Customer";
 import AddCustomer from "./components/project/customer/AddCustomer";
 import { StaffPage } from "./pages/admin/staff/StaffPage";
 import { OrderPage } from "./pages/admin/order/OrderPage";

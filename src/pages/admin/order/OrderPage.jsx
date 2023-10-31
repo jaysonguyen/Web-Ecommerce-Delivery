@@ -4,7 +4,6 @@ import { MyTable } from "../../../components/template/table/MyTable/MyTable";
 import { OrderButtons } from "../../../components/project/table_action/order_buttons";
 import { DetailCustomer } from "../../../components";
 import { useDispatch, useSelector } from "react-redux";
-import displayDetails from "../../../features/Display/displayDetails";
 import "../../../assets/css/Pages/customer.css";
 import displaySlice from "../../../features/Display/displaySlice";
 

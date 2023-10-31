@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../assets/css/Pages/customer.css";
 import {
@@ -11,32 +11,28 @@ import {
 import { ICON_SIZE_EXTRA_LARGE } from "../../../utils/constraint";
 import ActionCustomer from "./ActionCustomer";
 import { Input, Dropdown } from "../../index";
+import { getUserById, getUserList } from "../../../services/UserService";
+import { User } from "../../../model/user";
+import toast from "react-hot-toast";
+import { TabContent } from "./TabContent";
 
 function DetailCustomer({ closeDetail, userSelected }) {
   const [currentTab, setCurrentTab] = useState("1");
   const [isShowAction, setIsShowAction] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [detailData, setDetailData] = useState(User);
+  const [tabData, setTabData] = useState({});
+
+  console.log("detail mounted");
 
   const handleShowAction = () => {
     const flag = !isShowAction;
     setIsShowAction(flag);
   };
-  const handleCloseAction = () => {
-    setIsShowAction(false);
-  };
-  const itemBank = [
-    {
-      content: "Vietcombank",
-    },
-    {
-      content: "Techcombank",
-    },
-    {
-      content: "CB Bank",
-    },
-    {
-      content: "VietTinBank",
-    },
-  ];
+
+  // const handleCloseAction = () => {
+  //   setIsShowAction(false);
+  // };
   const tabs = [
     {
       id: 1,
@@ -59,7 +55,7 @@ function DetailCustomer({ closeDetail, userSelected }) {
     },
     {
       id: 4,
-      tabTitle: "Invoices",
+      tabTitle: "Store",
       title: "Invoices",
       content: "Contenido de tab 4.",
     },
@@ -115,7 +111,7 @@ function DetailCustomer({ closeDetail, userSelected }) {
                 <span>D</span>
               </div>
               <div className="name_email_cus">
-                <h3>{userSelected.name}</h3>
+                <h3>{userSelected.fullName}</h3>
                 <div className="email_phone_frame">
                   <a href="#">{userSelected.email}</a>
                   <div className="phone_number_cus">
@@ -123,7 +119,9 @@ function DetailCustomer({ closeDetail, userSelected }) {
                     <div className="over_lay">
                       <a href="#" className="phone_number_data">
                         <Phone size={16} className="icon_mini_phone" />
-                        {userSelected.phone}
+                        {userSelected.phone == null
+                          ? "Chưa cập nhật"
+                          : userSelected.phone}
                       </a>
                     </div>
                   </div>
@@ -131,7 +129,7 @@ function DetailCustomer({ closeDetail, userSelected }) {
               </div>
             </div>
             <div className="status_customer_blaclist_frame">
-              <div className="type_cus">{userSelected.status}</div>
+              <div className="type_cus">{detailData.purpose}</div>
               <div className="blacklist_frame ">
                 <Warning size={20} />
               </div>
@@ -166,13 +164,13 @@ function DetailCustomer({ closeDetail, userSelected }) {
                 ))}
               </div>
               <div className="content">
-                {tabs.map((tab, i) => (
+                {/*{tabs.map((tab, i) => (
                   <div key={i}>
                     {currentTab === `${tab.id}` && (
                       <div>
                         <p className="title">{tab.title}</p>
                         <p className="content_info">
-                          <div className="row" >
+                          <div className="row">
                             <div className="col -6">
                               <Input
                                 placeholder={userSelected.name}
@@ -209,11 +207,23 @@ function DetailCustomer({ closeDetail, userSelected }) {
                                 placeholder="Enter account number"
                                 label="Account number"
                               />
-                              <button className="btnAdd btnAccount">Add new acount</button>
+                              <button className="btnAdd btnAccount">
+                                Add new acount
+                              </button>
                             </div>
                           </div>
                         </p>
                       </div>
+                    )}
+                  </div>
+                ))}*/}
+                {tabs.map((tab, index) => (
+                  <div key={index}>
+                    {currentTab === tab.id.toString() && (
+                      <TabContent
+                        tab={tab.id.toString()}
+                        userID={userSelected.id}
+                      />
                     )}
                   </div>
                 ))}
@@ -222,7 +232,6 @@ function DetailCustomer({ closeDetail, userSelected }) {
           </div>
         </div>
       </div>
-      
     </>
   );
 }
