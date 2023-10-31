@@ -78,7 +78,6 @@ function Customer(props) {
   };
 
   const handleButtonAction = async (data, type) => {
-    console.log("type: " + type);
     switch (type) {
       case "details": {
         await setUserSelected(data);
@@ -86,6 +85,7 @@ function Customer(props) {
         break;
       }
       case "delete": {
+        console.log(type);
         await deleteUser(data.id);
         break;
       }

@@ -1,6 +1,10 @@
 import { AxiosResponse, AxiosError } from "axios";
 import axios from "../config/axios";
-import { URL_GET_CUSTOMER, URL_GET_SHIPPER } from "../utils/constraint";
+import {
+  URL_GET_CUSTOMER,
+  URL_GET_SHIPPER,
+  URL_USER,
+} from "../utils/constraint";
 
 export async function getUserList() {
   try {
@@ -42,7 +46,7 @@ export const insertUser = async (
   email,
   role,
   phoneNum,
-  des
+  des,
 ) => {
   try {
     const checkData = await axios.post(URL_USER, {
@@ -76,5 +80,3 @@ export const updateUSer = async (account) => {
     return error;
   }
 };
-
-
