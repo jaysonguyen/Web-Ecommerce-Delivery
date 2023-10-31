@@ -2,22 +2,22 @@ import axios from "../config/axios";
 
 export async function getBranchList() {
   try {
-    let data = await axios.get("/api/branch");
-    return data;
+    const data = await axios.get("/api/branch");
+    return data.data;
   } catch (error) {
     return error;
   }
 }
 
-export const createBranch = async({branch_id,name,address,des}) =>{
+export const createBranch = async({ branch_id, name, address, des}) =>{
     try {
-      let data = await axios.post("/api/branch",{
-          branch_id,
+      const data = await axios.post("/api/branch",{
+          
           name,
           address,
           des,
       });
-      return data;
+      return data.status;
     } catch (error) {
       return error;
     }

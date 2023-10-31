@@ -1,3 +1,4 @@
+import { AxiosResponse, AxiosError } from "axios";
 import axios from "../config/axios";
 
 export async function getUserList() {
@@ -19,13 +20,13 @@ export const getUserById = async (id) => {
 
 export const insertUser = async ({ name, account, email, role }) => {
   try {
-    let data = await axios.post("/api/user", {
+    const checkData = await axios.post("/api/user", {
       name,
       account,
       email,
       role,
     });
-    return data;
+    return checkData.status;
   } catch (error) {
     return error;
   }
