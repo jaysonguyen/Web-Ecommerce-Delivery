@@ -2,7 +2,7 @@ import { Dropdown, Input } from "../../index";
 import { useEffect, useState } from "react";
 import { getStoreByUser, getUserById } from "../../../services/UserService";
 import { getBankList } from "../../../services/BankService";
-
+import "../../../assets/css/Pages/customer.css"
 export const TabContent = ({ tab = "1", userID = "" }) => {
   const [bankList, setBankList] = useState([]);
   const [customerInfo, setCustomerInfo] = useState([]);
@@ -61,7 +61,8 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
     try {
       const data = await getStoreByUser(userID);
       if (data != null) {
-        setStoreInfo(data);
+        console.log(data.data);
+        setStoreInfo(data.data);
       }
       return data;
     } catch (error) {
@@ -147,20 +148,28 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
         </div>
       )}
       {tab === "4" && (
-        <div className="row">
-          <div className="col">
-            <Input placeholder={storeInfo.name} label="Name" />
-            <Input placeholder={storeInfo.des} label="Descript" />
-            <Input placeholder={storeInfo.address} label="Address" />
-            <Input placeholder={storeInfo.phone} label="Phone" />
-            <Input placeholder="" label="Total sales" />
-          </div>
-          <div className="col">
-            <Input placeholder={storeInfo.created} label="Created" />
-            <Input placeholder={storeInfo.updated} label="Updated" />
+        
+        <div>
             <button className="btnAdd btnAccount">Add new store</button>
+        {storeInfo.map((info,i) => (
+            <div className="row store_frame" key={i}>
+            <div className="col">
+              <Input placeholder={info.name} label="Name" />
+              <Input placeholder={info.des} label="Descript" />
+              <Input placeholder={info.address} label="Address" />
+              
+              
+            </div>
+            <div className="col">
+            <Input placeholder={info.phone} label="Phone" />
+              <Input placeholder={info.created} label="Created" />
+              <Input placeholder={info.updated} label="Updated" />
+              <button className="btnAdd btnAccount">Delete</button>
+            </div>
           </div>
-        </div>
+          ))
+        }
+         </div>
       )}
     </>
   );

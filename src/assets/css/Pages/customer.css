@@ -360,3 +360,11 @@ h1 {
 .action_name{
     padding: 5px 10px ;
 }
+/* ----------------------Tab store------------- */
+.store_frame{
+    background-color: #f9f9fa;
+    border: 1px solid #888888;
+    border-radius: 4px;
+    margin: 10px 0;
+    padding: 10px;
+}

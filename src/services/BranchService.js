@@ -9,7 +9,7 @@ export async function getBranchList() {
   }
 }
 
-export const createBranch = async({ branch_id, name, address, des}) =>{
+export const createBranch = async({name, address, des}) =>{
     try {
       const data = await axios.post("/api/branch",{
           
