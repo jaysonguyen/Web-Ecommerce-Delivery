@@ -8,3 +8,4 @@ export const URL_CUSTOMER = "/customer/account";
 export const URL_LOGIN = "/login";
 export const URL_REGISTER = "/register";
 export const URL_FORGET = "/forget";
+export const URL_BRANCH = "/branch";

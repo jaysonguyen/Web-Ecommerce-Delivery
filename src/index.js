@@ -18,6 +18,7 @@ import App from "./App";
 import Login from "./pages/Authentication/Login";
 import Forget from "./pages/Authentication/Forget";
 import Register from "./pages/Authentication/Register";
+import Branch from "./pages/admin/branch/Branch";
 import { Table } from "phosphor-react";
 import StatusButton from "./components/project/order/StatusButton";
 import {
@@ -27,6 +28,7 @@ import {
   URL_LOGIN,
   URL_REGISTER,
   URL_ORDER,
+  URL_BRANCH,
 } from "./utils/constraint";
 
 import Customer from "./pages/admin/customer/Customer";
@@ -61,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: URL_REGISTER,
         element: <Register />,
+      },
+      {
+        path: URL_BRANCH,
+        element: <Branch />,
       },
       {
         path: "/customer/account",
