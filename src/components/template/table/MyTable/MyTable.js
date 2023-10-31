@@ -9,11 +9,11 @@ export const MyTable = ({
   showCheckBox = false,
   select = [],
   handleCheck = function (e, data) {},
-  listDataModel,
-  columns,
   callback = function (data, type) {},
   title,
   actionsElement,
+  hideDetails = false,
+  hideDelete = false,
   handleGetData = function (e) {},
 }) => {
   const headers = list.length > 0 ? Object.keys(list[0]) : [];
@@ -22,6 +22,11 @@ export const MyTable = ({
   const testCheck = (e, data) => {
     console.log("test check function");
     handleCheck(e, data);
+  };
+
+  const handleActionButtons = async (data, type) => {
+    console.log("click");
+    await callback(data, type);
   };
 
   useEffect(() => {}, [select]);
@@ -51,11 +56,13 @@ export const MyTable = ({
             {list &&
               list.map((e, index) => (
                 <MyTableRow
-                  callback={callback}
+                  callback={handleActionButtons}
                   showCheckBox={showCheckBox}
                   handleCheck={testCheck}
                   key={index}
                   data={e}
+                  hideDetails={hideDetails}
+                  hideDelete={hideDelete}
                   handleGetData={handleGetData}
                   actionsElement={actionsElement}
                 />

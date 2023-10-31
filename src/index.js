@@ -3,10 +3,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import store from "./store/store";
 import "./index.css";
@@ -26,12 +23,16 @@ import {
   URL_REGISTER,
   URL_ORDER,
   URL_BRANCH,
+  URL_VOUCHER,
+  URL_VOUCHER_ADD,
 } from "./utils/constraint";
 
 import Customer from "./pages/admin/customer/Customer";
 import AddCustomer from "./components/project/customer/AddCustomer";
 import { StaffPage } from "./pages/admin/staff/StaffPage";
 import { OrderPage } from "./pages/admin/order/OrderPage";
+import VoucherPage from "./pages/admin/voucher/VoucherPage";
+import AddVoucher from "./components/project/voucher/AddVoucher";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: URL_STAFF,
         element: <StaffPage />,
+      },
+      {
+        path: URL_VOUCHER,
+        element: <VoucherPage />,
       },
       {
         path: URL_ORDER,
@@ -73,6 +78,10 @@ const router = createBrowserRouter([
       {
         path: "/customer/add",
         element: <AddCustomer />,
+      },
+      {
+        path: URL_VOUCHER_ADD,
+        element: <AddVoucher />,
       },
       {
         path: "/statusbutton",

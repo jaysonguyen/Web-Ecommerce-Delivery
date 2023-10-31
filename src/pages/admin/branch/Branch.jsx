@@ -5,13 +5,14 @@ import "../../../assets/css/Pages/branch.css";
 import { CaretLeft } from "phosphor-react";
 import { ICON_SIZE_BIG } from "../../../utils/constraint";
 import AddBranch from "../../../components/project/branch/AddBranch";
-import { useSelector } from "react-redux";
-import { displaySelector } from "../../../selectors/displaySelector";
-import toast from "react-hot-toast";
+
 function Branch(props) {
   const [branchList, setBranchList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isShowAdd, setIsShowAdd] = useState(false);
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [des, setDes] = useState("");
 
   const getBranchData = async () => {
     if (isLoading) {
@@ -30,6 +31,16 @@ function Branch(props) {
     } finally {
       setIsLoading(false);
     }
+  };
+  const handleClearInput = () => {
+    setName("");
+    setAddress("");
+    setDes("");
+  };
+
+  const handleDisplayInsertBranch = () => {
+    setIsShowAdd(false);
+    handleClearInput();
   };
 
   useEffect(() => {
@@ -62,12 +73,19 @@ function Branch(props) {
         <div className="add_branch_container">
           <div
             className="go_back_button_container"
-            onClick={() => setIsShowAdd(false)}
+            onClick={handleDisplayInsertBranch}
           >
             <CaretLeft size={ICON_SIZE_BIG} />
           </div>
           <h3>Add branch</h3>
-          <AddBranch />
+          <AddBranch clearInput={handleDisplayInsertBranch} 
+            setAddress = {setAddress}
+            address = {address}
+            setName ={setName}
+            name = {name}
+            setDes = {setDes}
+            des = {des}
+          />
         </div>
       )}
       

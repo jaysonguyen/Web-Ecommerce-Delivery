@@ -3,11 +3,7 @@ import Input from "../../template/Input/Input";
 import { createBranch } from "../../../services/BranchService";
 import toast from "react-hot-toast";
 
-function AddBranch(props) {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [des, setDes] = useState("");
-
+function AddBranch({clearInput,setAddress,setDes,setName,name,address,des}) {
  
   const handleNameBranchOnChange = (e) => {
     setName(e.target.value);
@@ -18,20 +14,22 @@ function AddBranch(props) {
   const handleDesBranchOnChange = (e) => {
     setDes(e.target.value);
   };
-
+  
   const handleInsertBranch = async () => {
     try {
-      const insertInfor = {
+      const inserInfo = {
         name: name,
         address: address,
         des: des,
       };
-      const checkCreate = await createBranch(insertInfor);
-      console.log(checkCreate);
+      const checkCreate = await createBranch(inserInfo);
+      
       if (checkCreate != 200) {
         toast.error("insert failed");
       } else {
         toast.success("Insert success");
+        clearInput();
+        
       }
     } catch (error) {
       console.log(error);

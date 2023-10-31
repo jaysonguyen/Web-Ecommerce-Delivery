@@ -10,7 +10,7 @@ function Input({
   width = "100%",
   borderRadius = "10px",
   icon,
-  onChange = () => {},
+  onChange = function (v) {},
 }) {
   let style = {
     width: width,
@@ -26,9 +26,10 @@ function Input({
         {icon && <MyButton bgColor="transparent" prefix={icon} />}
         <input
           className="text_dark"
+          style={{ backgroundColor: "white" }}
           placeholder={placeholder}
           type={type}
-          onChange={(v) => onChange(v)}
+          onChange={onChange}
         />
       </div>
     </div>

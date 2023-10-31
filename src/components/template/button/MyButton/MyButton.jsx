@@ -17,6 +17,7 @@ export const MyButton = ({
   margin = "0",
   hoverColor,
   borderColor,
+  hide = false,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -41,7 +42,10 @@ export const MyButton = ({
       onMouseLeave={() => setIsHovered(false)}
       onClick={callback}
       style={style}
-      className="mybutton d-inline-flex justify-content-around align align-items-center"
+      className={
+        "mybutton d-inline-flex justify-content-around align align-items-center " +
+        (hide ? "d-none" : "")
+      }
     >
       {prefix && <div className="button-icon">{prefix}</div>}
       {text && <div>{text}</div>}

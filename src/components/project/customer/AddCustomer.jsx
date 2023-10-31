@@ -4,6 +4,8 @@ import Input from "../../template/Input/Input";
 import { Radio, X, PlusCircle } from "phosphor-react";
 import { Link } from "react-router-dom";
 import { Dropdown } from "../../index";
+import { createUser, insertUser } from "../../../services/UserService";
+import toast from "react-hot-toast";
 function AddCustomer(props) {
   const itemDropDown = [
     {
@@ -35,18 +37,29 @@ function AddCustomer(props) {
   ];
 
   const [name, setName] = useState("");
+  const [account, setAccount] = useState("");
   const [des, setDes] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = () => {
-    const user = {
-      fullName: name,
-      des: des,
-      email: email,
-      password: password,
-      role: "2",
-    };
+  const handleSubmit = async () => {
+    try {
+      let res = await insertUser({
+        name: name,
+        account: account,
+        email: email,
+        password: password,
+        role: "2",
+      });
+      if (res) {
+        toast.success("Create user successfully");
+      } else {
+        toast.error("Please try again");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Please try again");
+    }
   };
 
   return (
@@ -64,7 +77,9 @@ function AddCustomer(props) {
           <div className="title_add_cus">
             <h3>Add a new client</h3>
           </div>
-          <button className="btnSave">Save</button>
+          <button className="btnSave" onClick={handleSubmit}>
+            Save
+          </button>
         </div>
         <div className="row">
           <div className="col"></div>
@@ -75,15 +90,16 @@ function AddCustomer(props) {
                 <div className="row">
                   <div className="col-6">
                     <Input
-                      label={"First name"}
+                      label={"Name"}
                       placeholder={"Enter client's first name"}
-                      onChange={setName}
+                      onChange={(v) => setName(v.target.value)}
                     />
                   </div>
                   <div className="col-6">
                     <Input
-                      label={"Last name"}
+                      label={"Account"}
                       placeholder={"Enter client's last name"}
+                      onChange={(v) => setAccount(v.target.value)}
                     />
                   </div>
                 </div>
@@ -100,20 +116,37 @@ function AddCustomer(props) {
                     <Input
                       label={"Email address"}
                       placeholder={"Enter client's email address   "}
-                      onChange={setEmail}
+                      onChange={(v) => setEmail(v.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="info_phone_emailaddress">
+                <div className="row">
+                  <div className="col-6">
+                    <Input
+                      label={"Password"}
+                      placeholder={"Enter client's phone number"}
+                      onChange={(v) => setPassword(v.target.value)}
+                    />
+                  </div>
+                  <div className="col-6">
+                    <Input
+                      label={"Confirm Password"}
+                      placeholder={"Enter client's email address   "}
                     />
                   </div>
                 </div>
               </div>
               <div className="row">
-                <div className="col -6">
+                <div className="col-6">
                   <Dropdown
                     placeholder="Select an option"
                     label="Gender"
                     item={itemDropDown}
                   />
                 </div>
-                <div className="col -6">
+                <div className="col-6">
                   <Input
                     label={"Date of birth"}
                     placeholder={"Day and Month"}

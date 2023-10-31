@@ -16,6 +16,8 @@ export const MyTableRow = ({
   callback = function (data, type) {},
   handleCheck = function (e, data) {},
   handleGetData = function (e) {},
+  hideDetails = false,
+  hideDelete = false,
 }) => {
   const dispatch = useDispatch();
 
@@ -35,6 +37,11 @@ export const MyTableRow = ({
   useEffect(() => {
     handleGetData(data);
   }, []);
+
+  const handleActionButtons = async (data, type) => {
+    console.log("click");
+    await callback(data, type);
+  };
 
   return (
     <div style={rowStyle} className={className}>
@@ -63,7 +70,8 @@ export const MyTableRow = ({
                 text={"Details"}
                 margin="5px 15px"
                 borderRadius="20px"
-                callback={() => callback(data, "details")}
+                hide={hideDetails}
+                callback={() => handleActionButtons(data, "details")}
               />
               <MyButton
                 text={"Delete"}
@@ -71,7 +79,8 @@ export const MyTableRow = ({
                 borderRadius="20px"
                 bgColor="var(--color-error)"
                 fontColor="var(--text-white)"
-                callback={() => callback(data, "delete")}
+                hide={hideDelete}
+                callback={() => handleActionButtons(data, "delete")}
               />
             </div>
           }

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import Input from "../../template/Input/Input";
-import DropDown from "../../Dropdown/DropDown";
 import { insertUser } from "../../../services/UserService";
 import toast from "react-hot-toast";
-import { HttpStatusCode } from "axios";
 
 function AddStaff({
   setNameStaff,
