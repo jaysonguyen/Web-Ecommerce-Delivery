@@ -18,7 +18,7 @@ export const MyTableRow = ({
   handleCheck = function (e, data) {},
   handleGetData = function (e) {},
   hideDetails = false,
-  hideDelete = false,
+  hideDelete = true,
 }) => {
   const dispatch = useDispatch();
   const tableData = useSelector(tableSelector);
@@ -86,17 +86,17 @@ export const MyTableRow = ({
                 hide={hideDetails}
                 callback={() => handleActionButtons(data, "details")}
               />
-              <MyButton
-                text={"Delete"}
-                margin="5px 15px"
-                borderRadius="20px"
-                bgColor="var(--color-error)"
-                fontColor="var(--text-white)"
-                hide={hideDelete}
-                callback={() => {
-                  console.log(tableData.selectList);
-                }}
-              />
+              {/*<MyButton*/}
+              {/*  text={"Delete"}*/}
+              {/*  margin="5px 15px"*/}
+              {/*  borderRadius="20px"*/}
+              {/*  bgColor="var(--color-error)"*/}
+              {/*  fontColor="var(--text-white)"*/}
+              {/*  hide={hideDelete}*/}
+              {/*  callback={() => {*/}
+              {/*    console.log(tableData.selectList);*/}
+              {/*  }}*/}
+              {/*/>*/}
             </div>
           }
           width={``}

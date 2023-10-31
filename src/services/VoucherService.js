@@ -62,11 +62,10 @@ export const updateVoucher = async ({
     return error;
   }
 };
-
-export const deleteVoucher = async ({ id }) => {
+export const deleteVoucher = async (id) => {
   try {
-    const checkData = await axios.delete(`/api/voucher/${id}`);
-    return checkData.status;
+    let data = await axios.put(`/api/voucher/${id}`);
+    return data;
   } catch (error) {
     return error;
   }

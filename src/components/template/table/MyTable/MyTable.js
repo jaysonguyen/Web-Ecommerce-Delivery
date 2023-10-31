@@ -54,7 +54,7 @@ export const MyTable = ({
               isHeader={true}
             />
 
-            {list &&
+            {list.length > 0 &&
               list.map((e, index) => (
                 <MyTableRow
                   callback={handleActionButtons}
