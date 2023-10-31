@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Input from "../input/Input";
+import Input from "../Input/Input";
 import { MyButton } from "../../index.js";
 import { X } from "phosphor-react";
 import * as Icon from "phosphor-react";

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Input from "../../template/input/Input";
+import Input from "../../template/Input/Input";
 import DropDown from "../../Dropdown/DropDown";
 import { insertUser } from "../../../services/UserService";
 

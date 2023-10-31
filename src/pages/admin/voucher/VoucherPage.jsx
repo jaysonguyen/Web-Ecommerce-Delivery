@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { MyTable } from "../../../components/template/table/MyTable/MyTable";
-import { Dropdown, DetailCustomer } from "../../../components";
+import { DetailCustomer, Dropdown } from "../../../components";
 import { Link } from "react-router-dom";
 import "../../../assets/css/Pages/customer.css";
-import { getCustomerList, getUserList } from "../../../services/UserService";
+import { getUserList } from "../../../services/UserService";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { displaySelector } from "../../../selectors/displaySelector";
+import { getVoucherList } from "../../../services/VoucherService";
 
-function Customer(props) {
-  const [userSelected, setUserSelected] = useState({});
+function VoucherPage(props) {
+  const [voucherSelected, setUserSelected] = useState({});
   const [isShowDetail, setIsShowDetail] = useState(false);
-  const [userList, setUserList] = useState([]);
+  const [voucherList, setUserList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   // const [selectedList, setSelectedList] = useState([]);
 
@@ -26,7 +27,7 @@ function Customer(props) {
 
     setIsLoading(true);
     try {
-      const data = await getCustomerList();
+      const data = await getVoucherList();
       if (Array.isArray(data)) {
         setUserList(data);
       }
@@ -91,7 +92,7 @@ function Customer(props) {
                 <div className="header_bar_left_Cus ">
                   <div className="title_total_number_Cus">
                     <h3 className="title_Cus">Clients list </h3>
-                    <p className="total_number_Cus">{userList.length}</p>
+                    <p className="total_number_Cus">{voucherList.length}</p>
                   </div>
                   <p className="introduce_Cus">
                     View, add, edit and delete your client's details.{" "}
@@ -113,7 +114,7 @@ function Customer(props) {
           </div>
 
           <MyTable
-            list={userList}
+            list={voucherList}
             showCheckBox={true}
             callback={handleButtonAction}
             // select={selectedList}
@@ -125,11 +126,11 @@ function Customer(props) {
       {isShowDetail && (
         <DetailCustomer
           closeDetail={handleCloseDetail}
-          userSelected={userSelected}
+          voucherSelected={voucherSelected}
         />
       )}
     </div>
   );
 }
 
-export default Customer;
+export default VoucherPage;

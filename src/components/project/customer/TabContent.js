@@ -1,11 +1,12 @@
 import { Dropdown, Input } from "../../index";
 import { useEffect, useState } from "react";
-import { getUserById } from "../../../services/UserService";
+import { getStoreByUser, getUserById } from "../../../services/UserService";
 import { getBankList } from "../../../services/BankService";
 
 export const TabContent = ({ tab = "1", userID = "" }) => {
   const [bankList, setBankList] = useState([]);
   const [customerInfo, setCustomerInfo] = useState([]);
+  const [storeInfo, setStoreInfo] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const getBankData = async () => {
@@ -58,9 +59,9 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
 
     setIsLoading(true);
     try {
-      const data = await getUserById(userID);
+      const data = await getStoreByUser(userID);
       if (data != null) {
-        setCustomerInfo(data);
+        setStoreInfo(data);
       }
       return data;
     } catch (error) {
@@ -90,7 +91,7 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
       }
       case "4": {
         // store
-
+        await getStoreList();
         break;
       }
       default:
@@ -101,7 +102,7 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
   useEffect(() => {
     initData();
     console.log("fetch data tab");
-  }, [userID]);
+  }, [tab]);
 
   return (
     <>
@@ -143,8 +144,18 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
       )}
       {tab === "4" && (
         <div className="row">
-          <div className="col">4</div>
-          <div className="col">4</div>
+          <div className="col">
+            <Input placeholder={storeInfo.name} label="Name" />
+            <Input placeholder={storeInfo.des} label="Descript" />
+            <Input placeholder={storeInfo.address} label="Address" />
+            <Input placeholder={storeInfo.phone} label="Phone" />
+            <Input placeholder="" label="Total sales" />
+          </div>
+          <div className="col">
+            <Input placeholder={storeInfo.created} label="Created" />
+            <Input placeholder={storeInfo.updated} label="Updated" />
+            <button className="btnAdd btnAccount">Add new store</button>
+          </div>
         </div>
       )}
     </>
