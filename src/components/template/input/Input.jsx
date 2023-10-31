@@ -26,6 +26,7 @@ function Input({
         {icon && <MyButton bgColor="transparent" prefix={icon} />}
         <input
           className="text_dark"
+          style={{ backgroundColor: "white" }}
           placeholder={placeholder}
           type={type}
           onChange={onChange}

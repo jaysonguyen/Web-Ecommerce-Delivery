@@ -112,7 +112,7 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
             <Input placeholder={customerInfo.fullName} label="Name" />
             <Input placeholder={customerInfo.email} label="Email" />
             <Input placeholder={customerInfo.phone} label="Phone" />
-            <Input placeholder="" label="Total sales" />
+            <Input placeholder={customerInfo.des} label="Description" />
           </div>
           <div className="col">
             <div className="bank_account_info">
@@ -127,8 +127,9 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
               }
               className="dropdown_bank"
             />
-            <Input placeholder="Enter name" label="Account name" />
-            <Input placeholder="Enter account number" label="Account number" />
+            <Input placeholder={customerInfo.account} label="Account" />
+            <Input placeholder={customerInfo.created} label="Created" />
+            <Input placeholder={customerInfo.updated} label="Updated" />
             <button className="btnAdd btnAccount">Add new acount</button>
           </div>
         </div>
