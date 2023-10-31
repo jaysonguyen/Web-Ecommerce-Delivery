@@ -16,14 +16,58 @@ export const getVoucherById = async (id) => {
     return error;
   }
 };
-export const createVoucher = async (voucher) => {
+
+export const insertVoucher = async ({
+  name,
+  cost,
+  status,
+  quantity,
+  period,
+  used,
+}) => {
   try {
-    console.log(voucher);
-    let data = await axios.post(`/api/voucher/`, { ...voucher });
-    console.log(data);
-    return data.status === "200";
+    const checkData = await axios.post("/api/voucher", {
+      name,
+      cost,
+      status,
+      quantity,
+      period,
+      used,
+    });
+    return checkData.status;
   } catch (error) {
-    console.log(error.message);
-    return false;
+    return error;
+  }
+};
+
+export const updateVoucher = async ({
+  name,
+  cost,
+  status,
+  quantity,
+  period,
+  used,
+}) => {
+  try {
+    const checkData = await axios.put("/api/voucher", {
+      name,
+      cost,
+      status,
+      quantity,
+      period,
+      used,
+    });
+    return checkData.status;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const deleteVoucher = async ({ id }) => {
+  try {
+    const checkData = await axios.delete(`/api/voucher/${id}`);
+    return checkData.status;
+  } catch (error) {
+    return error;
   }
 };

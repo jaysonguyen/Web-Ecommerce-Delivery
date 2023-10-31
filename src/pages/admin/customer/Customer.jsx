@@ -3,7 +3,11 @@ import { MyTable } from "../../../components/template/table/MyTable/MyTable";
 import { Dropdown, DetailCustomer } from "../../../components";
 import { Link } from "react-router-dom";
 import "../../../assets/css/Pages/customer.css";
-import { getCustomerList, getUserList } from "../../../services/UserService";
+import {
+  deleteUser,
+  getCustomerList,
+  getUserList,
+} from "../../../services/UserService";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { displaySelector } from "../../../selectors/displaySelector";
@@ -27,10 +31,14 @@ function Customer(props) {
     setIsLoading(true);
     try {
       const data = await getCustomerList();
-      if (Array.isArray(data)) {
-        setUserList(data);
+      if (data.status == 200) {
+        if (Array.isArray(data.data)) {
+          setUserList(data.data);
+        }
+        return data;
+      } else {
+        toast.error(data.data);
       }
-      return data;
     } catch (error) {
       // Handle the error here
       return null;
@@ -55,7 +63,22 @@ function Customer(props) {
   //   }
   // };
 
+  const deleteUser = async (id) => {
+    try {
+      let res = await deleteUser(id);
+
+      if (res) {
+        toast.success("Delete successfully");
+      } else {
+        toast.error("Delete failed! Try again");
+      }
+    } catch (error) {
+      toast.error("Error from server");
+    }
+  };
+
   const handleButtonAction = async (data, type) => {
+    console.log("type: " + type);
     switch (type) {
       case "details": {
         await setUserSelected(data);
@@ -63,6 +86,8 @@ function Customer(props) {
         break;
       }
       case "delete": {
+        await deleteUser(data.id);
+        break;
       }
       default:
         break;

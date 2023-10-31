@@ -50,3 +50,12 @@ export const insertUser = async ({ name, account, email, password, role }) => {
     return error;
   }
 };
+
+export const deleteUser = async ({ id }) => {
+  try {
+    let data = await axios.delete(`/api/user/${id}`);
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
