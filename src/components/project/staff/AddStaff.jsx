@@ -47,14 +47,14 @@ function AddStaff({
 
   const handleInsertStaff = async () => {
     try {
-      const checkInsert = await insertUser(
-        nameStaff,
+      const checkInsert = await insertUser({
+        fullName: nameStaff,
         account,
         email,
         role,
-        phoneNum,
-        des
-      );
+        phone: phoneNum,
+        des,
+      });
       if (checkInsert != 200) {
         toast.error("insert failed");
       } else {

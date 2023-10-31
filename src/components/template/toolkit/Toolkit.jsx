@@ -7,6 +7,7 @@ export const Toolkit = ({
   borderRadius = "10px",
   bgColor = "var(--bg-light)",
   selectedList = [],
+  deleteCallback = function () {},
 }) => {
   const style = {
     backgroundColor: bgColor,
@@ -57,6 +58,7 @@ export const Toolkit = ({
             fontColor="var(--text-white)"
             hoverColor="var(--text-white)"
             borderRadius="5px"
+            callback={deleteCallback}
           />
         </div>
       </div>

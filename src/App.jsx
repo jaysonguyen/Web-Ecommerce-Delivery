@@ -13,6 +13,7 @@ import {
   SignOut,
   Table,
   UsersFour,
+  Wallet,
 } from "phosphor-react";
 import {
   ICON_SIZE_BIG,
@@ -44,9 +45,7 @@ function App() {
       },
       callback: () => {
         dispatch(
-          displaySlice.actions.displayNotification(
-            !display.displayNotification,
-          ),
+          displaySlice.actions.displayNotification(!display.displayNotification)
         );
       },
     },
@@ -69,7 +68,7 @@ function App() {
       position: "body",
     },
     {
-      icon: <UsersFour size={ICON_SIZE_BIG} />,
+      icon: <Wallet size={ICON_SIZE_BIG} />,
       label: "Voucher",
       link: URL_VOUCHER,
       position: "body",
@@ -102,7 +101,7 @@ function App() {
 
   const handleShowNotification = () => {
     dispatch(
-      displaySlice.actions.displayNotification(!display.isShowNotification),
+      displaySlice.actions.displayNotification(!display.isShowNotification)
     );
   };
 

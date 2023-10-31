@@ -16,13 +16,17 @@ function Input({
     width: width,
     borderRadius: borderRadius,
   };
+  let inputStyle = {
+    width: width,
+    borderRadius: borderRadius,
+  };
 
   return (
     <div className="input_container flex-direction-column" style={style}>
       {label && (
         <label className="text_dark font-weight-b text_gray">{label}</label>
       )}
-      <div className="d-flex">
+      <div className="d-flex input_content" style={inputStyle}>
         {icon && <MyButton bgColor="transparent" prefix={icon} />}
         <input
           className="text_dark"

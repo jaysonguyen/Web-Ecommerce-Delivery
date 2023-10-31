@@ -40,7 +40,7 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
     try {
       const data = await getUserById(userID);
       if (data != null) {
-        setCustomerInfo(data);
+        setCustomerInfo(data.data);
       }
       return data;
     } catch (error) {
@@ -78,7 +78,7 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
         //customer details
         await getCustomerDetails();
         await getBankData();
-        console.log(bankList.map((e) => ({ content: e.name })));
+        // console.log(bankList.map((e) => ({ content: e.name })));
         break;
       }
       case "2": {
@@ -112,7 +112,7 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
             <Input placeholder={customerInfo.fullName} label="Name" />
             <Input placeholder={customerInfo.email} label="Email" />
             <Input placeholder={customerInfo.phone} label="Phone" />
-            <Input placeholder="" label="Total sales" />
+            <Input placeholder={customerInfo.des} label="Description" />
           </div>
           <div className="col">
             <div className="bank_account_info">
@@ -121,11 +121,15 @@ export const TabContent = ({ tab = "1", userID = "" }) => {
             <Dropdown
               placeholder="Choose a bank"
               label="Bank"
-              item={bankList.map((e) => ({ content: e.name }))}
+              item={
+                bankList.length > 0 &&
+                bankList.map((e) => ({ content: e.name }))
+              }
               className="dropdown_bank"
             />
-            <Input placeholder="Enter name" label="Account name" />
-            <Input placeholder="Enter account number" label="Account number" />
+            <Input placeholder={customerInfo.account} label="Account" />
+            <Input placeholder={customerInfo.created} label="Created" />
+            <Input placeholder={customerInfo.updated} label="Updated" />
             <button className="btnAdd btnAccount">Add new acount</button>
           </div>
         </div>
