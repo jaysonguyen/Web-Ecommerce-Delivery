@@ -25,6 +25,7 @@ import {
   URL_BRANCH,
   URL_VOUCHER,
   URL_VOUCHER_ADD,
+  URL_PRODUCTTYPE,
 } from "./utils/constraint";
 
 import Customer from "./pages/admin/customer/Customer";
@@ -33,6 +34,7 @@ import { StaffPage } from "./pages/admin/staff/StaffPage";
 import { OrderPage } from "./pages/admin/order/OrderPage";
 import VoucherPage from "./pages/admin/voucher/VoucherPage";
 import AddVoucher from "./components/project/voucher/AddVoucher";
+import ProductType from "./pages/admin/productTyppe/ProductType";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +80,10 @@ const router = createBrowserRouter([
       {
         path: "/customer/add",
         element: <AddCustomer />,
+      },
+      {
+        path: URL_PRODUCTTYPE,
+        element: <ProductType/>
       },
       {
         path: URL_VOUCHER_ADD,

@@ -110,6 +110,7 @@ function AddStaff({
         </div>
         <div className="col col-6">
           <Input
+            type="email"
             onChange={handleEmailChange}
             label={"Email"}
             placeholder={data.email || ""}
@@ -124,12 +125,15 @@ function AddStaff({
         </div>
         <div className="col col-6">
           <Input
+            type="tel"
             onChange={handlePhoneNumChange}
             label={"Phone number"}
             placeholder={data.phoneNumber || ""}
+            pattern="[0-9]{3} [0-9]{3} [0-9]{4}"
           />
+          <small>Format: 090 140 7625</small><br></br>
         </div>
-        <div className="col col-12">
+        <div className="col col-6">
           <Input
             onChange={handleDesChange}
             label={"Description"}

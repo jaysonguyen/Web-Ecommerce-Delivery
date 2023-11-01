@@ -15,6 +15,7 @@ import {
   UsersFour,
   Graph,
   Wallet,
+  Archive,
 } from "phosphor-react";
 import {
   ICON_SIZE_BIG,
@@ -23,6 +24,7 @@ import {
   URL_ORDER,
   URL_BRANCH,
   URL_VOUCHER,
+  URL_PRODUCTTYPE,
 } from "./utils/constraint";
 import { StaffPage } from "./pages/admin/staff/StaffPage";
 import { Sidebar, AdminHeader } from "./components/index";
@@ -81,6 +83,12 @@ function App() {
       icon: <Wallet size={ICON_SIZE_BIG} />,
       label: "Voucher",
       link: URL_VOUCHER,
+      position: "body",
+    },
+    {
+      icon: <Archive size={ICON_SIZE_BIG} />,
+      label: "Product Type",
+      link: URL_PRODUCTTYPE,
       position: "body",
     },
     {

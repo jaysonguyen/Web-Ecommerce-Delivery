@@ -66,7 +66,7 @@ function AddVoucher(props) {
           <Input onChange={handleCostChange} label={"Cost"} />
         </div>
         <div className="col col-6">
-          <Input onChange={handleQuantityChange} label={"Quantity"} />
+          <Input onChange={handleQuantityChange} label={"Quantity"}  type="number"/>
         </div>
         <div className="col col-6">
           <Input onChange={handlePeriodChange} label={"Period"} />

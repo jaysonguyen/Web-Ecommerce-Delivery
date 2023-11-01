@@ -32,6 +32,7 @@
 .feature_of_customer {
   display: flex;
   justify-content: end;
+  align-items: center;
 }
 
 /* --------------------------------------------ADD CUSTOMER----------------------------------- */

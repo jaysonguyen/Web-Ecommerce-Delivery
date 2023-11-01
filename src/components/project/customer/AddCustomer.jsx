@@ -107,6 +107,7 @@ function AddCustomer({ showAdd = (v) => {} }) {
                 <div className="row">
                   <div className="col-6">
                     <Input
+                      type="tel"
                       label={"Phone number"}
                       placeholder={"Enter client's phone number"}
                       onChange={(v) => setPhone(v.target.value)}
@@ -114,6 +115,7 @@ function AddCustomer({ showAdd = (v) => {} }) {
                   </div>
                   <div className="col-6">
                     <Input
+                      type="email"
                       label={"Email address"}
                       placeholder={"Enter client's email address   "}
                       onChange={(v) => setEmail(v.target.value)}
@@ -125,6 +127,7 @@ function AddCustomer({ showAdd = (v) => {} }) {
                 <div className="row">
                   <div className="col-6">
                     <Input
+                      type="password"
                       label={"Password"}
                       placeholder={"Enter client's phone number"}
                       onChange={(v) => setPassword(v.target.value)}
@@ -132,6 +135,7 @@ function AddCustomer({ showAdd = (v) => {} }) {
                   </div>
                   <div className="col-6">
                     <Input
+                      type="password"
                       label={"Confirm Password"}
                       placeholder={"Enter client's email address   "}
                     />

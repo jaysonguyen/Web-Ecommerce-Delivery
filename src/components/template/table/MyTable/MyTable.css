@@ -1,6 +1,6 @@
 .myTable {
     /*width: max-content;*/
-    font-size: var(--text-size-content);
+    font-size: 13px;
 }
 
 .myTable h3{

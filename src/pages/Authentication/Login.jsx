@@ -26,7 +26,7 @@ function Login(props) {
         <dd>Đăng nhập mọi lúc mọi nơi</dd>
         <form>
           <Input label="Tài khoản" placeholder="Nhập tài khoản" />
-          <Input label="Mật khẩu" placeholder="Nhập mật khẩu" />
+          <Input label="Mật khẩu" placeholder="Nhập mật khẩu" type="password" />
           <Link to="/forget" className="forget_pass text_decoration_none">
             Quên mật khẩu
           </Link>

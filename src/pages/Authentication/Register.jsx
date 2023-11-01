@@ -47,19 +47,20 @@ function Register(props) {
               <Input label="Ngành hàng" placeholder="Nhập ngành hàng" />
             </div>
             <div className="col col-6">
-              <Input label="Số điện thoại" placeholder="Nhập số điện thoại" />
+              <Input label="Số điện thoại" placeholder="Nhập số điện thoại" type="tel" />
             </div>
             <div className="col col-6">
-              <Input label="Email" placeholder="Nhập email" />
+              <Input label="Email" placeholder="Nhập email" type="email" />
             </div>
             <div className="col col-6">
-              <Input label="Mật khẩu" placeholder="Nhập mật khẩu" />
+              <Input label="Mật khẩu" placeholder="Nhập mật khẩu" type="password"/>
             </div>
 
             <div className="col col-6">
               <Input
                 label="Nhập lại mật khẩu"
                 placeholder="Nhập lại mật khẩu"
+                type="password"
               />
             </div>
           </div>

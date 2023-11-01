@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./MyTable.css";
 import { MyTableRow } from "./MyTableRow";
 import { Toolkit } from "../../toolkit/Toolkit";
@@ -30,6 +30,8 @@ export const MyTable = ({
     await callback(data, type);
   };
 
+  const checkboxRef = useRef(true);
+  
   useEffect(() => {}, [select]);
 
   return (
@@ -66,6 +68,7 @@ export const MyTable = ({
                   hideDelete={hideDelete}
                   handleGetData={handleGetData}
                   actionsElement={actionsElement}
+                  
                 />
               ))}
           </div>
