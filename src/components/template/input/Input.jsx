@@ -10,6 +10,7 @@ function Input({
   width = "100%",
   borderRadius = "3px",
   icon,
+  value = "",
   onChange = function (v) {},
 }) {
   let style = {
@@ -31,6 +32,7 @@ function Input({
         <input
           className="text_dark"
           placeholder={placeholder}
+          value={value}
           type={type}
           onChange={onChange}
         />

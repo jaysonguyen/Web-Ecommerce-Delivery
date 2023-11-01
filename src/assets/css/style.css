@@ -200,6 +200,10 @@ a {
   margin: 20% auto;
 }
 
+.header_conatiner {
+  margin-bottom: calc(var(--admin-header-height) + 20px);
+}
+
 /*CUSTOM STYLE*/
 .title_table {
   margin-bottom: 0;

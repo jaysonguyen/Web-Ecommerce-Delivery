@@ -5,6 +5,7 @@ const consumerSlice = createSlice({
   initialState: {
     staffList: [],
     shipperList: [],
+    userCurrentInfo: {},
   },
   reducers: {
     setStaffList: (state, action) => {
@@ -12,6 +13,9 @@ const consumerSlice = createSlice({
     },
     setShipperList: (state, action) => {
       state.shipperList = action.payload;
+    },
+    setUserCurrentInfo: (state, action) => {
+      state.userCurrentInfo = action.payload;
     },
   },
 });

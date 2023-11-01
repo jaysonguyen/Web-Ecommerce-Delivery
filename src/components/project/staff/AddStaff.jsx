@@ -23,30 +23,6 @@ function AddStaff({
   fetchStaff,
   fetchShipper,
 }) {
-  const handleNameStaffOnChange = (e) => {
-    setNameStaff(e.target.value);
-  };
-
-  const handleAccountChange = (e) => {
-    setAccount(e.target.value);
-  };
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handleRoleChange = (e) => {
-    setRole(e.target.value);
-  };
-
-  const handlePhoneNumChange = (e) => {
-    setPhoneNum(e.target.value);
-  };
-
-  const handleDesChange = (e) => {
-    setDes(e.target.value);
-  };
-
   const handleInsertStaff = async () => {
     try {
       const checkInsert = await insertUser({
@@ -96,42 +72,48 @@ function AddStaff({
       <div className="row">
         <div className="col col-6">
           <Input
-            onChange={handleNameStaffOnChange}
+            onChange={(e) => setNameStaff(e.target.value)}
             label={"Full name"}
+            value={nameStaff}
             placeholder={data.fullName || ""}
           />
         </div>
         <div className="col col-6">
           <Input
-            onChange={handleAccountChange}
+            onChange={(e) => setAccount(e.target.value)}
             label={"Account"}
+            value={account}
             placeholder={data.account || ""}
           />
         </div>
         <div className="col col-6">
           <Input
-            onChange={handleEmailChange}
+            onChange={(e) => setEmail(e.target.value)}
             label={"Email"}
+            value={email}
             placeholder={data.email || ""}
           />
         </div>
         <div className="col col-6">
           <Input
-            onChange={handleRoleChange}
+            onChange={(e) => setRole(e.target.value)}
             label={"Role"}
+            value={role}
             placeholder={data.roleName || ""}
           />
         </div>
         <div className="col col-6">
           <Input
-            onChange={handlePhoneNumChange}
+            onChange={(e) => setPhoneNum(e.target.value)}
             label={"Phone number"}
+            value={phoneNum}
             placeholder={data.phoneNumber || ""}
           />
         </div>
         <div className="col col-12">
           <Input
-            onChange={handleDesChange}
+            value={des}
+            onChange={(e) => setDes(e.target.value)}
             label={"Description"}
             placeholder={data.des || ""}
           />

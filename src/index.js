@@ -15,6 +15,7 @@ import Forget from "./pages/Authentication/Forget";
 import Register from "./pages/Authentication/Register";
 import Branch from "./pages/admin/branch/Branch";
 import { Table } from "phosphor-react";
+import OrderCustomer from "./pages/customer/OrderCustomerPage";
 import StatusButton from "./components/project/order/StatusButton";
 import {
   URL_STAFF,
@@ -41,7 +42,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <StaffPage />,
+        element: <Login />,
       },
       {
         path: URL_STAFF,
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
         path: "/statusbutton",
         element: <StatusButton />,
       },
+      {
+        path: "/order",
+        element: <OrderCustomer />,
+      },
     ],
   },
 ]);
@@ -96,7 +101,7 @@ root.render(
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -165,21 +165,25 @@ export const TabContent = ({
         <div className="row">
           <div className="col">
             <Input
+              value={nameUser}
               onChange={handleNameUser}
               placeholder={customerInfo.fullName}
               label="Name"
             />
             <Input
+              value={email}
               onChange={handleEmailChange}
               placeholder={customerInfo.email}
               label="Email"
             />
             <Input
+              value={phoneNum}
               onChange={handlePhoneNumChange}
               placeholder={customerInfo.phone}
               label="Phone"
             />
             <Input
+              value={des}
               onChange={handleDesChange}
               placeholder={customerInfo.des}
               label="Description"
@@ -222,28 +226,24 @@ export const TabContent = ({
         </div>
       )}
       {tab === "4" && (
-        
         <div>
-            <button className="btnAdd btnAccount">Add new store</button>
-        {storeInfo.map((info,i) => (
+          <button className="btnAdd btnAccount">Add new store</button>
+          {storeInfo.map((info, i) => (
             <div className="row store_frame" key={i}>
-            <div className="col">
-              <Input placeholder={info.name} label="Name" />
-              <Input placeholder={info.des} label="Descript" />
-              <Input placeholder={info.address} label="Address" />
-              
-              
+              <div className="col">
+                <Input placeholder={info.name} label="Name" />
+                <Input placeholder={info.des} label="Descript" />
+                <Input placeholder={info.address} label="Address" />
+              </div>
+              <div className="col">
+                <Input placeholder={info.phone} label="Phone" />
+                <Input placeholder={info.created} label="Created" />
+                <Input placeholder={info.updated} label="Updated" />
+                <button className="btnAdd btnAccount">Delete</button>
+              </div>
             </div>
-            <div className="col">
-            <Input placeholder={info.phone} label="Phone" />
-              <Input placeholder={info.created} label="Created" />
-              <Input placeholder={info.updated} label="Updated" />
-              <button className="btnAdd btnAccount">Delete</button>
-            </div>
-          </div>
-          ))
-        }
-         </div>
+          ))}
+        </div>
       )}
     </>
   );

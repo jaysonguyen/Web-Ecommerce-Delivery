@@ -18,3 +18,4 @@ export const URL_GET_SHIPPER = "/api/user/shipper";
 export const URL_GET_CUSTOMER = "/api/user/customer";
 export const URL_INSERT_USER = "/api/user";
 export const URL_USER = "/api/user";
+export const URL_LOGIN_CUSTOMER = "/api/authentication";
