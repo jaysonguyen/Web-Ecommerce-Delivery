@@ -10,17 +10,18 @@ import { tableSelector } from "../../../selectors/consumerSelector";
 import { deleteUser } from "../../../services/UserService";
 import toast from "react-hot-toast";
 import tableSlice from "../../../features/table/tableSlice";
-import { Dropdown } from "../../../components";
 
 function Branch(props) {
   const [branchList, setBranchList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isShowAdd, setIsShowAdd] = useState(false);
-  const [name, setName] = useState("");
+  const [nameBranch, setNameBranch] = useState("");
   const [address, setAddress] = useState("");
   const [des, setDes] = useState("");
   const tableData = useSelector(tableSelector);
   const dispatch = useDispatch();
+  const [data, setData] = useState();
+  const [buttonType, setButtonType] = useState("Add");
 
   const itemOptions = [
     {
@@ -50,7 +51,7 @@ function Branch(props) {
     }
   };
   const handleClearInput = () => {
-    setName("");
+    setNameBranch("");
     setAddress("");
     setDes("");
   };
@@ -117,9 +118,9 @@ function Branch(props) {
           </div>
           <MyTable
             showCheckBox={true}
+            title={"Branch List"}
             list={branchList}
             deleteCallback={handleDelete}
-            hideDetails={true}
           />
         </>
       )}
@@ -136,10 +137,12 @@ function Branch(props) {
             clearInput={handleDisplayInsertBranch}
             setAddress={setAddress}
             address={address}
-            setName={setName}
-            name={name}
+            setNameBranch={setNameBranch}
+            nameBranch={nameBranch}
             setDes={setDes}
+            buttonType={buttonType}
             des={des}
+            data={data}
           />
         </div>
       )}

@@ -41,7 +41,9 @@ function AddCustomer({ showAdd = (v) => {} }) {
   const [phone, setPhone] = useState("");
   const [des, setDes] = useState("");
   const [email, setEmail] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
   const [password, setPassword] = useState("");
+  const [gender, setGender] = useState("Male");
 
   const handleSubmit = async () => {
     try {
@@ -90,6 +92,7 @@ function AddCustomer({ showAdd = (v) => {} }) {
                   <div className="col-6">
                     <Input
                       label={"Name"}
+                      value={name}
                       placeholder={"Enter client's first name"}
                       onChange={(v) => setName(v.target.value)}
                     />
@@ -97,6 +100,7 @@ function AddCustomer({ showAdd = (v) => {} }) {
                   <div className="col-6">
                     <Input
                       label={"Account"}
+                      value={account}
                       placeholder={"Enter client's last name"}
                       onChange={(v) => setAccount(v.target.value)}
                     />
@@ -107,7 +111,7 @@ function AddCustomer({ showAdd = (v) => {} }) {
                 <div className="row">
                   <div className="col-6">
                     <Input
-                      type="tel"
+                      value={phone}
                       label={"Phone number"}
                       placeholder={"Enter client's phone number"}
                       onChange={(v) => setPhone(v.target.value)}
@@ -115,7 +119,7 @@ function AddCustomer({ showAdd = (v) => {} }) {
                   </div>
                   <div className="col-6">
                     <Input
-                      type="email"
+                      value={email}
                       label={"Email address"}
                       placeholder={"Enter client's email address   "}
                       onChange={(v) => setEmail(v.target.value)}
@@ -127,7 +131,7 @@ function AddCustomer({ showAdd = (v) => {} }) {
                 <div className="row">
                   <div className="col-6">
                     <Input
-                      type="password"
+                      value={password}
                       label={"Password"}
                       placeholder={"Enter client's phone number"}
                       onChange={(v) => setPassword(v.target.value)}
@@ -135,7 +139,8 @@ function AddCustomer({ showAdd = (v) => {} }) {
                   </div>
                   <div className="col-6">
                     <Input
-                      type="password"
+                      value={confirmPass}
+                      onChange={(e) => setConfirmPass(e.target.value)}
                       label={"Confirm Password"}
                       placeholder={"Enter client's email address   "}
                     />

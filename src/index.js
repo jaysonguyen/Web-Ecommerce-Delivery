@@ -14,6 +14,8 @@ import Login from "./pages/Authentication/Login";
 import Forget from "./pages/Authentication/Forget";
 import Register from "./pages/Authentication/Register";
 import Branch from "./pages/admin/branch/Branch";
+import { Table } from "phosphor-react";
+import OrderCustomer from "./pages/customer/OrderCustomerPage";
 import StatusButton from "./components/project/order/StatusButton";
 import {
   URL_STAFF,
@@ -34,8 +36,6 @@ import { StaffPage } from "./pages/admin/staff/StaffPage";
 import { OrderPage } from "./pages/admin/order/OrderPage";
 import VoucherPage from "./pages/admin/voucher/VoucherPage";
 import AddVoucher from "./components/project/voucher/AddVoucher";
-import ProductType from "./pages/admin/productTyppe/ProductType";
-import CityPage from "./pages/admin/city/CityPage";
 
 const router = createBrowserRouter([
   {
@@ -97,6 +97,10 @@ const router = createBrowserRouter([
       {
         path: "/statusbutton",
         element: <StatusButton />,
+      },
+      {
+        path: "/order",
+        element: <OrderCustomer />,
       },
     ],
   },

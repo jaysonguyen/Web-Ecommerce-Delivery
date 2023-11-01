@@ -54,7 +54,7 @@ p {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 99%;
+  font-size: 100%;
 }
 
 ol,
@@ -204,6 +204,10 @@ a {
   text-align: center;
 }
 
+.header_conatiner {
+  margin-bottom: calc(var(--admin-header-height) + 20px);
+}
+
 /*CUSTOM STYLE*/
 .title_table {
   margin-bottom: 0;
@@ -237,4 +241,3 @@ a {
 .pd-bt-10 {
   padding-bottom: 10px;
 }
-

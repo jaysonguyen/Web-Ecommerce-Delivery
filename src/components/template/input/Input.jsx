@@ -32,6 +32,7 @@ function Input({
         <input
           className="text_dark"
           placeholder={placeholder}
+          value={value}
           type={type}
           defaultValue={value}
           onChange={onChange}
