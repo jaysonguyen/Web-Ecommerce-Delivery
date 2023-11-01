@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { MyTable } from "../../../components/template/table/MyTable/MyTable";
-import { Dropdown, DetailCustomer, AddCustomer } from "../../../components";
+import { Dropdown } from "../../../components";
 import "../../../assets/css/Pages/customer.css";
-import { deleteUser, getCustomerList } from "../../../services/UserService";
+import { deleteCity, getCityList } from "../../../services/CityService";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { tableSelector } from "../../../selectors/consumerSelector";
 import tableSlice from "../../../features/table/tableSlice";
+import DetailCity from "../../../components/project/city/DetailCity";
+import AddCity from "../../../components/project/city/AddCity";
 
-function Customer(props) {
-  const [userSelected, setUserSelected] = useState({});
+function City(props) {
+  const [citySelected, setCitySelected] = useState({});
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [isShowAdd, setIsShowAdd] = useState(false);
-  const [userList, setUserList] = useState([]);
+  const [cityList, setCityList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const tableData = useSelector(tableSelector);
   const dispatch = useDispatch();
@@ -25,10 +27,10 @@ function Customer(props) {
 
     setIsLoading(true);
     try {
-      const data = await getCustomerList();
-      if (data.status == 200) {
+      const data = await getCityList();
+      if (data.status === 200) {
         if (Array.isArray(data.data)) {
-          setUserList(data.data);
+          setCityList(data.data);
         }
         return data;
       } else {
@@ -50,12 +52,12 @@ function Customer(props) {
   const handleButtonAction = async (data, type) => {
     switch (type) {
       case "details": {
-        await setUserSelected(data);
+        await setCitySelected(data);
         await setIsShowDetail(true);
         break;
       }
       case "delete": {
-        await deleteUser(data.id);
+        await deleteCity(data.id);
         break;
       }
       default:
@@ -72,7 +74,7 @@ function Customer(props) {
       return;
     }
     for (let i = 0; i < list.length; i++) {
-      let res = await deleteUser(list[i].id);
+      let res = await deleteCity(list[i].id);
       if (!res) {
         toast.error("Something went wrong");
         return;
@@ -102,7 +104,7 @@ function Customer(props) {
                 <div className="header_bar_left_Cus ">
                   <div className="title_total_number_Cus">
                     <h3 className="title_Cus">Clients list </h3>
-                    <p className="total_number_Cus">{userList.length}</p>
+                    <p className="total_number_Cus">{cityList.length}</p>
                   </div>
                   <p className="introduce_Cus">
                     View, add, edit and delete your client's details.{" "}
@@ -124,7 +126,7 @@ function Customer(props) {
           </div>
 
           <MyTable
-            list={userList}
+            list={cityList}
             showCheckBox={true}
             callback={handleButtonAction}
             deleteCallback={handleDelete}
@@ -134,19 +136,19 @@ function Customer(props) {
       )}
 
       {isShowDetail && (
-        <DetailCustomer
+        <DetailCity
           closeDetail={handleCloseDetail}
-          userSelected={userSelected}
+          citySelected={citySelected}
         />
       )}
 
       {isShowAdd && (
         <div className="add_employee_container">
-          <AddCustomer showAdd={setIsShowAdd} />
+          <AddCity showAdd={setIsShowAdd} />
         </div>
       )}
     </div>
   );
 }
 
-export default Customer;
+export default City;

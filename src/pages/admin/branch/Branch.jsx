@@ -10,6 +10,7 @@ import { tableSelector } from "../../../selectors/consumerSelector";
 import { deleteUser } from "../../../services/UserService";
 import toast from "react-hot-toast";
 import tableSlice from "../../../features/table/tableSlice";
+import { Dropdown } from "../../../components";
 
 function Branch(props) {
   const [branchList, setBranchList] = useState([]);
@@ -20,6 +21,15 @@ function Branch(props) {
   const [des, setDes] = useState("");
   const tableData = useSelector(tableSelector);
   const dispatch = useDispatch();
+
+  const itemOptions = [
+    {
+      content: "Export as Excel",
+    },
+    {
+      content: "Import clients",
+    },
+  ];
 
   const getBranchData = async () => {
     if (isLoading) {
@@ -32,7 +42,7 @@ function Branch(props) {
         console.log(data.data);
         setBranchList(data);
       }
-      return data.data;
+      return;
     } catch (error) {
       return null;
     } finally {
@@ -79,15 +89,34 @@ function Branch(props) {
     <div className="padding-body">
       {!isShowAdd && (
         <>
-          <button
-            className="btnBranch btnAdd"
-            onClick={() => setIsShowAdd(true)}
-          >
-            Add branch
-          </button>
+          <div className="header_of_customer">
+            <div className="row">
+              <div className="col-8">
+                <div className="header_bar_left_Cus ">
+                  <div className="title_total_number_Cus">
+                    <h3 className="title_Cus">Branch list </h3>
+                    <p className="total_number_Cus">{branchList.length}</p>
+                  </div>
+                  <p className="introduce_Cus">
+                    View, add, edit and delete your branch's details.{" "}
+                  </p>
+                </div>
+              </div>
+
+              <div className="col-4">
+                <div className="feature_of_customer">
+                  <div className="option_dropdown">
+                    <Dropdown placeholder="Options" item={itemOptions} />
+                  </div>
+                  <button className="btnAdd" onClick={() => setIsShowAdd(true)}>
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
           <MyTable
             showCheckBox={true}
-            title={"Branch List"}
             list={branchList}
             deleteCallback={handleDelete}
           />

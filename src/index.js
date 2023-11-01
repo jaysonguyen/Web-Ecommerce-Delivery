@@ -14,7 +14,6 @@ import Login from "./pages/Authentication/Login";
 import Forget from "./pages/Authentication/Forget";
 import Register from "./pages/Authentication/Register";
 import Branch from "./pages/admin/branch/Branch";
-import { Table } from "phosphor-react";
 import StatusButton from "./components/project/order/StatusButton";
 import {
   URL_STAFF,
@@ -25,6 +24,7 @@ import {
   URL_BRANCH,
   URL_VOUCHER,
   URL_VOUCHER_ADD,
+  URL_CITY,
 } from "./utils/constraint";
 
 import Customer from "./pages/admin/customer/Customer";
@@ -33,6 +33,7 @@ import { StaffPage } from "./pages/admin/staff/StaffPage";
 import { OrderPage } from "./pages/admin/order/OrderPage";
 import VoucherPage from "./pages/admin/voucher/VoucherPage";
 import AddVoucher from "./components/project/voucher/AddVoucher";
+import CityPage from "./pages/admin/city/CityPage";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: URL_VOUCHER,
         element: <VoucherPage />,
+      },
+      {
+        path: URL_CITY,
+        element: <CityPage />,
       },
       {
         path: URL_ORDER,

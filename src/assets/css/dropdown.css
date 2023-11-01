@@ -1,6 +1,6 @@
 .dropdown_container {
   justify-content: space-between;
-  margin: 10px 0;
+  /*margin: 10px 0;*/
   padding: 10px 10px;
   border-radius: var(--border-radius);
   cursor: pointer;

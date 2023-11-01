@@ -14,11 +14,10 @@ export const MyTable = ({
   title,
   actionsElement,
   hideDetails = false,
-  hideDelete = false,
   handleGetData = function (e) {},
 }) => {
   const headers = list.length > 0 ? Object.keys(list[0]) : [];
-  headers.push("Thao tác");
+  !hideDetails && headers.push("Thao tác");
 
   const testCheck = (e, data) => {
     console.log("test check function");
@@ -52,6 +51,7 @@ export const MyTable = ({
               showCheckBox={showCheckBox}
               data={headers}
               isHeader={true}
+              cellContentCenter={false}
             />
 
             {list.length > 0 &&
@@ -63,7 +63,6 @@ export const MyTable = ({
                   key={index}
                   data={e}
                   hideDetails={hideDetails}
-                  hideDelete={hideDelete}
                   handleGetData={handleGetData}
                   actionsElement={actionsElement}
                 />

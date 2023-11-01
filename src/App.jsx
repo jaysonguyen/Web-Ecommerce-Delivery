@@ -23,6 +23,7 @@ import {
   URL_ORDER,
   URL_BRANCH,
   URL_VOUCHER,
+  URL_CITY,
 } from "./utils/constraint";
 import { StaffPage } from "./pages/admin/staff/StaffPage";
 import { Sidebar, AdminHeader } from "./components/index";
@@ -47,7 +48,9 @@ function App() {
       },
       callback: () => {
         dispatch(
-          displaySlice.actions.displayNotification(!display.displayNotification)
+          displaySlice.actions.displayNotification(
+            !display.displayNotification,
+          ),
         );
       },
     },
@@ -71,13 +74,17 @@ function App() {
     },
     {
       icon: <Graph size={ICON_SIZE_BIG} />,
+      label: "City",
+      link: URL_CITY,
+      position: "body",
+    },
+    {
+      icon: <Graph size={ICON_SIZE_BIG} />,
       label: "Branch",
       link: URL_BRANCH,
       position: "body",
     },
     {
-     
-
       icon: <Wallet size={ICON_SIZE_BIG} />,
       label: "Voucher",
       link: URL_VOUCHER,
@@ -111,7 +118,7 @@ function App() {
 
   const handleShowNotification = () => {
     dispatch(
-      displaySlice.actions.displayNotification(!display.isShowNotification)
+      displaySlice.actions.displayNotification(!display.isShowNotification),
     );
   };
 

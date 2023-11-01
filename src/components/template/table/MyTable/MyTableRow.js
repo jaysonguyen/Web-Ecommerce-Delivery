@@ -15,10 +15,10 @@ export const MyTableRow = ({
   isHeader = false,
   showCheckBox = false,
   callback = function (data, type) {},
-  handleCheck = function (e, data) {},
   handleGetData = function (e) {},
   hideDetails = false,
-  hideDelete = true,
+  cellContentCenter = false,
+  actionsElement = [<></>],
 }) => {
   const dispatch = useDispatch();
   const tableData = useSelector(tableSelector);
@@ -72,10 +72,25 @@ export const MyTableRow = ({
       </div>
       {Object.values(data).map((e, index) => {
         if (index === 0)
-          return <MyTableCell key={index} data={e} width={`-1`} />;
-        return <MyTableCell key={index} data={e} width={``} />;
+          return (
+            <MyTableCell
+              key={index}
+              data={e}
+              width={`-1`}
+              center={cellContentCenter}
+            />
+          );
+        return (
+          <MyTableCell
+            key={index}
+            data={e}
+            width={``}
+            center={cellContentCenter}
+          />
+        );
       })}
-      {!isHeader && (
+
+      {!isHeader && !hideDetails && (
         <MyTableCell
           data={
             <div>
@@ -83,20 +98,8 @@ export const MyTableRow = ({
                 text={"Details"}
                 margin="5px 15px"
                 borderRadius="20px"
-                hide={hideDetails}
                 callback={() => handleActionButtons(data, "details")}
               />
-              {/*<MyButton*/}
-              {/*  text={"Delete"}*/}
-              {/*  margin="5px 15px"*/}
-              {/*  borderRadius="20px"*/}
-              {/*  bgColor="var(--color-error)"*/}
-              {/*  fontColor="var(--text-white)"*/}
-              {/*  hide={hideDelete}*/}
-              {/*  callback={() => {*/}
-              {/*    console.log(tableData.selectList);*/}
-              {/*  }}*/}
-              {/*/>*/}
             </div>
           }
           width={``}
