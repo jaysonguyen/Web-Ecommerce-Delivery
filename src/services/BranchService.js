@@ -22,6 +22,15 @@ export const createBranch = async ({ name, address, des }) => {
   }
 };
 
+export const updateBranch = async (branchInfo) => {
+  try {
+    const data = await axios.put("/api/branch", branchInfo);
+    return data.status;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const deleteBranch = async (id) => {
   try {
     let data = await axios.put(`/api/branch/${id}`);

@@ -1,14 +1,43 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import displaySlice from "../../features/Display/displaySlice";
 import { loginBackground } from "../../assets/img/index";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //css
 import "../../assets/css/Pages/login.css";
 import { Input } from "../../components/index";
+import { loginCustomer } from "../../services/UserService";
+import consumerSlice from "../../features/consumer/consumerSlice";
+import toast from "react-hot-toast";
 function Login(props) {
   const dispatch = useDispatch();
+  const [account, setAccount] = useState("");
+  const [pass, setPass] = useState("");
+  const navigation = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const checkLogin = await loginCustomer({ account, password: pass });
+      if (checkLogin.status == 200) {
+        dispatch(consumerSlice.actions.setUserCurrentInfo(checkLogin.data));
+        toast.success("Login successfully");
+        dispatch(displaySlice.actions.displaySidebar(true));
+        dispatch(displaySlice.actions.displayHeader(true));
+        if (checkLogin.data?.role?.roleId != 2) {
+          navigation("/");
+        } else {
+          navigation("/order");
+        }
+      } else {
+        toast.error("Login failed");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error from server" + error);
+    }
+  };
 
   useEffect(() => {
     dispatch(displaySlice.actions.displaySidebar(false));
@@ -25,12 +54,25 @@ function Login(props) {
         </h6>
         <dd>Đăng nhập mọi lúc mọi nơi</dd>
         <form>
-          <Input label="Tài khoản" placeholder="Nhập tài khoản" />
-          <Input label="Mật khẩu" placeholder="Nhập mật khẩu" type="password" />
+          <Input
+            value={account}
+            onChange={(e) => setAccount(e.target.value)}
+            label="Tài khoản"
+            placeholder="Nhập tài khoản"
+          />
+          <Input
+            value={pass}
+            onChange={(e) => setPass(e.target.value)}
+            label="Mật khẩu"
+            placeholder="Nhập mật khẩu"
+          />
           <Link to="/forget" className="forget_pass text_decoration_none">
             Quên mật khẩu
           </Link>
-          <button className="button_login button button_primary font-weight-b">
+          <button
+            onClick={handleLogin}
+            className="button_login button button_primary font-weight-b"
+          >
             Đăng nhập
           </button>
           <div className="text_center">

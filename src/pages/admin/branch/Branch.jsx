@@ -16,11 +16,13 @@ function Branch(props) {
   const [branchList, setBranchList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isShowAdd, setIsShowAdd] = useState(false);
-  const [name, setName] = useState("");
+  const [nameBranch, setNameBranch] = useState("");
   const [address, setAddress] = useState("");
   const [des, setDes] = useState("");
   const tableData = useSelector(tableSelector);
   const dispatch = useDispatch();
+  const [data, setData] = useState();
+  const [buttonType, setButtonType] = useState("Add");
 
   const itemOptions = [
     {
@@ -50,7 +52,7 @@ function Branch(props) {
     }
   };
   const handleClearInput = () => {
-    setName("");
+    setNameBranch("");
     setAddress("");
     setDes("");
   };
@@ -80,6 +82,29 @@ function Branch(props) {
     getBranchData();
   };
 
+  const handleButtonAction = async (data, type) => {
+    switch (type) {
+      case "details": {
+        await setIsShowAdd(true);
+        await setData(data);
+        await setButtonType("Save");
+        break;
+      }
+      case "delete": {
+        console.log(type);
+        break;
+      }
+      default:
+        break;
+    }
+  };
+
+  const handleAddButton = async () => {
+    await setIsShowAdd(true);
+    await setButtonType("Add");
+    setData({});
+  };
+
   useEffect(() => {
     dispatch(tableSlice.actions.handleSelected([]));
     getBranchData();
@@ -89,6 +114,7 @@ function Branch(props) {
     <div className="padding-body">
       {!isShowAdd && (
         <>
+
           <div className="header_of_customer">
             <div className="row">
               <div className="col-8">
@@ -115,8 +141,13 @@ function Branch(props) {
               </div>
             </div>
           </div>
+
+         
           <MyTable
             showCheckBox={true}
+           
+            callback={handleButtonAction}
+
             list={branchList}
             deleteCallback={handleDelete}
             hideDetails={true}
@@ -136,10 +167,12 @@ function Branch(props) {
             clearInput={handleDisplayInsertBranch}
             setAddress={setAddress}
             address={address}
-            setName={setName}
-            name={name}
+            setNameBranch={setNameBranch}
+            nameBranch={nameBranch}
             setDes={setDes}
+            buttonType={buttonType}
             des={des}
+            data={data}
           />
         </div>
       )}

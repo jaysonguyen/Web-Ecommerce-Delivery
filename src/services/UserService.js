@@ -3,6 +3,7 @@ import axios from "../config/axios";
 import {
   URL_GET_CUSTOMER,
   URL_GET_SHIPPER,
+  URL_LOGIN_CUSTOMER,
   URL_USER,
 } from "../utils/constraint";
 
@@ -62,6 +63,15 @@ export const updateUSer = async (obj) => {
   try {
     const checkData = await axios.put(URL_USER, obj);
     return checkData.status;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const loginCustomer = async (data) => {
+  try {
+    const checkData = await axios.post(URL_LOGIN_CUSTOMER, data);
+    return checkData;
   } catch (error) {
     return error;
   }

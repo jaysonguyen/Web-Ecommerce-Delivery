@@ -1,0 +1,14 @@
+.orderCustomerPage {
+    margin: 20px;
+}
+
+.product_info_box,
+.order_side_box {
+    margin-bottom: 20px;
+}
+
+.product_info_box,
+.receive_side_box h6,
+.order_side_box h6{
+  color: var(--primary-color);
+}

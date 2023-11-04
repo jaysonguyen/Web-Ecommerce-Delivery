@@ -26,10 +26,13 @@ import {
   URL_VOUCHER,
   URL_PRODUCTTYPE,
   URL_CITY,
+  URL_LOGIN,
 } from "./utils/constraint";
 import { StaffPage } from "./pages/admin/staff/StaffPage";
 import { Sidebar, AdminHeader } from "./components/index";
 import { displaySelector } from "./selectors/displaySelector";
+import { consumerSelector } from "./selectors/consumerSelector";
+
 import { useDispatch, useSelector } from "react-redux";
 import displaySlice from "./features/Display/displaySlice";
 import React, { useEffect } from "react";
@@ -38,6 +41,7 @@ import { getStaffList } from "./services/StaffService";
 
 function App() {
   const display = useSelector(displaySelector);
+  const consumer = useSelector(consumerSelector);
   const dispatch = useDispatch();
   const sidebarContent = [
     {
@@ -61,18 +65,21 @@ function App() {
       label: "Customer",
       link: URL_CUSTOMER,
       position: "body",
+      role: "admin",
     },
     {
       icon: <ListNumbers size={ICON_SIZE_BIG} />,
       label: "Order",
       link: URL_ORDER,
       position: "body",
+      role: "admin",
     },
     {
       icon: <UsersFour size={ICON_SIZE_BIG} />,
       label: "Employee",
       link: URL_STAFF,
       position: "body",
+      role: "admin",
     },
     {
       icon: <Graph size={ICON_SIZE_BIG} />,
@@ -85,12 +92,14 @@ function App() {
       label: "Branch",
       link: URL_BRANCH,
       position: "body",
+      role: "admin",
     },
     {
       icon: <Wallet size={ICON_SIZE_BIG} />,
       label: "Voucher",
       link: URL_VOUCHER,
       position: "body",
+      role: "admin",
     },
    
     {
@@ -120,7 +129,7 @@ function App() {
     {
       icon: <SignOut size={ICON_SIZE_BIG} />,
       label: "Logout",
-      link: URL_STAFF,
+      link: URL_LOGIN,
       position: "sub",
     },
   ];
@@ -144,12 +153,13 @@ function App() {
           tab={sidebarContent}
         />
       )}
-      <div className="content_container">
-        {/* {display.isShowHeader && (
-          <div>
-            <AdminHeader />
-          </div>
-        )} */}
+      <div className={display.isShowSidebar && "content_container"}>
+        {/* {display.isShowHeader &&
+          consumer?.userCurrentInfo?.role?.name == "customer" && (
+            <div>
+              <AdminHeader />
+            </div>
+          )} */}
         <Outlet />
       </div>
     </div>

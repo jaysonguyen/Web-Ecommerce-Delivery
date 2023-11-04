@@ -41,7 +41,9 @@ function AddCustomer({ showAdd = (v) => {} }) {
   const [phone, setPhone] = useState("");
   const [des, setDes] = useState("");
   const [email, setEmail] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
   const [password, setPassword] = useState("");
+  const [gender, setGender] = useState("Male");
 
   const handleSubmit = async () => {
     try {
@@ -90,6 +92,7 @@ function AddCustomer({ showAdd = (v) => {} }) {
                   <div className="col-6">
                     <Input
                       label={"Name"}
+                      value={name}
                       placeholder={"Enter client's first name"}
                       onChange={(v) => setName(v.target.value)}
                     />
@@ -97,6 +100,7 @@ function AddCustomer({ showAdd = (v) => {} }) {
                   <div className="col-6">
                     <Input
                       label={"Account"}
+                      value={account}
                       placeholder={"Enter client's last name"}
                       onChange={(v) => setAccount(v.target.value)}
                     />

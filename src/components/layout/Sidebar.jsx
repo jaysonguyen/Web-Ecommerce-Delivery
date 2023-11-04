@@ -13,6 +13,7 @@ import { Notification } from "../index";
 import { useDispatch, useSelector } from "react-redux";
 import displaySlice from "../../features/Display/displaySlice";
 import { displaySelector } from "../../selectors/displaySelector";
+import { consumerSelector } from "../../selectors/consumerSelector";
 
 function Sidebar({
   show,
@@ -26,6 +27,7 @@ function Sidebar({
 
   const dispatch = useDispatch();
   const display = useSelector(displaySelector);
+  const consumer = useSelector(consumerSelector);
 
   return (
     <>
@@ -70,7 +72,7 @@ function Sidebar({
                           : "sidebar_item flex-center-between sidebar_item--header"
                       }
                     >
-                      <div  onClick={item?.callback}>
+                      <div onClick={item?.callback}>
                         {item.icon}
                         <span className="sidebar_tab_label font-weight-b">
                           {item.label}
@@ -87,7 +89,7 @@ function Sidebar({
             </ul>
             {displayNotification && (
               <Notification
-              callback={handleShowNotification}
+                callback={handleShowNotification}
                 heading={"Notifications"}
               />
             )}

@@ -201,7 +201,9 @@ a {
 }
 
 .text-center {
-  text-align: center;
+  text-align: center;}
+.header_conatiner {
+  margin-bottom: calc(var(--admin-header-height) + 20px);
 }
 
 /*CUSTOM STYLE*/

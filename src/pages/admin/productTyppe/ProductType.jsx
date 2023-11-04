@@ -4,12 +4,21 @@ import { getProductTypeList } from "../../../services/ProductType";
 import { CaretLeft } from "phosphor-react";
 import AddProductType from "../../../components/project/order/AddProductType";
 import { ICON_SIZE_BIG } from "../../../utils/constraint";
+import { tableSelector } from "../../../selectors/consumerSelector";
+import { useDispatch, useSelector } from "react-redux";
+import tableSlice from "../../../features/table/tableSlice";
+import { deleteProductType } from "../../../services/ProductType";
+import toast from "react-hot-toast";
+
+
 
 function ProductType(props) {
   const [isShowAdd, setIsShowAdd] = useState(false);
   const [typeList, setTypeList] = useState([]);
   const [name, setName] = useState("");
   const [des, setDes] = useState("");
+  const tableData = useSelector(tableSelector);
+  const dispatch = useDispatch();
 
   const getTypeList = async () => {
     try {
@@ -34,8 +43,28 @@ function ProductType(props) {
     handleClearInput();
   };
   useEffect(() => {
+    dispatch(tableSlice.actions.handleSelected([]));
     getTypeList();
   }, [isShowAdd]);
+
+  const handleDelete = async () => {
+    let list = [...tableData.selectList];
+    if (list.length === 0) {
+      toast.error("Choose item to delete");
+      return;
+    }
+    for (let i = 0; i < list.length; i++) {
+      let res = await deleteProductType(list[i].id);
+      if (!res) {
+        toast.error("Something went wrong");
+        return;
+      }
+    }
+    toast.success("Deleted successfully");
+    dispatch(tableSlice.actions.handleSelected([]));
+    getTypeList().then((r) => r === null && toast.error("Something went wrong!"));
+  };
+
   return (
     <div className="padding-body">
       {!isShowAdd && (
@@ -63,7 +92,7 @@ function ProductType(props) {
               </div>
             </div>
           </div>
-          <MyTable showCheckBox={true} list={typeList} hideDetails={true} />
+          <MyTable showCheckBox={true} list={typeList} hideDetails={true} deleteCallback={handleDelete}/>
         </>
       )}
         {isShowAdd && (
