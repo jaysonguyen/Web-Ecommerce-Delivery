@@ -15,6 +15,7 @@ import {
   UsersFour,
   Graph,
   Wallet,
+  Archive,
 } from "phosphor-react";
 import {
   ICON_SIZE_BIG,
@@ -23,6 +24,8 @@ import {
   URL_ORDER,
   URL_BRANCH,
   URL_VOUCHER,
+  URL_PRODUCTTYPE,
+  URL_CITY,
   URL_LOGIN,
 } from "./utils/constraint";
 import { StaffPage } from "./pages/admin/staff/StaffPage";
@@ -51,7 +54,9 @@ function App() {
       },
       callback: () => {
         dispatch(
-          displaySlice.actions.displayNotification(!display.displayNotification)
+          displaySlice.actions.displayNotification(
+            !display.displayNotification,
+          ),
         );
       },
     },
@@ -78,6 +83,12 @@ function App() {
     },
     {
       icon: <Graph size={ICON_SIZE_BIG} />,
+      label: "City",
+      link: URL_CITY,
+      position: "body",
+    },
+    {
+      icon: <Graph size={ICON_SIZE_BIG} />,
       label: "Branch",
       link: URL_BRANCH,
       position: "body",
@@ -89,6 +100,13 @@ function App() {
       link: URL_VOUCHER,
       position: "body",
       role: "admin",
+    },
+   
+    {
+      icon: <Archive size={ICON_SIZE_BIG} />,
+      label: "Product Type",
+      link: URL_PRODUCTTYPE,
+      position: "body",
     },
     {
       icon: <GearSix size={ICON_SIZE_BIG} />,
@@ -118,7 +136,7 @@ function App() {
 
   const handleShowNotification = () => {
     dispatch(
-      displaySlice.actions.displayNotification(!display.isShowNotification)
+      displaySlice.actions.displayNotification(!display.isShowNotification),
     );
   };
 

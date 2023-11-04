@@ -24,3 +24,11 @@ export async  function createProductType(data){
        return error; 
     }
 }
+export const deleteProductType = async (id) => {
+    try {
+      let data = await axios.put(`/api/productType/${id}`);
+      return data;
+    } catch (error) {
+      return error;
+    }
+};

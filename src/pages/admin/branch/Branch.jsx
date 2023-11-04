@@ -81,6 +81,29 @@ function Branch(props) {
     getBranchData();
   };
 
+  const handleButtonAction = async (data, type) => {
+    switch (type) {
+      case "details": {
+        await setIsShowAdd(true);
+        await setData(data);
+        await setButtonType("Save");
+        break;
+      }
+      case "delete": {
+        console.log(type);
+        break;
+      }
+      default:
+        break;
+    }
+  };
+
+  const handleAddButton = async () => {
+    await setIsShowAdd(true);
+    await setButtonType("Add");
+    setData({});
+  };
+
   useEffect(() => {
     dispatch(tableSlice.actions.handleSelected([]));
     getBranchData();
@@ -90,6 +113,7 @@ function Branch(props) {
     <div className="padding-body">
       {!isShowAdd && (
         <>
+
           <div className="header_of_customer">
             <div className="row">
               <div className="col-8">
@@ -118,9 +142,12 @@ function Branch(props) {
           </div>
           <MyTable
             showCheckBox={true}
-            title={"Branch List"}
+
+            callback={handleButtonAction}
+
             list={branchList}
             deleteCallback={handleDelete}
+            hideDetails={true}
           />
         </>
       )}
