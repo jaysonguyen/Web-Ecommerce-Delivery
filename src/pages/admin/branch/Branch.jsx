@@ -7,9 +7,9 @@ import { ICON_SIZE_BIG } from "../../../utils/constraint";
 import AddBranch from "../../../components/project/branch/AddBranch";
 import { useDispatch, useSelector } from "react-redux";
 import { tableSelector } from "../../../selectors/consumerSelector";
-import { deleteUser } from "../../../services/UserService";
 import toast from "react-hot-toast";
 import tableSlice from "../../../features/table/tableSlice";
+import { Dropdown } from "../../../components/index";
 
 function Branch(props) {
   const [branchList, setBranchList] = useState([]);

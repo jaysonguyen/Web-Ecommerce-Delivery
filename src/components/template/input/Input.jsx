@@ -8,9 +8,13 @@ function Input({
   placeholder = "",
   type = "text",
   width = "100%",
+  height = "50px",
   borderRadius = "3px",
+  border = "",
+  boxShadow = "0 0 5px var(--box-shadow-color)",
   icon,
   value = "",
+  className = "",
   onChange = function (v) {},
 }) {
   let style = {
@@ -19,11 +23,17 @@ function Input({
   };
   let inputStyle = {
     width: width,
+    height: height,
+    border: border,
     borderRadius: borderRadius,
+    boxShadow: boxShadow,
   };
 
   return (
-    <div className="input_container flex-direction-column" style={style}>
+    <div
+      className={"input_container flex-direction-column" + className}
+      style={style}
+    >
       {label && (
         <label className="text_dark font-weight-b text_gray">{label}</label>
       )}

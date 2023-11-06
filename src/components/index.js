@@ -9,7 +9,10 @@ import DetailCustomer from "./project/customer/DetailCustomer";
 import AddCustomer from "./project/customer/AddCustomer";
 import { MyButton } from "./template/button/MyButton/MyButton";
 import AddStaff from "./project/staff/AddStaff";
+import { TextInfo } from "./template/text/TextInfo";
+
 export {
+  TextInfo,
   Sidebar,
   Dropdown,
   AddStaff,

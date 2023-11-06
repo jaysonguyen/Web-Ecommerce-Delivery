@@ -14,6 +14,14 @@
   --bg-light: #f8f8fb;
   --bg-semi-light: #a0a0ff;
 
+  --bg-card-1: rgba(198, 180, 216, 0.3);
+  --bg-card-2: rgba(234, 212, 212, 0.3);
+  --bg-card-3: rgba(206, 224, 230, 0.3);
+  --bg-card-4: rgba(240, 234, 224, 0.3);
+  --bg-card-5: rgba(245, 192, 191, 0.3);
+
+  --border-gray: rgba(148, 148, 148, 0.3);
+
   --color-warning: rgb(245, 245, 53);
   --color-error: rgb(255, 108, 108);
   --bg-danger: rgb(245, 67, 67);

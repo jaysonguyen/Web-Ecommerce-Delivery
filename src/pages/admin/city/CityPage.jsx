@@ -10,7 +10,7 @@ import tableSlice from "../../../features/table/tableSlice";
 import DetailCity from "../../../components/project/city/DetailCity";
 import AddCity from "../../../components/project/city/AddCity";
 
-function City(props) {
+function CityPage(props) {
   const [citySelected, setCitySelected] = useState({});
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [isShowAdd, setIsShowAdd] = useState(false);
@@ -151,4 +151,4 @@ function City(props) {
   );
 }
 
-export default City;
+export default CityPage;

@@ -1,10 +1,4 @@
-import { AxiosResponse, AxiosError } from "axios";
 import axios from "../config/axios";
-import {
-  URL_GET_CUSTOMER,
-  URL_GET_SHIPPER,
-  URL_USER,
-} from "../utils/constraint";
 
 export async function getCityList() {
   try {

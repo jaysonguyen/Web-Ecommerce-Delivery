@@ -1,6 +1,6 @@
 import React from "react";
 import "../../assets/css/Pages/orderCustomer.css";
-import { Input, Notification } from "../../components/index";
+import { Input } from "../../components/index";
 import ModalCalcMoney from "../../components/project/customer/ModalCalcMoney";
 
 function OrderCustomer(props) {

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MyTable } from "../../../components/template/table/MyTable/MyTable";
-import { AddStaff, DetailCustomer, Dropdown } from "../../../components";
-import { Link } from "react-router-dom";
+import { DetailCustomer, Dropdown } from "../../../components";
 import "../../../assets/css/Pages/customer.css";
 import {
   deleteVoucher,
@@ -9,12 +8,10 @@ import {
 } from "../../../services/VoucherService";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { displaySelector } from "../../../selectors/displaySelector";
-import { ICON_SIZE_BIG, URL_VOUCHER_ADD } from "../../../utils/constraint";
+import { ICON_SIZE_BIG } from "../../../utils/constraint";
 import { CaretLeft } from "phosphor-react";
 import AddVoucher from "../../../components/project/voucher/AddVoucher";
 import { tableSelector } from "../../../selectors/consumerSelector";
-import { deleteUser } from "../../../services/UserService";
 import tableSlice from "../../../features/table/tableSlice";
 
 function VoucherPage(props) {

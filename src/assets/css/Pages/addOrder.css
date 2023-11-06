@@ -1,0 +1,132 @@
+/* .post_page_box {
+  background-color: #f0f0f0;
+  padding-bottom: 100px;
+}
+
+.post_page_box {
+  padding: 20px 30px;
+} */
+
+/* ADD NEW */
+.add_post_container {
+  margin: 40px 0;
+  color: var(--text-color);
+}
+.add_post_container .input_title {
+  color: var(--text-color);
+}
+
+.add_post_container .required {
+  color: red !important;
+}
+.add_post_container .product_info .product_form {
+  border-right: 1px solid var(--text-color);
+  padding-right: 30px;
+}
+
+.add_post_container > div {
+  margin: 1em 0 ;
+  padding: 2em 1em;
+  border-radius: 10px;
+}
+
+.add_post_body_main_content,
+.add_post_header {
+  background-color: #fff;
+  margin-top: 20px;
+  padding: 20px 10px;
+}
+.warning_empty {
+  color: red;
+}
+.add_post_header_title_box {
+  margin: 10px 0;
+}
+
+.header_content_title{
+  font-size: 30px;
+  color: var(--primary-color);
+}
+
+.add_post_header_title_box input {
+  outline: none;
+  width: 100%;
+  font-size: 30px;
+  background-color: var(--text-white);
+}
+
+.add_post_header_title_box p span {
+  margin-right: 10px;
+}
+
+.input_summary {
+  width: 100%;
+  overflow: visible;
+  outline: none;
+  border: 1px solid var(--border-color);
+  padding: 5px;
+}
+
+.tool_bar_container > {
+  margin-right: 30px;
+}
+
+.tool_bar_container {
+  margin: 10px 0;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border-color);
+}
+.tool_bar_container--icon {
+  margin-right: 30px;
+  cursor: pointer;
+}
+
+.main_content_image_box {
+  margin-top: 20px;
+}
+
+.thumb_nails_img {
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.thumb_nails_img--icon {
+  color: var(--border-color);
+  cursor: pointer;
+}
+
+.thumb_nails_img--icon:hover {
+  color: var(--primary-color);
+}
+
+.add_post_footer {
+  margin-top: 30px;
+  display: flex;
+  justify-content: right;
+}
+
+.add_post_footer button {
+  width: 20%;
+}
+
+.thumb_nails_img--image {
+  width: 50%;
+}
+
+.thumb_nails_img--image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.goBack_container span {
+  border: 1px solid var(--border-color);
+  padding: 4px;
+  border-radius: 50%;
+  margin-right: 10px;
+  background-color: #fff;
+}

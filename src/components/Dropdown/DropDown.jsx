@@ -12,6 +12,7 @@ function DropDown({
   isShowSearchField = false,
   isBoxShadow = false,
   textColor = "#000",
+  bgColor = "transparent",
   margin = "0",
   placeholder = "",
   value = {},
@@ -33,16 +34,21 @@ function DropDown({
     onChange(itemSelect);
   };
 
+  const style = {
+    margin: "10px 0",
+    height: "50px",
+    backgroundColor: bgColor,
+    boxShadow: isBoxShadow
+      ? "0px 0px 3px var(--primary-color)"
+      : "1px 1px 4px var(--border-color)",
+  };
+
   return (
     <>
       {label && <label className="text_dark font-weight-b">{label}</label>}
       <div
         className="dropdown_container flex-align-center"
-        style={{
-          boxShadow: isBoxShadow
-            ? "0px 0px 3px var(--primary-color)"
-            : "1px 1px 4px var(--border-color)",
-        }}
+        style={style}
         onClick={handleShowDropdown}
       >
         {isShowIcon && (

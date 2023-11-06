@@ -1,8 +1,6 @@
-import { AxiosResponse, AxiosError } from "axios";
 import axios from "../config/axios";
 import {
   URL_GET_CUSTOMER,
-  URL_GET_SHIPPER,
   URL_LOGIN_CUSTOMER,
   URL_USER,
 } from "../utils/constraint";

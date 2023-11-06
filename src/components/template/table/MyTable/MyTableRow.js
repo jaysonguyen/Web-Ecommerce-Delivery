@@ -5,6 +5,7 @@ import { MyButton } from "../../button/MyButton/MyButton";
 import { useDispatch, useSelector } from "react-redux";
 import tableSlice from "../../../../features/table/tableSlice";
 import { tableSelector } from "../../../../selectors/consumerSelector";
+import { X } from "phosphor-react";
 
 function OrderButton() {
   return null;

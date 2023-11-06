@@ -15,6 +15,8 @@ export const MyTable = ({
   actionsElement,
   hideDetails = false,
   handleGetData = function (e) {},
+  hideToolkit = false,
+  isDeleteRow = false,
 }) => {
   const headers = list.length > 0 ? Object.keys(list[0]) : [];
   !hideDetails && headers.push("Thao tác");
@@ -30,7 +32,7 @@ export const MyTable = ({
   };
 
   const checkboxRef = useRef(true);
-  
+
   useEffect(() => {}, [select]);
 
   return (
@@ -42,12 +44,10 @@ export const MyTable = ({
           </div>
           <div className="col text-end">{headerAction}</div>
         </div>
-        <Toolkit selectedList={select} deleteCallback={deleteCallback} />
-        {list.length === 0 ? (
-          <div className="center">
-            <p>No data to display.</p>
-          </div>
-        ) : (
+        {!hideToolkit && (
+          <Toolkit selectedList={select} deleteCallback={deleteCallback} />
+        )}
+        {list.length > 0 ? (
           <div className="my_table_wrapper">
             <MyTableRow
               showCheckBox={showCheckBox}
@@ -67,9 +67,12 @@ export const MyTable = ({
                   hideDetails={hideDetails}
                   handleGetData={handleGetData}
                   actionsElement={actionsElement}
-                  
                 />
               ))}
+          </div>
+        ) : (
+          <div className="center h-75">
+            <p>No data to display.</p>
           </div>
         )}
       </div>

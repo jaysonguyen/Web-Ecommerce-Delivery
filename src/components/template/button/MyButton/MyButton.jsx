@@ -30,10 +30,10 @@ export const MyButton = ({
     fontWeight: "bold",
     color: isHovered && bgColor && hoverColor ? bgColor : fontColor,
     borderRadius: borderRadius,
-    transition: "transform 0.3s ease",
     padding: padding,
     margin: margin,
     border: borderColor ? `1px solid ${borderColor}` : "",
+    transition: "linear 0.1s",
   };
 
   return (

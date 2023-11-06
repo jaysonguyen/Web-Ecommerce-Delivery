@@ -8,26 +8,25 @@ import { ICON_SIZE_BIG } from "../../utils/constraint";
 import { Link } from "react-router-dom";
 //component
 import { Notification } from "../index";
-
 //state
-import { useDispatch, useSelector } from "react-redux";
-import displaySlice from "../../features/Display/displaySlice";
-import { displaySelector } from "../../selectors/displaySelector";
-import { consumerSelector } from "../../selectors/consumerSelector";
+// import { useDispatch, useSelector } from "react-redux";
+// import displaySlice from "../../features/Display/displaySlice";
+// import { displaySelector } from "../../selectors/displaySelector";
+// import { consumerSelector } from "../../selectors/consumerSelector";
 
 function Sidebar({
   show,
   heading,
-  isShowUser,
+  // isShowUser,
   handleShowNotification,
   tab,
   displayNotification,
 }) {
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState(0);
 
-  const dispatch = useDispatch();
-  const display = useSelector(displaySelector);
-  const consumer = useSelector(consumerSelector);
+  // const dispatch = useDispatch();
+  // const display = useSelector(displaySelector);
+  // const consumer = useSelector(consumerSelector);
 
   return (
     <>
@@ -36,7 +35,7 @@ function Sidebar({
           <div className="sidebar_header">
             <div className="sidebar_company_logo_container flex-center-between">
               <div className="company_image_logo flex-align-center">
-                <img src={userDefaultAvatar} />
+                <img src={userDefaultAvatar} alt="" />
                 <h3 className="sidebar_heading_logo">
                   {heading}
                   <p>Admin</p>
@@ -60,7 +59,7 @@ function Sidebar({
             </div>
             <ul className="sidebar_menu">
               {tab
-                .filter((item) => item.position == "header")
+                .filter((item) => item.position === "header")
                 .map((item, index) => {
                   return (
                     <li
@@ -97,7 +96,7 @@ function Sidebar({
           <div className="sidebar_body">
             <ul className="sidebar_menu">
               {tab
-                .filter((item) => item.position == "body")
+                .filter((item) => item.position === "body")
                 .map((item, index) => {
                   return (
                     <li
@@ -123,31 +122,31 @@ function Sidebar({
           <div className="sidebar_footer">
             <ul className="sidebar_menu sidebar_menu_footer">
               {tab
-                .filter((item) => item.position == "footer")
+                .filter((item) => item.position === "footer")
                 .map((item, index) => {
                   return (
-                    <li
-                      onClick={() => setActiveTab(index)}
-                      key={index}
-                      className={
-                        index === activeTab && item.position === "footer"
-                          ? "sidebar_item active"
-                          : "sidebar_item"
-                      }
-                    >
-                      <Link exact to={item.link}>
+                    <Link exact to={item.link}>
+                      <li
+                        onClick={() => setActiveTab(index)}
+                        key={index}
+                        className={
+                          index === activeTab && item.position === "footer"
+                            ? "sidebar_item active"
+                            : "sidebar_item"
+                        }
+                      >
                         {item.icon}
                         <span className="sidebar_tab_label font-weight-b">
                           {item.label}
                         </span>
-                      </Link>
-                    </li>
+                      </li>
+                    </Link>
                   );
                 })}
             </ul>
             <div className="sidebar_footer_avatar_user sidebar_company_logo_container flex-center-between">
               <div className="company_image_logo flex-align-center">
-                <img src={userDefaultAvatar} />
+                <img src={userDefaultAvatar} alt="" />
                 <h3 className="sidebar_heading_logo">
                   {heading}
                   <p>jay@gmail.com</p>

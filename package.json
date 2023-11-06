@@ -8,6 +8,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.0",
+    "date-fns": "^2.30.0",
     "mysql": "^2.18.1",
     "phosphor-react": "^1.4.1",
     "prettier": "^3.0.3",
