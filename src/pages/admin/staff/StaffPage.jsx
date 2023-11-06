@@ -11,8 +11,11 @@ import { deleteUser } from "../../../services/UserService";
 import toast from "react-hot-toast";
 import tableSlice from "../../../features/table/tableSlice";
 import { tableSelector } from "../../../selectors/consumerSelector";
+import { useNavigate } from "react-router-dom";
 
 export const StaffPage = () => {
+  const navigate = useNavigate();
+
   const [staffs, setStaffs] = useState([]);
   const [isShowAdd, setIsShowAdd] = useState(false);
   const [nameStaff, setNameStaff] = useState("");
@@ -147,6 +150,18 @@ export const StaffPage = () => {
                   padding="5px 20px"
                   borderColor="var(--primary-color)"
                   callback={fetchShipper}
+                />
+                <MyButton
+                  text="Shipping Assignment"
+                  height="44px"
+                  width="auto"
+                  hoverColor="var(--text-white)"
+                  bgColor="var(--primary-color)"
+                  fontColor="var(--text-white)"
+                  borderRadius="5px"
+                  padding="5px 20px"
+                  borderColor="var(--primary-color)"
+                  callback={() => navigate("/shipping-assignment")}
                 />
               </div>
             </div>

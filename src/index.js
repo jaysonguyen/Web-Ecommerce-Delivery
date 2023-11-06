@@ -37,6 +37,7 @@ import VoucherPage from "./pages/admin/voucher/VoucherPage";
 import AddVoucher from "./components/project/voucher/AddVoucher";
 import CityPage from "./pages/admin/city/CityPage";
 import ProductType from "./pages/admin/productTyppe/ProductType";
+import ShippingAssignment from "./pages/admin/staff/ShippingAssignment";
 
 const router = createBrowserRouter([
   {
@@ -99,6 +100,10 @@ const router = createBrowserRouter([
         path: "/order",
         element: <OrderCustomer />,
       },
+      {
+        path: "/shipping-assignment",
+        element: <ShippingAssignment />,
+      },
     ],
   },
 ]);
@@ -108,7 +113,7 @@ root.render(
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -23,8 +23,10 @@ function Login(props) {
       if (checkLogin.status == 200) {
         dispatch(consumerSlice.actions.setUserCurrentInfo(checkLogin.data));
         toast.success("Login successfully");
-        dispatch(displaySlice.actions.displaySidebar(true));
-        dispatch(displaySlice.actions.displayHeader(true));
+        await localStorage.setItem(
+          "user_payload",
+          JSON.stringify(checkLogin.data)
+        );
         if (checkLogin.data?.role?.roleId != 2) {
           navigation("/");
         } else {
