@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CustomMultiSelect from "../../../components/template/multiselect/CustomMultiSelect/CustomMultiSelect";
 import { MyButton } from "../../../components";
 import "../../../assets/css/Pages/customer.css";
@@ -12,10 +12,16 @@ import {
   getOrderDetails,
   getOrderListByAction,
 } from "../../../services/OrderService";
-import { OrderTableFromJson } from "../../../utils/modelHandle";
+import {
+  OrderDetailsFromJson,
+  OrderItemFromJson,
+  OrderTableFromJson,
+} from "../../../utils/modelHandle";
 import DetailsOrder from "../../../components/project/order/DetailsOrder";
 import { ICON_SIZE_BIG } from "../../../utils/constraint";
 import AddOrder from "../../../components/project/order/AddOrder";
+import { SwipeableDrawer } from "@mui/material";
+import { Drawer } from "../../../components/project/drawer/Drawer";
 
 export const OrderPage = () => {
   // let state = [
@@ -45,6 +51,10 @@ export const OrderPage = () => {
   //   },
   // ];
 
+  const [open, setOpen] = useState(false);
+  const handleOpen = useCallback(() => setOpen(true), []);
+  const handleClose = useCallback(() => setOpen(false), []);
+
   const [dataSelected, setDataSelected] = useState({});
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [isShowAdd, setIsShowAdd] = useState(false);
@@ -57,12 +67,11 @@ export const OrderPage = () => {
 
   const handleShowDetail = async (data) => {
     try {
-      console.log(data["Order ID"]);
-      let orderId = data["Order ID"] ?? data.order_id;
-      let res = await getOrderDetails(orderId);
+      let orderCode = data["Order Code"] ?? data.order_code;
+      let res = await getOrderDetails(orderCode);
 
       if (res.status === 200) {
-        await setDataSelected(res.data);
+        await setDataSelected(OrderDetailsFromJson(res.data));
         await setIsShowDetail(true);
       } else {
         toast.error("Cannot found order data!");
@@ -79,11 +88,11 @@ export const OrderPage = () => {
     try {
       let res = await getOrderListByAction(actionSelected);
       if (res.status === 200) {
-        setOrderList(res.data);
         //
         for (let i = 0; i < res.data.length; i++) {
           console.log(res.data[i]);
           let json = OrderTableFromJson(res.data[i]);
+          setOrderList([...orderList, OrderItemFromJson(res.data[i])]);
           console.log(json);
           setOrderTableList([...orderTableList, json]);
         }
@@ -111,93 +120,123 @@ export const OrderPage = () => {
 
   useEffect(() => {
     setOrderTableList([]);
+    setOrderList([]);
     getOrdersByAction().then((r) => true);
     getActionList().then((r) => true);
   }, [toggle, actionSelected]);
 
+  const detailsModal = (
+    <>
+      <div className="go_back_button_container">
+        <CaretLeft
+          onClick={() => setIsShowDetail(false)}
+          size={ICON_SIZE_BIG}
+        />
+      </div>
+      <DetailsOrder
+        closeDetail={handleCloseDetail}
+        orderSelected={dataSelected}
+      />
+    </>
+  );
+
   return (
-    <div className="padding-body">
-      {!isShowDetail && !isShowAdd && (
-        <>
-          <div className="title_total_number_table">
-            <h3 className="title_table">Order List </h3>
-            <p className="total_number_table">{orderList.length}</p>
-            <div className="ms-2">
-              <MyButton text="Add" callback={() => setIsShowAdd(true)} />
+    <>
+      <div className="padding-body">
+        {!isShowAdd && (
+          <>
+            <div className="title_total_number_table">
+              <h3 className="title_table">Order List </h3>
+              <p className="total_number_table">{orderList.length}</p>
+              <div className="ms-2">
+                <MyButton text="Add" callback={() => setIsShowAdd(true)} />
+              </div>
+              <div className="ms-auto">
+                <ButtonState
+                  prefix={<Rows size={18} />}
+                  hoverColor="var(--tab-color)"
+                  bgColor="var(--text-white)"
+                  borderColor="var(--tab-color)"
+                  fontColor="var(--tab-color)"
+                  callback={() => {
+                    setToggle(1);
+                    setOrderTableList([]);
+                  }}
+                  selected={toggle === 1}
+                  isCount={false}
+                  borderRadius={"5px"}
+                />
+                <ButtonState
+                  prefix={<SquaresFour size={18} />}
+                  hoverColor="var(--tab-color)"
+                  bgColor="var(--text-white)"
+                  borderColor="var(--tab-color)"
+                  fontColor="var(--tab-color)"
+                  callback={() => {
+                    setToggle(2);
+                    setOrderList([]);
+                  }}
+                  selected={toggle === 2}
+                  isCount={false}
+                  borderRadius={"5px"}
+                />
+              </div>
             </div>
-            <div className="ms-auto">
-              <ButtonState
-                prefix={<Rows size={18} />}
-                hoverColor="var(--tab-color)"
-                bgColor="var(--text-white)"
-                borderColor="var(--tab-color)"
-                fontColor="var(--tab-color)"
-                callback={() => {
-                  setToggle(1);
-                  setOrderTableList([]);
-                }}
-                selected={toggle === 1}
-                isCount={false}
-                borderRadius={"5px"}
+            <CustomMultiSelect
+              selectList={actionList}
+              selectActive={actionSelected}
+              onSelected={setActionSelected}
+            />
+            {toggle === 1 ? (
+              <MyTable
+                list={orderTableList}
+                showCheckBox={true}
+                callback={handleShowDetail}
+                // actionsElement={<OrderButtons data={rowData} />}
               />
-              <ButtonState
-                prefix={<SquaresFour size={18} />}
-                hoverColor="var(--tab-color)"
-                bgColor="var(--text-white)"
-                borderColor="var(--tab-color)"
-                fontColor="var(--tab-color)"
-                callback={() => setToggle(2)}
-                selected={toggle === 2}
-                isCount={false}
-                borderRadius={"5px"}
+            ) : (
+              <OrderList data={orderList} />
+            )}
+          </>
+        )}
+        {/*{isShowDetail && (*/}
+        {/*  <div className="add_employee_container">*/}
+        {/*    <div className="go_back_button_container">*/}
+        {/*      <CaretLeft*/}
+        {/*        onClick={() => setIsShowDetail(false)}*/}
+        {/*        size={ICON_SIZE_BIG}*/}
+        {/*      />*/}
+        {/*    </div>*/}
+        {/*    <DetailsOrder*/}
+        {/*      closeDetail={handleCloseDetail}*/}
+        {/*      orderSelected={dataSelected}*/}
+        {/*    />*/}
+        {/*  </div>*/}
+        {/*)}*/}
+
+        {isShowAdd && (
+          <div className="add_employee_container">
+            <div className="go_back_button_container">
+              <CaretLeft
+                onClick={() => setIsShowAdd(false)}
+                size={ICON_SIZE_BIG}
               />
             </div>
-          </div>
-          <CustomMultiSelect
-            selectList={actionList}
-            selectActive={actionSelected}
-            onSelected={setActionSelected}
-          />
-          {toggle === 1 ? (
-            <MyTable
-              list={orderTableList}
-              showCheckBox={true}
-              callback={handleShowDetail}
-              // actionsElement={<OrderButtons data={rowData} />}
-            />
-          ) : (
-            <OrderList data={orderList} />
-          )}
-        </>
-      )}
-      {isShowDetail && (
-        <div className="add_employee_container">
-          <div className="go_back_button_container">
-            <CaretLeft
-              onClick={() => setIsShowDetail(false)}
-              size={ICON_SIZE_BIG}
+            <AddOrder
+              handleClose={handleCloseDetail}
+              orderSelected={dataSelected}
             />
           </div>
-          <DetailsOrder
-            closeDetail={handleCloseDetail}
-            orderSelected={dataSelected}
-          />
-        </div>
-      )}
-      {isShowAdd && (
-        <div className="add_employee_container">
-          <div className="go_back_button_container">
-            <CaretLeft
-              onClick={() => setIsShowAdd(false)}
-              size={ICON_SIZE_BIG}
-            />
-          </div>
-          <AddOrder
-            handleClose={handleCloseDetail}
-            orderSelected={dataSelected}
-          />
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+      <div className="w-100">
+        <Drawer
+          anchor="right"
+          open={isShowDetail}
+          onClose={handleCloseDetail}
+          child={detailsModal}
+        />
+      </div>
+    </>
   );
 };

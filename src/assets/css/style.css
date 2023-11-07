@@ -243,6 +243,14 @@ a {
   cursor: pointer;
 }
 
+.order_status {
+  width: fit-content;
+  padding: 7px 15px;
+  background: var(--bg-semi-light);
+  color: var(--bg-light);
+  border-radius: 40px;
+}
+
 /* DISTANCE */
 .pd-bt-10 {
   padding-bottom: 10px;

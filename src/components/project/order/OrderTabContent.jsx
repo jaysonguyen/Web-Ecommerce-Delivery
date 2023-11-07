@@ -1,37 +1,34 @@
 import { Dropdown, Input } from "../../index";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import toast from "react-hot-toast";
+import { MyTable } from "../../template/table/MyTable/MyTable";
 
-export const OrderTabContent = ({
-  // nameUser,
-  // setNameUser,
-  // des,
-  // setDes,
-  // phoneNum,
-  // setPhoneNum,
-  // email,
-  // setEmail,
-  data = {},
-  tab = "1",
-  clearData,
-}) => {
+export const OrderTabContent = ({ data = {}, tab = "1", clearData }) => {
   const [receiverInfo, setReceiverInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+  const styleTitle = {
+    fontSize: "30px",
+    color: "var(--primary-color)",
+    marginTop: "1em",
+  };
 
   const initData = async () => {
     switch (tab) {
       case "1": {
         //receiver details
         setReceiverInfo({
-          name: data.receiver,
-          address: data.address,
-          city: data.city_name,
+          name: data.receiver ? data.receiver.name : "",
+          address: data.receiver ? data.receiver.address : "",
+          phone: data.receiver ? data.receiver.phone : "",
+          city: data.receiver ? data.receiver.city : "",
+          area: data.receiver ? data.receiver.area : "",
         });
         break;
       }
       case "2": {
-        //order by user
+        //product ìnformation
         break;
       }
       case "3": {
@@ -42,43 +39,6 @@ export const OrderTabContent = ({
         break;
     }
   };
-
-  // const handleNameUser = (e) => {
-  //   setNameUser(e.target.value);
-  // };
-  //
-  // const handleEmailChange = (e) => {
-  //   setEmail(e.target.value);
-  // };
-  //
-  // const handlePhoneNumChange = (e) => {
-  //   setPhoneNum(e.target.value);
-  // };
-  //
-  // const handleDesChange = (e) => {
-  //   setDes(e.target.value);
-  // };
-
-  // const handleUpdateCustomer = async () => {
-  //   try {
-  //     const checkInsert = await updateUSer({
-  //       fullName: nameUser || receiverInfo.fullName,
-  //       email: email || receiverInfo.email,
-  //       account: receiverInfo.account,
-  //       purpose: "nothing",
-  //       phone: phoneNum || receiverInfo.phoneNumber,
-  //       des: des || receiverInfo.des,
-  //     });
-  //     if (checkInsert != 200) {
-  //       toast.error("Update failed");
-  //     } else {
-  //       toast.success("Insert success");
-  //       clearData();
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   useEffect(() => {
     initData();
@@ -97,31 +57,59 @@ export const OrderTabContent = ({
               label="Receiver Name"
             />
             <Input
+              value={receiverInfo.phone ?? ""}
+              // onChange={handlePhoneNumChange}
+              placeholder={receiverInfo.phone}
+              label="Phone"
+            />
+            <Input
               value={receiverInfo.address ?? ""}
               // onChange={handleEmailChange}
               placeholder={receiverInfo.address}
               label="Address"
             />
+          </div>
+          <div className="col">
             <Input
               value={receiverInfo.city ?? ""}
-              // onChange={handlePhoneNumChange}
+              // onChange={handleNameUser}
               placeholder={receiverInfo.city}
               label="City"
             />
             <Input
-              value={receiverInfo.des ?? ""}
-              // onChange={handleDesChange}
-              placeholder={receiverInfo.des ?? ""}
-              label="Description"
+              value={receiverInfo.area ?? ""}
+              // onChange={handlePhoneNumChange}
+              placeholder={receiverInfo.area}
+              label="Area"
             />
           </div>
         </div>
       )}
       {tab === "2" && (
-        <div className="row">
-          <div className="col">2</div>
-          <div className="col">2</div>
-        </div>
+        <>
+          <p style={styleTitle}>Product</p>
+          <MyTable hideToolkit={true} hideDetails={true} list={data.product} />
+          <p style={styleTitle}>Package</p>
+          <div className="row">
+            <div className="col">
+              <Input
+                value={data.package_order.total_weight ?? ""}
+                label="Total Weight"
+              />
+              <Input value={data.package_order.length ?? ""} label="Length" />
+              <Input value={data.package_order.height ?? ""} label="Height" />
+              <Input value={data.package_order.width ?? ""} label="Width" />
+            </div>
+            <div className="col">
+              <Input value={data.package_order.cod ?? ""} label="COD" />
+              <Input value={data.package_order.cost ?? ""} label="Cost" />
+              <Input
+                value={data.package_order.cost_failed ?? ""}
+                label="Cost Failed"
+              />
+            </div>
+          </div>
+        </>
       )}
       {tab === "3" && (
         <div>

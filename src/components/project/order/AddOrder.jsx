@@ -18,7 +18,7 @@ import tableSlice from "../../../features/table/tableSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { tableSelector } from "../../../selectors/consumerSelector";
 import { getCityList, insertOrder } from "../../../services/OrderService";
-import { ToJson } from "../../../utils/modelHandle";
+import { JsonToString } from "../../../utils/modelHandle";
 
 function AddOrder({
   handleClose,
@@ -168,7 +168,7 @@ function AddOrder({
       setIsError({ ...isError, title: false, sum: true });
     }
 
-    let packageData = ToJson({
+    let packageData = JsonToString({
       total_weight: packageTotalWeight,
       width: packageWidth,
       height: packageHeight,
@@ -178,8 +178,8 @@ function AddOrder({
       cost_failed: packageCostFailed,
     });
 
-    let productData = ToJson(productList);
-    let receiverData = ToJson({
+    let productData = JsonToString(productList);
+    let receiverData = JsonToString({
       name: receiverName,
       phone: receiverPhone,
       address: receiverAddress,

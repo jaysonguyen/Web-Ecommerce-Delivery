@@ -113,7 +113,6 @@ function Branch(props) {
     <div className="padding-body">
       {!isShowAdd && (
         <>
-
           <div className="header_of_customer">
             <div className="row">
               <div className="col-8">
@@ -131,7 +130,11 @@ function Branch(props) {
               <div className="col-4">
                 <div className="feature_of_customer">
                   <div className="option_dropdown">
-                    <Dropdown placeholder="Options" item={itemOptions} />
+                    <Dropdown
+                      placeholder="Options"
+                      label={"Option"}
+                      item={itemOptions}
+                    />
                   </div>
                   <button className="btnAdd" onClick={() => setIsShowAdd(true)}>
                     Add
@@ -142,9 +145,7 @@ function Branch(props) {
           </div>
           <MyTable
             showCheckBox={true}
-
             callback={handleButtonAction}
-
             list={branchList}
             deleteCallback={handleDelete}
             hideDetails={true}

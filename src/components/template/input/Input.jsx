@@ -34,9 +34,7 @@ function Input({
       className={"input_container flex-direction-column" + className}
       style={style}
     >
-      {label && (
-        <label className="text_dark font-weight-b text_gray">{label}</label>
-      )}
+      {label && <label className="text_dark text_gray">{label}</label>}
       <div className="d-flex input_content" style={inputStyle}>
         {icon && <MyButton bgColor="transparent" prefix={icon} />}
         <input

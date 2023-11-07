@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "../../../assets/css/Pages/customer.css";
-import { DotsThreeVertical, Phone, Warning } from "phosphor-react";
+import {
+  DotsThreeVertical,
+  PencilSimple,
+  Phone,
+  Warning,
+} from "phosphor-react";
 import { User } from "../../../model/user";
 import { OrderTabContent } from "./OrderTabContent";
 import { formatDateTime } from "../../../utils/utils";
 import { TextInfo } from "../../../components/index";
 import toast from "react-hot-toast";
 import { getOrderDetails } from "../../../services/OrderService";
+import ActionCustomer from "../customer/ActionCustomer";
 
 function DetailsOrder({ closeDetail, orderSelected }) {
   const [currentTab, setCurrentTab] = useState("1");
@@ -18,7 +24,6 @@ function DetailsOrder({ closeDetail, orderSelected }) {
   const [email, setEmail] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
   const [des, setDes] = useState("");
-
   console.log(orderSelected);
 
   const handleShowAction = () => {
@@ -100,9 +105,9 @@ function DetailsOrder({ closeDetail, orderSelected }) {
               <span>D</span>
             </div>
             <div className="name_email_cus">
-              <h3>{"ID: " + orderSelected.order_id}</h3>
+              <h3>{"Order Code: " + orderSelected.order_code}</h3>
               <div className="email_phone_frame">
-                <a href="#">{orderSelected.receiver}</a>
+                <a href="#">{orderSelected.action_name}</a>
                 <div className="phone_number_cus">
                   <Phone size={13} className="phone_number_icon" />
                   <div className="over_lay">
@@ -110,17 +115,25 @@ function DetailsOrder({ closeDetail, orderSelected }) {
                       <Phone size={16} className="icon_mini_phone" />
                       {orderSelected.phone == null
                         ? "Chưa cập nhật"
-                        : orderSelected.phone}
+                        : orderSelected.receiver.phone}
                     </a>
                   </div>
                 </div>
                 <div>
                   <TextInfo
-                    content={formatDateTime(orderSelected.created)}
+                    content={
+                      orderSelected.created
+                        ? formatDateTime(orderSelected.created)
+                        : ""
+                    }
                     contentSize="14px"
                   />
                   <TextInfo
-                    content={formatDateTime(orderSelected.updated)}
+                    content={
+                      orderSelected.updated
+                        ? formatDateTime(orderSelected.updated)
+                        : ""
+                    }
                     contentSize="14px"
                   />
                 </div>
@@ -142,9 +155,9 @@ function DetailsOrder({ closeDetail, orderSelected }) {
               <button className="btn_Order"> Order</button>
             </div>
           </div>
-          {/*{isShowAction && (*/}
-          {/*  <ActionCustomer item={actions} icon={<PencilSimple size={17} />} />*/}
-          {/*)}*/}
+          {isShowAction && (
+            <ActionCustomer item={actions} icon={<PencilSimple size={17} />} />
+          )}
 
           <div className="container">
             <div className="tabs">
@@ -164,16 +177,7 @@ function DetailsOrder({ closeDetail, orderSelected }) {
                 <div key={index}>
                   {currentTab === tab.id.toString() && (
                     <OrderTabContent
-                      // nameUser={nameUser}
-                      // setNameUser={setNameUser}
-                      // des={des}
-                      // setDes={setDes}
-                      // phoneNum={phoneNum}
-                      // setPhoneNum={setPhoneNum}
-                      // email={email}
-                      // setEmail={setEmail}
                       tab={tab.id.toString()}
-                      // userID={orderSelected.id}
                       clearData={handleClearInput}
                       data={orderSelected}
                     />

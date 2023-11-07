@@ -5,9 +5,9 @@ import {
   URL_USER,
 } from "../utils/constraint";
 
-export async function getOrderDetails(orderID) {
+export async function getOrderDetails(orderCode) {
   try {
-    let data = await axios.get(`/api/order/${orderID}`);
+    let data = await axios.get(`/api/order/${orderCode}`);
     return data;
   } catch (error) {
     return error;

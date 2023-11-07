@@ -47,7 +47,7 @@ function App() {
     {
       icon: <BellSimple size={ICON_SIZE_BIG} />,
       label: "Activity",
-      link: URL_CUSTOMER,
+      link: "/",
       position: "header",
       option: {
         count: 10,
@@ -63,7 +63,7 @@ function App() {
     {
       icon: <ShoppingBag size={ICON_SIZE_BIG} />,
       label: "Customer",
-      link: URL_CUSTOMER,
+      link: "/",
       position: "body",
       role: "admin",
     },
@@ -101,7 +101,7 @@ function App() {
       position: "body",
       role: "admin",
     },
-   
+
     {
       icon: <Archive size={ICON_SIZE_BIG} />,
       label: "Product Type",
