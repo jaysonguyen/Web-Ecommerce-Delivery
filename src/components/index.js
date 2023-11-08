@@ -10,11 +10,15 @@ import AddCustomer from "./project/customer/AddCustomer";
 import { MyButton } from "./template/button/MyButton/MyButton";
 import AddStaff from "./project/staff/AddStaff";
 import { TextInfo } from "./template/text/TextInfo";
+import AssignShipperTag from "./project/staff/AssignShipperTag";
+import StaffWithImage from "./project/staff/StaffWithImage";
 
 export {
   TextInfo,
   Sidebar,
   Dropdown,
+  StaffWithImage,
+  AssignShipperTag,
   AddStaff,
   AdminHeader,
   SearchText,

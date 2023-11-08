@@ -70,6 +70,15 @@ function AddStaff({
   return (
     <div className="add_staff_container">
       <div className="row">
+        {buttonType === "Save" && (
+          <div className="col col-6">
+            <Input
+              label={"Code"}
+              placeholder={data && data.code || ""}
+            />
+          </div>
+        )}
+
         <div className="col col-6">
           <Input
             onChange={(e) => setNameStaff(e.target.value)}
