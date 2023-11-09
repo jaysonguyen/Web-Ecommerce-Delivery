@@ -1,20 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DotsThreeCircle, Plus, TrashSimple } from "phosphor-react";
 import { ICON_SIZE_BIG } from "../../../utils/constraint";
 import "../../../assets/css/Pages/shippingAssignment.css";
 import StaffWithImage from "./StaffWithImage";
+import { getUserByBranchCode } from "../../../services/BranchService";
 
 function AssignShipperTag(props) {
   const [isShowSearchFeed, setShowSearchFeed] = useState(false);
   const [isShowSearchInput, setIsShowSearchInput] = useState(false);
 
-  const handleFetchShipper = () => {
-    
-  }
+  const handleFetchShipper = async () => {
+    try {
+      const getRoleCode = JSON.parse(localStorage.getItem("user_payload"))
+        .branch.code;
+      const shipperList = await getUserByBranchCode("TD01");
+      await console.log(shipperList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleOnchangeInputSearchShipper = () => {
     setShowSearchFeed(true);
   };
+
+  useEffect(() => {
+    handleFetchShipper();
+  }, []);
   return (
     <div className="assign_location_item_box">
       <div>

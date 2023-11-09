@@ -31,6 +31,15 @@ export const updateBranch = async (branchInfo) => {
   }
 };
 
+export const getUserByBranchCode = async (branchCode) => {
+  try {
+    const data = await axios.get(`/api/user/branch/${branchCode}`);
+    return data.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const deleteBranch = async (id) => {
   try {
     let data = await axios.put(`/api/branch/${id}`);

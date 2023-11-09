@@ -21,10 +21,6 @@ function StaffWithImage(props) {
     return Math.floor(Math.random(0, 20) * 14);
   };
 
-  useEffect(() => {
-    console.log(randomColor());
-  });
-
   return (
     <>
       <div
