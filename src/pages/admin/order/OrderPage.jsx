@@ -58,7 +58,7 @@ export const OrderPage = () => {
   const [dataSelected, setDataSelected] = useState({});
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [isShowAdd, setIsShowAdd] = useState(false);
-  const [toggle, setToggle] = useState(2);
+  const [toggle, setToggle] = useState(1);
 
   const [actionList, setActionList] = useState([]);
   const [orderList, setOrderList] = useState([]);
@@ -80,21 +80,23 @@ export const OrderPage = () => {
       toast.error("Something went wrong");
     }
   };
-  const handleCloseDetail = () => {
-    setIsShowDetail(false);
-  };
 
   const getOrdersByAction = async () => {
+    setOrderTableList([]);
+    setOrderList([]);
     try {
       let res = await getOrderListByAction(actionSelected);
       if (res.status === 200) {
         //
         for (let i = 0; i < res.data.length; i++) {
-          console.log(res.data[i]);
-          let json = OrderTableFromJson(res.data[i]);
-          setOrderList([...orderList, OrderItemFromJson(res.data[i])]);
-          console.log(json);
-          setOrderTableList([...orderTableList, json]);
+          setOrderList((orderList) => [
+            ...orderList,
+            OrderItemFromJson(res.data[i]),
+          ]);
+          setOrderTableList((orderTableList) => [
+            ...orderTableList,
+            OrderTableFromJson(res.data[i]),
+          ]);
         }
       } else {
         toast.error("List empty");
@@ -104,6 +106,7 @@ export const OrderPage = () => {
       toast.error("Something went wrong");
     }
   };
+
   const getActionList = async () => {
     try {
       let res = await getActions();
@@ -119,11 +122,14 @@ export const OrderPage = () => {
   };
 
   useEffect(() => {
-    setOrderTableList([]);
-    setOrderList([]);
-    getOrdersByAction().then((r) => true);
     getActionList().then((r) => true);
-  }, [toggle, actionSelected]);
+    getOrdersByAction().then((r) => true);
+
+    return () => {
+      setOrderTableList([]);
+      setOrderList([]);
+    };
+  }, [toggle, actionSelected, isShowAdd, isShowDetail]);
 
   const detailsModal = (
     <>
@@ -134,7 +140,7 @@ export const OrderPage = () => {
         />
       </div>
       <DetailsOrder
-        closeDetail={handleCloseDetail}
+        closeDetail={() => setIsShowDetail(false)}
         orderSelected={dataSelected}
       />
     </>
@@ -216,14 +222,14 @@ export const OrderPage = () => {
 
         {isShowAdd && (
           <div className="add_employee_container">
-            <div className="go_back_button_container">
-              <CaretLeft
-                onClick={() => setIsShowAdd(false)}
-                size={ICON_SIZE_BIG}
-              />
+            <div
+              className="go_back_button_container"
+              onClick={() => setIsShowAdd(false)}
+            >
+              <CaretLeft size={ICON_SIZE_BIG} />
             </div>
             <AddOrder
-              handleClose={handleCloseDetail}
+              handleClose={() => setIsShowAdd(false)}
               orderSelected={dataSelected}
             />
           </div>
@@ -233,7 +239,7 @@ export const OrderPage = () => {
         <Drawer
           anchor="right"
           open={isShowDetail}
-          onClose={handleCloseDetail}
+          onClose={() => setIsShowAdd(false)}
           child={detailsModal}
         />
       </div>

@@ -91,18 +91,30 @@ export const OrderTabContent = ({ data = {}, tab = "1", clearData }) => {
           <MyTable hideToolkit={true} hideDetails={true} list={data.product} />
           <p style={styleTitle}>Package</p>
           <div className="row">
-            <div className="col">
+            <div className="col-3">
               <Input
                 value={data.package_order.total_weight ?? ""}
                 label="Total Weight"
               />
-              <Input value={data.package_order.length ?? ""} label="Length" />
-              <Input value={data.package_order.height ?? ""} label="Height" />
-              <Input value={data.package_order.width ?? ""} label="Width" />
             </div>
             <div className="col">
+              <Input value={data.package_order.length ?? ""} label="Length" />
+            </div>
+            <div className="col">
+              <Input value={data.package_order.height ?? ""} label="Height" />
+            </div>
+            <div className="col">
+              <Input value={data.package_order.width ?? ""} label="Width" />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
               <Input value={data.package_order.cod ?? ""} label="COD" />
+            </div>
+            <div className="col">
               <Input value={data.package_order.cost ?? ""} label="Cost" />
+            </div>
+            <div className="col">
               <Input
                 value={data.package_order.cost_failed ?? ""}
                 label="Cost Failed"

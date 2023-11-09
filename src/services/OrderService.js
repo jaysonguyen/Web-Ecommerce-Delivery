@@ -42,7 +42,18 @@ export const getCityList = async () => {
 export const insertOrder = async (data) => {
   try {
     const checkData = await axios.post("/api/order", data);
-    return checkData.status;
+    return checkData;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const setAction = async (orderCode, actionCode) => {
+  try {
+    const checkData = await axios.put(
+      `/api/order/${orderCode}/action/${actionCode}`,
+    );
+    return checkData;
   } catch (error) {
     return error;
   }

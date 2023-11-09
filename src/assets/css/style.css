@@ -25,7 +25,7 @@
   --color-warning: rgb(245, 245, 53);
   --color-error: rgb(255, 108, 108);
   --bg-danger: rgb(245, 67, 67);
-  --color-success: rgb(41, 147, 0);
+  --color-success: rgb(100, 199, 63);
   --box-shadow: 0 0 5px #cdcdcd;
   --box-shadow-color: #cdcdcd;
 
@@ -247,15 +247,22 @@ a {
 }
 
 .go_back_button_container {
-  width: 30px;
-  height: 30px;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
   border: 1px solid var(--border-color);
   border-radius: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
   cursor: pointer;
+  margin: 20px 15px;
+  transition: ease 0.2s;
+}
+
+.go_back_button_container:hover {
+  background-color: var(--text-color);
+  color: var(--text-white);
 }
 
 .order_status {
@@ -264,6 +271,14 @@ a {
   background: var(--bg-semi-light);
   color: var(--bg-light);
   border-radius: 40px;
+}
+
+.order_status.accept {
+  background: var(--color-success);
+}
+
+.order_status.decline {
+  background: var(--color-error);
 }
 
 /* DISTANCE */

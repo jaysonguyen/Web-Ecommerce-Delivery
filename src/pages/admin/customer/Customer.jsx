@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { tableSelector } from "../../../selectors/consumerSelector";
 import tableSlice from "../../../features/table/tableSlice";
+import { CustomerTableFromJson } from "../../../utils/modelHandle";
 
 function Customer(props) {
   const [userSelected, setUserSelected] = useState({});
@@ -26,9 +27,16 @@ function Customer(props) {
     setIsLoading(true);
     try {
       const data = await getCustomerList();
+
       if (data.status == 200) {
         if (Array.isArray(data.data)) {
-          setUserList(data.data);
+          setUserList([]);
+          for (let i = 0; i < data.data.length; i++) {
+            setUserList((userList) => [
+              ...userList,
+              CustomerTableFromJson(data.data[i]),
+            ]);
+          }
         }
         return data;
       } else {

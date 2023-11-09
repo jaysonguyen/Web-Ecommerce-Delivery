@@ -130,11 +130,7 @@ function Branch(props) {
               <div className="col-4">
                 <div className="feature_of_customer">
                   <div className="option_dropdown">
-                    <Dropdown
-                      placeholder="Options"
-                      label={"Option"}
-                      item={itemOptions}
-                    />
+                    <Dropdown placeholder="Options" item={itemOptions} />
                   </div>
                   <button className="btnAdd" onClick={() => setIsShowAdd(true)}>
                     Add
