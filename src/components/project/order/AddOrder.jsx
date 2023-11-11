@@ -18,7 +18,7 @@ import tableSlice from "../../../features/table/tableSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { tableSelector } from "../../../selectors/consumerSelector";
 import { getCityList, insertOrder } from "../../../services/OrderService";
-import { ToJson } from "../../../utils/modelHandle";
+import { JsonToString } from "../../../utils/modelHandle";
 
 function AddOrder({
   handleClose,
@@ -144,6 +144,11 @@ function AddOrder({
   }, []);
 
   const handleSubmitPost = async () => {
+    if (orderCode === "") {
+      toast.error("Please enter order code ");
+      return;
+    }
+
     if (productList.length === 0) {
       toast.error("Please add product to product list ");
       return;
@@ -161,14 +166,14 @@ function AddOrder({
     if (packageWidth === "") {
       setIsError({ ...isError, title: false, sum: true });
     }
-    if (packageCostFailed === "") {
+    if (packageCostFailed === "" && parseInt(packageCost) >= 1000) {
       setIsError({ ...isError, title: false, sum: true });
     }
-    if (packageCost === "") {
+    if (packageCost === "" && parseInt(packageCost) >= 1000) {
       setIsError({ ...isError, title: false, sum: true });
     }
 
-    let packageData = ToJson({
+    let packageData = JsonToString({
       total_weight: packageTotalWeight,
       width: packageWidth,
       height: packageHeight,
@@ -178,8 +183,8 @@ function AddOrder({
       cost_failed: packageCostFailed,
     });
 
-    let productData = ToJson(productList);
-    let receiverData = ToJson({
+    let productData = JsonToString(productList);
+    let receiverData = JsonToString({
       name: receiverName,
       phone: receiverPhone,
       address: receiverAddress,
@@ -188,7 +193,7 @@ function AddOrder({
     });
 
     console.log({
-      user_id: "b2f4961d-f5e2-4c58-b4ca-ee6cf006d4f4",
+      user_id: "ff097d8f-a316-49cd-9c55-2a7c7c026551",
       order_code: orderCode,
       action_code: "0",
       receiver: receiverData,
@@ -200,7 +205,7 @@ function AddOrder({
     });
 
     const checkAddOrders = await insertOrder({
-      user_id: "b2f4961d-f5e2-4c58-b4ca-ee6cf006d4f4",
+      user_id: "ff097d8f-a316-49cd-9c55-2a7c7c026551",
       order_code: orderCode,
       action_code: "0",
       receiver: receiverData,
@@ -210,7 +215,8 @@ function AddOrder({
       package_order: packageData,
       shipper_name: "",
     });
-    if (checkAddOrders.status !== 200) {
+    console.log(checkAddOrders);
+    if (checkAddOrders.status === 200) {
       // await getNewsListByAction();
       toast.success("Submit success");
       handleClose();

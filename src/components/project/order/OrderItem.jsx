@@ -24,12 +24,13 @@ export const OrderItem = ({ data = {} }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="row mb-4">
+      <div className="row mb-2">
         <div className="col-8">
           {/*get only first code in id*/}
           <TextInfo
-            title="Order ID:"
-            content={data.order_id.split("-")[0]}
+            title="Order Code:"
+            contentSize="22px"
+            content={data.order_code.split("-")[0]}
             contentFontColor={"var(--text-color-primary)"}
           />
         </div>
@@ -73,7 +74,7 @@ export const OrderItem = ({ data = {} }) => {
           <div className={"col"}>
             <TextInfo
               title="Phone"
-              content={data.product_type_name}
+              content={data.phone}
               titleSize={"11px"}
               contentSize={"13px"}
             />

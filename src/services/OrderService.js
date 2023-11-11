@@ -5,9 +5,9 @@ import {
   URL_USER,
 } from "../utils/constraint";
 
-export async function getOrderDetails(orderID) {
+export async function getOrderDetails(orderCode) {
   try {
-    let data = await axios.get(`/api/order/${orderID}`);
+    let data = await axios.get(`/api/order/${orderCode}`);
     return data;
   } catch (error) {
     return error;
@@ -42,7 +42,18 @@ export const getCityList = async () => {
 export const insertOrder = async (data) => {
   try {
     const checkData = await axios.post("/api/order", data);
-    return checkData.status;
+    return checkData;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const setAction = async (orderCode, actionCode) => {
+  try {
+    const checkData = await axios.put(
+      `/api/order/${orderCode}/action/${actionCode}`,
+    );
+    return checkData;
   } catch (error) {
     return error;
   }

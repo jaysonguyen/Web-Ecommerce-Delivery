@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from "react";
 import "../../../assets/css/Pages/customer.css";
-import { DotsThreeVertical, Phone, Warning } from "phosphor-react";
+import {
+  DotsThreeVertical,
+  PencilSimple,
+  Phone,
+  Warning,
+} from "phosphor-react";
 import { User } from "../../../model/user";
 import { OrderTabContent } from "./OrderTabContent";
-import { formatDateTime } from "../../../utils/utils";
+import { formatDate, formatDateTime } from "../../../utils/utils";
 import { TextInfo } from "../../../components/index";
 import toast from "react-hot-toast";
-import { getOrderDetails } from "../../../services/OrderService";
+import {
+  getActions,
+  getOrderDetails,
+  setAction,
+} from "../../../services/OrderService";
+import ActionCustomer from "../customer/ActionCustomer";
 
 function DetailsOrder({ closeDetail, orderSelected }) {
   const [currentTab, setCurrentTab] = useState("1");
+  const [nextAction, setNextAction] = useState("1");
   const [isShowAction, setIsShowAction] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   // const [detailData, setDetailData] = useState(User);
@@ -18,8 +29,6 @@ function DetailsOrder({ closeDetail, orderSelected }) {
   const [email, setEmail] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
   const [des, setDes] = useState("");
-
-  console.log(orderSelected);
 
   const handleShowAction = () => {
     const flag = !isShowAction;
@@ -31,20 +40,16 @@ function DetailsOrder({ closeDetail, orderSelected }) {
       id: 1,
       tabTitle: "Customer Details",
       title: "Customer details",
-      content:
-        "Las tabs se generan automáticamente a partir de un array de objetos, el cual tiene las propiedades: id, tabTitle, title y content.",
     },
     {
       id: 2,
       tabTitle: "Product Details",
       title: "Product Details",
-      content: "Contenido de tab 2.",
     },
     {
       id: 3,
       tabTitle: "History",
       title: "History",
-      content: "Contenido de tab 3.",
     },
   ];
 
@@ -71,7 +76,88 @@ function DetailsOrder({ closeDetail, orderSelected }) {
     closeDetail();
   };
 
-  useEffect(() => {}, [currentTab]);
+  const handleActionButton = async (v = "") => {
+    try {
+      let res = null;
+      if (v === "decline") {
+        // res = await setAction(orderSelected.order_code, "2");
+      } else {
+        switch (orderSelected.action_code) {
+          case "0": {
+            res = await setAction(orderSelected.order_code, "1");
+            break;
+          }
+          case "1": {
+            res = await setAction(orderSelected.order_code, "2");
+            break;
+          }
+          case "2": {
+            res = await setAction(orderSelected.order_code, "3");
+            break;
+          }
+          case "3": {
+            res = await setAction(orderSelected.order_code, "4");
+            break;
+          }
+          case "4": {
+            res = await setAction(orderSelected.order_code, "5");
+            break;
+          }
+          case "5": {
+            res = await setAction(orderSelected.order_code, "6");
+            break;
+          }
+          default:
+            break;
+        }
+      }
+
+      if (res == null) {
+        toast.error("Cannot set action at this status");
+        return;
+      }
+
+      if (res.status === 200) {
+        toast.success("Set action successfully");
+        closeDetail();
+      } else {
+        toast.error("Womething went wrong");
+      }
+    } catch (e) {}
+  };
+
+  const initActionTitleButton = () => {
+    switch (orderSelected.action_code) {
+      case "0": {
+        setNextAction("Send");
+        break;
+      }
+      case "1": {
+        setNextAction("Accept");
+        break;
+      }
+      case "2": {
+        setNextAction("Delivery");
+        break;
+      }
+      case "3": {
+        setNextAction("Return");
+        break;
+      }
+      case "5": {
+        setNextAction("Complete");
+        break;
+      }
+      default: {
+        setNextAction("");
+        break;
+      }
+    }
+  };
+
+  useEffect(() => {
+    initActionTitleButton();
+  }, [currentTab]);
 
   return (
     <>
@@ -100,35 +186,22 @@ function DetailsOrder({ closeDetail, orderSelected }) {
               <span>D</span>
             </div>
             <div className="name_email_cus">
-              <h3>{"ID: " + orderSelected.order_id}</h3>
-              <div className="email_phone_frame">
-                <a href="#">{orderSelected.receiver}</a>
-                <div className="phone_number_cus">
-                  <Phone size={13} className="phone_number_icon" />
-                  <div className="over_lay">
-                    <a href="#" className="phone_number_data">
-                      <Phone size={16} className="icon_mini_phone" />
-                      {orderSelected.phone == null
-                        ? "Chưa cập nhật"
-                        : orderSelected.phone}
-                    </a>
-                  </div>
-                </div>
-                <div>
-                  <TextInfo
-                    content={formatDateTime(orderSelected.created)}
-                    contentSize="14px"
-                  />
-                  <TextInfo
-                    content={formatDateTime(orderSelected.updated)}
-                    contentSize="14px"
-                  />
-                </div>
-              </div>
+              <h3>{"Order Code: " + orderSelected.order_code}</h3>
             </div>
           </div>
           <div className="status_customer_blaclist_frame">
-            <div className="type_cus"></div>
+            <div className="type_cus me-2">
+              create:{" "}
+              <div className="ms-3" style={{ color: "var(--text-color)" }}>
+                {orderSelected.created ? formatDate(orderSelected.created) : ""}
+              </div>
+            </div>
+            <div className="type_cus">
+              update:{" "}
+              <div className="ms-3" style={{ color: "var(--text-color)" }}>
+                {orderSelected.updated ? formatDate(orderSelected.updated) : ""}
+              </div>
+            </div>
             <div className="blacklist_frame ">
               <Warning size={20} />
             </div>
@@ -138,13 +211,28 @@ function DetailsOrder({ closeDetail, orderSelected }) {
             <button className="dotthree_icon" onClick={handleShowAction}>
               <DotsThreeVertical size={32} />
             </button>
-            <div>
-              <button className="btn_Order"> Order</button>
-            </div>
+            {nextAction !== "" && (
+              <div>
+                <button className="btn_Order" onClick={handleActionButton}>
+                  {nextAction}
+                </button>
+              </div>
+            )}
+            {orderSelected.action_code !== "2" && (
+              <div>
+                <button
+                  className="btn_Order"
+                  style={{ backgroundColor: "var(--color-error)" }}
+                  onClick={() => handleActionButton("decline")}
+                >
+                  Decline
+                </button>
+              </div>
+            )}
           </div>
-          {/*{isShowAction && (*/}
-          {/*  <ActionCustomer item={actions} icon={<PencilSimple size={17} />} />*/}
-          {/*)}*/}
+          {isShowAction && (
+            <ActionCustomer item={actions} icon={<PencilSimple size={17} />} />
+          )}
 
           <div className="container">
             <div className="tabs">
@@ -164,16 +252,7 @@ function DetailsOrder({ closeDetail, orderSelected }) {
                 <div key={index}>
                   {currentTab === tab.id.toString() && (
                     <OrderTabContent
-                      // nameUser={nameUser}
-                      // setNameUser={setNameUser}
-                      // des={des}
-                      // setDes={setDes}
-                      // phoneNum={phoneNum}
-                      // setPhoneNum={setPhoneNum}
-                      // email={email}
-                      // setEmail={setEmail}
                       tab={tab.id.toString()}
-                      // userID={orderSelected.id}
                       clearData={handleClearInput}
                       data={orderSelected}
                     />
