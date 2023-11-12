@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../../assets/css/Pages/shippingAssignment.css";
 import { AssignShipperTag, Input, StaffWithImage } from "../../../components";
+import { getUserByBranchCode } from "../../../services/BranchService";
 
 function ShippingAssignment(props) {
+  const [shipperList, setShipperList] = useState([]);
 
+  const fetchAssignmentInfo = async () => {
+    try {
+      const getRoleCode = JSON.parse(localStorage.getItem("user_payload"))
+        .branch.code;
+      const shipperList = await getUserByBranchCode(getRoleCode);
+      if (shipperList) {
+        setShipperList(shipperList);
+      }
+      await console.log(shipperList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAssignmentInfo();
+  }, []);
 
   return (
     <div className="padding-body shipping-assignment_container">

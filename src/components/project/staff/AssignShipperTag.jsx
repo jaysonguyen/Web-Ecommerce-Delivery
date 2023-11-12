@@ -8,25 +8,18 @@ import { getUserByBranchCode } from "../../../services/BranchService";
 function AssignShipperTag(props) {
   const [isShowSearchFeed, setShowSearchFeed] = useState(false);
   const [isShowSearchInput, setIsShowSearchInput] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
-  const handleFetchShipper = async () => {
-    try {
-      const getRoleCode = JSON.parse(localStorage.getItem("user_payload"))
-        .branch.code;
-      const shipperList = await getUserByBranchCode("TD01");
-      await console.log(shipperList);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const handleOnchangeInputSearchShipper = () => {
+  const handleOnchangeInputSearchShipper = (e) => {
     setShowSearchFeed(true);
   };
 
-  useEffect(() => {
-    handleFetchShipper();
-  }, []);
+  const handleOnClickSearchShipper = () => {
+    setIsShowSearchInput((prev) => !prev);
+  };
+
+
   return (
     <div className="assign_location_item_box">
       <div>
@@ -36,43 +29,30 @@ function AssignShipperTag(props) {
           <span className="assign_add_field_box flex-align-center">
             {isShowSearchInput && (
               <input
+                value={searchValue}
                 onChange={handleOnchangeInputSearchShipper}
                 placeholder="Search"
               />
             )}
             <span
-              onClick={() => setIsShowSearchInput((prev) => !prev)}
+              onClick={handleOnClickSearchShipper}
               className="assign_button"
             >
               <Plus size={ICON_SIZE_BIG} />
             </span>
-            {isShowSearchFeed && (
+            {/* {isShowSearchInput && isShowSearchFeed && shipperList && (
               <div className="search_shipper_field">
-                <div className="search_shipper_item flex-center-center">
-                  <StaffWithImage />
-                </div>
-                <div className="search_shipper_item flex-center-center">
-                  <div className="shipper_avatar shipper_avatar_margin_6 flex-center-center">
-                    S
-                  </div>
-                  <div className="shipper_assign_name">
-                    Nguyễn Vũ Thành Nguyên
-                  </div>
-                </div>
-                <div className="search_shipper_item flex-center-center">
-                  <StaffWithImage />
-                </div>
-                <div className="search_shipper_item flex-center-center">
-                  <StaffWithImage />
-                </div>
-                <div className="search_shipper_item flex-center-center">
-                  <StaffWithImage />
-                </div>
-                <div className="search_shipper_item flex-center-center">
-                  <StaffWithImage />
-                </div>
+                {shipperList.map((item) => {
+                  return (
+                    <>
+                      <div className="search_shipper_item flex-center-center">
+                        <StaffWithImage nameShipper={item.fullName} />
+                      </div>
+                    </>
+                  );
+                })}
               </div>
-            )}
+            )} */}
           </span>
         </div>
         <ul className="assign_location_list_shipper">
