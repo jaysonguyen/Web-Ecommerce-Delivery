@@ -9,15 +9,17 @@ import {
   UploadSimple,
   X,
 } from "phosphor-react";
-import { ICON_SIZE_EXTRA_LARGE } from "../../../utils/constraint";
 import { Input, Dropdown, MyButton } from "../../index";
 import { MyTable } from "../../template/table/MyTable/MyTable";
 import toast from "react-hot-toast";
-import { deleteUser } from "../../../services/UserService";
 import tableSlice from "../../../features/table/tableSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { tableSelector } from "../../../selectors/consumerSelector";
-import { getCityList, insertOrder } from "../../../services/OrderService";
+import {
+  getCityDropdownList,
+  getCityList,
+  insertOrder,
+} from "../../../services/OrderService";
 import { JsonToString } from "../../../utils/modelHandle";
 
 function AddOrder({
@@ -43,7 +45,7 @@ function AddOrder({
   const [cityList, setCityList] = useState([]);
   const getCityData = async () => {
     try {
-      let res = await getCityList();
+      let res = await getCityDropdownList();
       if (res.status === 200) {
         setCityList(res.data);
       } else {

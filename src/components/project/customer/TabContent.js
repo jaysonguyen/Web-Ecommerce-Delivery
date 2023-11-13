@@ -26,6 +26,11 @@ export const TabContent = ({
   const [storeInfo, setStoreInfo] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // const [nameUser, setNameUser] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [phoneNum, setPhoneNum] = useState("");
+  // const [des, setDes] = useState("");
+
   const getBankData = async () => {
     if (isLoading) {
       // If a request is already in progress, don't make another one

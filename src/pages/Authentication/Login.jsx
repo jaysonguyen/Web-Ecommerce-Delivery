@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import displaySlice from "../../features/Display/displaySlice";
 import { loginBackground } from "../../assets/img/index";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
+import useToken from "../../hooks/useToken";
 
 //css
 import "../../assets/css/Pages/login.css";
@@ -10,11 +11,13 @@ import { Input } from "../../components/index";
 import { loginCustomer } from "../../services/UserService";
 import consumerSlice from "../../features/consumer/consumerSlice";
 import toast from "react-hot-toast";
+
 function Login(props) {
   const dispatch = useDispatch();
   const [account, setAccount] = useState("");
   const [pass, setPass] = useState("");
   const navigation = useNavigate();
+  const { setToken } = useToken();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,13 +26,22 @@ function Login(props) {
       if (checkLogin.status == 200) {
         dispatch(consumerSlice.actions.setUserCurrentInfo(checkLogin.data));
         toast.success("Login successfully");
-        await localStorage.setItem(
+        await sessionStorage.setItem(
           "user_payload",
-          JSON.stringify(checkLogin.data)
+          JSON.stringify(checkLogin.data),
         );
-        if (checkLogin.data?.role?.roleId != 2) {
+        dispatch(displaySlice.actions.displaySidebar(true));
+
+        //set token into session storage
+        setToken(checkLogin.data.userID);
+        if (checkLogin.data?.role === "admin") {
           navigation("/");
+        } else if (checkLogin.data?.role === "customer") {
+          navigation("/customer/store");
+        } else if (checkLogin.data?.role === "shipper") {
+          navigation("/shipper");
         } else {
+          //staff
           navigation("/order");
         }
       } else {
@@ -42,6 +54,7 @@ function Login(props) {
   };
 
   useEffect(() => {
+    sessionStorage.clear();
     dispatch(displaySlice.actions.displaySidebar(false));
     dispatch(displaySlice.actions.displayHeader(false));
   }, []);

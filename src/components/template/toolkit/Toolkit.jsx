@@ -5,6 +5,9 @@ import { X } from "phosphor-react";
 import * as Icon from "phosphor-react";
 import { useSelector } from "react-redux";
 import { tableSelector } from "../../../selectors/consumerSelector";
+import searchSlice from "../../../features/search/searchSlice";
+import { useDispatch } from "react-redux";
+
 export const Toolkit = ({
   borderRadius = "10px",
   bgColor = "var(--bg-light)",
@@ -17,6 +20,7 @@ export const Toolkit = ({
 
   const tableData = useSelector(tableSelector);
   const [selectCount, setSelectCount] = useState(tableData.selectList.length);
+  const dispatch = useDispatch();
 
   useEffect(() => {}, [tableData.selectList]);
 
@@ -29,6 +33,7 @@ export const Toolkit = ({
         placeholder="Search by name, email or mobile number"
         borderRadius="50px"
         width="100%"
+        onChange={(v) => dispatch(searchSlice.actions.searchInput(v.target))}
         icon={<Icon.MagnifyingGlass size={24} />}
       />
       <div className="mx-2"></div>

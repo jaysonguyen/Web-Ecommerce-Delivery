@@ -10,6 +10,7 @@ import { tableSelector } from "../../../selectors/consumerSelector";
 import toast from "react-hot-toast";
 import tableSlice from "../../../features/table/tableSlice";
 import { Dropdown } from "../../../components/index";
+import { BranchTableFromJson } from "../../../utils/modelHandle";
 
 function Branch(props) {
   const [branchList, setBranchList] = useState([]);
@@ -39,9 +40,10 @@ function Branch(props) {
     setIsLoading(true);
     try {
       const data = await getBranchList();
-      if (data != null) {
-        console.log(data.data);
-        setBranchList(data);
+      if (data.status === 200) {
+        for (let i = 0; i < data.data.length; i++) {
+          setBranchList(BranchTableFromJson(data.data[i]));
+        }
       }
       return;
     } catch (error) {

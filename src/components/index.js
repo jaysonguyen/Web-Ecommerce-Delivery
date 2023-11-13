@@ -12,9 +12,11 @@ import AddStaff from "./project/staff/AddStaff";
 import { TextInfo } from "./template/text/TextInfo";
 import AssignShipperTag from "./project/staff/AssignShipperTag";
 import StaffWithImage from "./project/staff/StaffWithImage";
+import { MyTable } from "./template/table/MyTable/MyTable";
 
 export {
   TextInfo,
+  MyTable,
   Sidebar,
   Dropdown,
   StaffWithImage,

@@ -16,7 +16,7 @@ function DropDown({
   margin = "0",
   placeholder = "",
   value = {},
-  onChange = () => {},
+  onChange = function () {},
 }) {
   const [isShowDropDown, setIsShowDropDown] = useState(false);
   const [itemSelect, setItemSelect] = useState(placeholder);
@@ -28,10 +28,10 @@ function DropDown({
     setIsShowDropDown(false);
   };
 
-  const handleSelectItem = async (e) => {
+  const handleSelectItem = async (e, code) => {
     await setItemSelect(e);
     await setIsShowDropDown(false);
-    onChange(itemSelect);
+    onChange(code);
   };
 
   const style = {
@@ -74,12 +74,14 @@ function DropDown({
                   <li key={index} className="dropdown_item">
                     <button
                       className={
-                        item.content == itemSelect
+                        item.content === itemSelect
                           ? "font-weight-b active"
                           : "font-weight-b"
                       }
                       value={item.content}
-                      onClick={(e) => handleSelectItem(e.target.value)}
+                      onClick={(e) =>
+                        handleSelectItem(e.target.value, item.code)
+                      }
                     >
                       {item.content}
                     </button>

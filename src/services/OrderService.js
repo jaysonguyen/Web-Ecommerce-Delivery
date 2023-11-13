@@ -30,7 +30,7 @@ export const getActions = async () => {
     return error;
   }
 };
-export const getCityList = async () => {
+export const getCityDropdownList = async () => {
   try {
     let data = await axios.get(`/api/order/city`);
     return data;

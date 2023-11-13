@@ -17,6 +17,8 @@ export const MyTable = ({
   handleGetData = function (e) {},
   hideToolkit = false,
   isDeleteRow = false,
+  searchValue,
+  searchCallback = function () {},
 }) => {
   const headers = list.length > 0 ? Object.keys(list[0]) : [];
   !hideDetails && headers.push("Thao tác");

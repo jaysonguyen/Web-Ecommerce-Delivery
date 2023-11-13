@@ -5,8 +5,7 @@ import "../../../assets/css/Pages/customer.css";
 import { OrderList } from "../../../components/project/order/OrderList";
 import { CaretLeft, Rows, SquaresFour } from "phosphor-react";
 import { ButtonState } from "../../../components/template/multiselect/CustomMultiSelect/ButtonState";
-import { MyTable } from "../../../components/template/table/MyTable/MyTable";
-import toast from "react-hot-toast";
+import { MyTable } from "../../../components";
 import {
   getActions,
   getOrderDetails,
@@ -22,35 +21,19 @@ import { ICON_SIZE_BIG } from "../../../utils/constraint";
 import AddOrder from "../../../components/project/order/AddOrder";
 import { SwipeableDrawer } from "@mui/material";
 import { Drawer } from "../../../components/project/drawer/Drawer";
+import { useSelector } from "react-redux";
+import {
+  searchSelector,
+  tableSelector,
+} from "../../../selectors/consumerSelector";
+import toast from "react-hot-toast";
+import { OrderModel } from "../../../model/order";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
+import { format } from "date-fns";
+import { DayPickerDialog } from "../../../components/template/dialog/DayPickerDialog";
 
 export const OrderPage = () => {
-  // let state = [
-  //   {
-  //     code: 0,
-  //     name: "Đơn nháp",
-  //   },
-  //   {
-  //     code: 1,
-  //     name: "Chờ bàn giao",
-  //   },
-  //   {
-  //     code: 2,
-  //     name: "Đã bàn giao-Đang giao",
-  //   },
-  //   {
-  //     code: 3,
-  //     name: "Đã bàn giao-Đang hoàn hàng",
-  //   },
-  //   {
-  //     code: 4,
-  //     name: "Chờ xác nhận giao lại",
-  //   },
-  //   {
-  //     code: 5,
-  //     name: "Hoàn tất",
-  //   },
-  // ];
-
   const [open, setOpen] = useState(false);
   const handleOpen = useCallback(() => setOpen(true), []);
   const handleClose = useCallback(() => setOpen(false), []);
@@ -61,9 +44,15 @@ export const OrderPage = () => {
   const [toggle, setToggle] = useState(1);
 
   const [actionList, setActionList] = useState([]);
-  const [orderList, setOrderList] = useState([]);
+  const [orderCardList, setOrderCardList] = useState([]);
   const [orderTableList, setOrderTableList] = useState([]);
+  const [orderList, setOrderList] = useState([]);
+
   const [actionSelected, setActionSelected] = useState("0");
+  const [dayaSelected, setDaySelected] = useState(new Date());
+  const [openDayDialog, setOpenDayDialog] = React.useState(false);
+
+  const searchData = useSelector(searchSelector);
 
   const handleShowDetail = async (data) => {
     try {
@@ -83,7 +72,7 @@ export const OrderPage = () => {
 
   const getOrdersByAction = async () => {
     setOrderTableList([]);
-    setOrderList([]);
+    setOrderCardList([]);
     try {
       let res = await getOrderListByAction(actionSelected);
       if (res.status === 200) {
@@ -91,6 +80,10 @@ export const OrderPage = () => {
         for (let i = 0; i < res.data.length; i++) {
           setOrderList((orderList) => [
             ...orderList,
+            new OrderModel(res.data[i]),
+          ]);
+          setOrderCardList((orderCardList) => [
+            ...orderCardList,
             OrderItemFromJson(res.data[i]),
           ]);
           setOrderTableList((orderTableList) => [
@@ -121,13 +114,25 @@ export const OrderPage = () => {
     }
   };
 
+  const handleSearch = async () => {
+    if (searchData === "") {
+      return;
+    }
+    // setOrderCardList((orderCardList) => orderCardList.map((e) => e.receiver_name));
+  };
+
+  const handleCloseDayDialog = (day) => {
+    setOpenDayDialog(false);
+    setDaySelected(day);
+  };
+
   useEffect(() => {
     getActionList().then((r) => true);
     getOrdersByAction().then((r) => true);
 
     return () => {
       setOrderTableList([]);
-      setOrderList([]);
+      setOrderCardList([]);
     };
   }, [toggle, actionSelected, isShowAdd, isShowDetail]);
 
@@ -151,9 +156,20 @@ export const OrderPage = () => {
       <div className="padding-body">
         {!isShowAdd && (
           <>
+            <div
+              className="py-2 p-4 border border-sm"
+              onClick={() => setOpenDayDialog(true)}
+            >
+              day picked: {format(dayaSelected, "PP")}
+            </div>
+            <DayPickerDialog
+              selectedValue={dayaSelected}
+              onClose={handleCloseDayDialog}
+              open={open}
+            />
             <div className="title_total_number_table">
               <h3 className="title_table">Order List </h3>
-              <p className="total_number_table">{orderList.length}</p>
+              <p className="total_number_table">{orderCardList.length}</p>
               <div className="ms-2">
                 <MyButton text="Add" callback={() => setIsShowAdd(true)} />
               </div>
@@ -180,7 +196,7 @@ export const OrderPage = () => {
                   fontColor="var(--tab-color)"
                   callback={() => {
                     setToggle(2);
-                    setOrderList([]);
+                    setOrderCardList([]);
                   }}
                   selected={toggle === 2}
                   isCount={false}
@@ -201,7 +217,7 @@ export const OrderPage = () => {
                 // actionsElement={<OrderButtons data={rowData} />}
               />
             ) : (
-              <OrderList data={orderList} />
+              <OrderList data={orderCardList} />
             )}
           </>
         )}

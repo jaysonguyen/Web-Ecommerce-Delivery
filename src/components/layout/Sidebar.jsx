@@ -8,6 +8,7 @@ import { ICON_SIZE_BIG } from "../../utils/constraint";
 import { Link } from "react-router-dom";
 //component
 import { Notification } from "../index";
+import { isAuthenticated } from "../../auth/index";
 //state
 // import { useDispatch, useSelector } from "react-redux";
 // import displaySlice from "../../features/Display/displaySlice";
@@ -24,6 +25,8 @@ function Sidebar({
 }) {
   const [activeTab, setActiveTab] = useState(0);
 
+  const user = isAuthenticated();
+
   // const dispatch = useDispatch();
   // const display = useSelector(displaySelector);
   // const consumer = useSelector(consumerSelector);
@@ -38,7 +41,8 @@ function Sidebar({
                 <img src={userDefaultAvatar} alt="" />
                 <h3 className="sidebar_heading_logo">
                   {heading}
-                  <p>Admin</p>
+                  <p>{user && user.role}</p>
+                  <p>{user && user.branch.name}</p>
                 </h3>
               </div>
 
@@ -96,25 +100,33 @@ function Sidebar({
           <div className="sidebar_body">
             <ul className="sidebar_menu">
               {tab
-                .filter((item) => item.position === "body")
+                .filter(
+                  (item) =>
+                    item.position === "body" &&
+                    user &&
+                    item.role.includes(user.role),
+                )
                 .map((item, index) => {
                   return (
-                    <li
+                    <Link
+                      to={`${item.link}`}
                       onClick={() => setActiveTab(index)}
                       key={index}
-                      className={
-                        index === activeTab && item.position === "body"
-                          ? "sidebar_item active"
-                          : "sidebar_item"
-                      }
+                      style={{ color: "var(--text-primary)" }}
                     >
-                      <Link exact to={item.link}>
+                      <li
+                        className={
+                          index === activeTab && item.position === "body"
+                            ? "sidebar_item active"
+                            : "sidebar_item"
+                        }
+                      >
                         {item.icon}
                         <span className="sidebar_tab_label font-weight-b">
                           {item.label}
                         </span>
-                      </Link>
-                    </li>
+                      </li>
+                    </Link>
                   );
                 })}
             </ul>
@@ -125,10 +137,12 @@ function Sidebar({
                 .filter((item) => item.position === "footer")
                 .map((item, index) => {
                   return (
-                    <Link exact to={item.link}>
+                    <Link
+                      to={`${item.link}`}
+                      onClick={() => setActiveTab(index)}
+                      key={index}
+                    >
                       <li
-                        onClick={() => setActiveTab(index)}
-                        key={index}
                         className={
                           index === activeTab && item.position === "footer"
                             ? "sidebar_item active"
@@ -173,7 +187,7 @@ function Sidebar({
                               : "sidebar_item"
                           }
                         >
-                          <Link exact to={item.link}>
+                          <Link to={`${item.link}`}>
                             {item.icon}
                             <span className="sidebar_tab_label font-weight-b">
                               {item.label}

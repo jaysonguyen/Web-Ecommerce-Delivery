@@ -32,6 +32,19 @@ export function CustomerTableFromJson(data) {
   return newData;
 }
 
+export function BranchTableFromJson(data) {
+  // Ánh xạ key cũ sang key mới
+  const newData = {
+    Code: data.branch_id,
+    Name: data.name,
+    Address: data.address,
+    Description: data.des,
+  };
+
+  // Chuyển đổi kết quả thành JSON mới
+  return newData;
+}
+
 export function OrderItemFromJson(order) {
   // Ánh xạ key cũ sang key mới
   const newData = {

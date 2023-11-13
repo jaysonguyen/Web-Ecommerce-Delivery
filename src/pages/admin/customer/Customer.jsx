@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { MyTable } from "../../../components/template/table/MyTable/MyTable";
-import { Dropdown, DetailCustomer, AddCustomer } from "../../../components";
+import {
+  Dropdown,
+  DetailCustomer,
+  AddCustomer,
+  MyTable,
+} from "../../../components";
 import "../../../assets/css/Pages/customer.css";
 import { deleteUser, getCustomerList } from "../../../services/UserService";
 import toast from "react-hot-toast";

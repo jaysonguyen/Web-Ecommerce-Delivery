@@ -20,9 +20,8 @@ import { TabContent } from "./TabContent";
 function DetailCustomer({ closeDetail, userSelected }) {
   const [currentTab, setCurrentTab] = useState("1");
   const [isShowAction, setIsShowAction] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [detailData, setDetailData] = useState(User);
-  const [tabData, setTabData] = useState({});
+
   const [nameUser, setNameUser] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
@@ -41,26 +40,21 @@ function DetailCustomer({ closeDetail, userSelected }) {
       id: 1,
       tabTitle: "Client details",
       title: "Client details",
-      content:
-        "Las tabs se generan automáticamente a partir de un array de objetos, el cual tiene las propiedades: id, tabTitle, title y content.",
     },
     {
       id: 2,
       tabTitle: "Orders list",
       title: "Orders list",
-      content: "Contenido de tab 2.",
     },
     {
       id: 3,
       tabTitle: "Bank account",
       title: "Bank account",
-      content: "Contenido de tab 3.",
     },
     {
       id: 4,
       tabTitle: "Store",
       title: "Invoices",
-      content: "Contenido de tab 4.",
     },
   ];
 
@@ -170,59 +164,6 @@ function DetailCustomer({ closeDetail, userSelected }) {
               ))}
             </div>
             <div className="content">
-              {/*{tabs.map((tab, i) => (
-                  <div key={i}>
-                    {currentTab === `${tab.id}` && (
-                      <div>
-                        <p className="title">{tab.title}</p>
-                        <p className="content_info">
-                          <div className="row">
-                            <div className="col -6">
-                              <Input
-                                placeholder={userSelected.name}
-                                label="Name"
-                              />
-                              <Input
-                                placeholder={userSelected.email}
-                                label="Email"
-                              />
-                              <Input
-                                placeholder={userSelected.address}
-                                label="Address"
-                              />
-                              <Input
-                                placeholder={userSelected.sales}
-                                label="Total sales"
-                              />
-                            </div>
-                            <div className="col -6">
-                              <div className="bank_account_info">
-                                NGUYEN VU THANH NGUYEN - 0200105062002 MB
-                              </div>
-                              <Dropdown
-                                placeholder="Choose a bank"
-                                label="Bank"
-                                item={itemBank}
-                                className="dropdown_bank"
-                              />
-                              <Input
-                                placeholder="Enter name"
-                                label="Account name"
-                              />
-                              <Input
-                                placeholder="Enter account number"
-                                label="Account number"
-                              />
-                              <button className="btnAdd btnAccount">
-                                Add new account
-                              </button>
-                            </div>
-                          </div>
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                ))}*/}
               {tabs.map((tab, index) => (
                 <div key={index}>
                   {currentTab === tab.id.toString() && (
