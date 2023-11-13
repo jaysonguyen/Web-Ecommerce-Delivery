@@ -194,17 +194,6 @@ function AddOrder({
       area: "",
     });
 
-    console.log({
-      user_id: "ff097d8f-a316-49cd-9c55-2a7c7c026551",
-      order_code: orderCode,
-      action_code: "0",
-      receiver: receiverData,
-      product_type_code: "type1",
-      collect_money: false,
-      product: productData,
-      package_order: packageData,
-      shipper_name: "",
-    });
 
     const checkAddOrders = await insertOrder({
       user_id: "ff097d8f-a316-49cd-9c55-2a7c7c026551",
@@ -217,7 +206,6 @@ function AddOrder({
       package_order: packageData,
       shipper_name: "",
     });
-    console.log(checkAddOrders);
     if (checkAddOrders.status === 200) {
       // await getNewsListByAction();
       toast.success("Submit success");

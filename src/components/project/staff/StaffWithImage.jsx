@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-function StaffWithImage(props) {
+function StaffWithImage({ nameShipper }) {
   const bgColorList = [
     "#4d28d2",
     "#ff1717",
@@ -21,9 +21,6 @@ function StaffWithImage(props) {
     return Math.floor(Math.random(0, 20) * 14);
   };
 
-  useEffect(() => {
-    console.log(randomColor());
-  });
 
   return (
     <>
@@ -33,7 +30,7 @@ function StaffWithImage(props) {
       >
         S
       </div>
-      <div className="shipper_assign_name">Nguyễn Vũ Thành Nguyên</div>
+      <div className="shipper_assign_name">{nameShipper}</div>
     </>
   );
 }

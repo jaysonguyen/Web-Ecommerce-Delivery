@@ -83,7 +83,6 @@ export const TabContent = ({
     try {
       const data = await getStoreByUser(userID);
       if (data != null) {
-        console.log(data.data);
         setStoreInfo(data.data);
       }
       return data;
@@ -161,7 +160,6 @@ export const TabContent = ({
 
   useEffect(() => {
     initData();
-    console.log("fetch data tab");
   }, [tab]);
 
   return (

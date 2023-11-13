@@ -42,7 +42,6 @@ export const OrderTabContent = ({ data = {}, tab = "1", clearData }) => {
 
   useEffect(() => {
     initData();
-    console.log("fetch data tab");
   }, [tab]);
 
   return (

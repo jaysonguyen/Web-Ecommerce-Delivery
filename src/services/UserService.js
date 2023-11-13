@@ -1,6 +1,7 @@
 import axios from "../config/axios";
 import {
   URL_GET_CUSTOMER,
+  URL_GET_SHIPPER_BY_BRANCH,
   URL_LOGIN_CUSTOMER,
   URL_USER,
 } from "../utils/constraint";
@@ -74,3 +75,12 @@ export const loginCustomer = async (data) => {
     return error;
   }
 };
+
+
+export const getShipperInBranchByBranchId = async (data) => {
+  try {
+    const shipperList = await axios.get(URL_GET_SHIPPER_BY_BRANCH + `/${data}`);
+  } catch(error) {
+    console.log(error);
+  }
+}

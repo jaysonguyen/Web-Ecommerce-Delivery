@@ -21,3 +21,4 @@ export const URL_GET_CUSTOMER = "/api/user/customer";
 export const URL_INSERT_USER = "/api/user";
 export const URL_USER = "/api/user";
 export const URL_LOGIN_CUSTOMER = "/api/authentication";
+export const URL_GET_SHIPPER_BY_BRANCH = "/api/user/shipper/assignment"
