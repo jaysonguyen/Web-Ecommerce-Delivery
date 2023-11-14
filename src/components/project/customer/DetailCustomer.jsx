@@ -12,29 +12,29 @@ import {
 import { ICON_SIZE_EXTRA_LARGE } from "../../../utils/constraint";
 import ActionCustomer from "./ActionCustomer";
 import { Input, Dropdown } from "../../index";
-import { getUserById, getUserList } from "../../../services/UserService";
+import {
+  getStoreByUser,
+  getUserByCode,
+  getUserById,
+  getUserList,
+} from "../../../services/UserService";
 import { User } from "../../../model/user";
 import toast from "react-hot-toast";
 import { TabContent } from "./TabContent";
+import { getBankList } from "../../../services/BankService";
 
-function DetailCustomer({ closeDetail, userSelected }) {
+function DetailCustomer({ userSelected }) {
   const [currentTab, setCurrentTab] = useState("1");
+  const [tabData, setTabData] = useState({});
+  const [userData, setUserData] = useState({});
+  const [storeData, setStoreData] = useState({});
   const [isShowAction, setIsShowAction] = useState(false);
-  const [detailData, setDetailData] = useState(User);
-
-  const [nameUser, setNameUser] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNum, setPhoneNum] = useState("");
-  const [des, setDes] = useState("");
 
   const handleShowAction = () => {
     const flag = !isShowAction;
     setIsShowAction(flag);
   };
 
-  // const handleCloseAction = () => {
-  //   setIsShowAction(false);
-  // };
   const tabs = [
     {
       id: 1,
@@ -73,22 +73,64 @@ function DetailCustomer({ closeDetail, userSelected }) {
     setCurrentTab(e.target.id);
   };
 
-  const handleClearInput = () => {
-    setNameUser("");
-    setEmail("");
-    setPhoneNum("");
-    setDes("");
-    closeDetail();
+  const getCustomerDetails = async () => {
+    try {
+      const data = await getUserByCode(userSelected.Code);
+      if (data.status === 200) {
+        setUserData(data.data);
+      }
+    } catch (error) {
+      // Handle the error here
+      return null;
+    }
   };
+
+  const getStoreList = async () => {
+    try {
+      const data = await getStoreByUser(userData.id);
+      if (data != null) {
+        setStoreData(data.data);
+      }
+      return data;
+    } catch (error) {
+      // Handle the error here
+      return null;
+    }
+  };
+
+  const initData = async () => {
+    switch (currentTab) {
+      case "1": {
+        //customer details
+        await getCustomerDetails();
+        setTabData(userData);
+        break;
+      }
+      case "2": {
+        //order by user
+        break;
+      }
+      case "3": {
+        // bank account
+        break;
+      }
+      case "4": {
+        // store
+        await getStoreList();
+        setTabData(storeData);
+        break;
+      }
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    initData();
+  }, [currentTab]);
+
   return (
     <>
-      <div className="go_back_button_container" onClick={closeDetail}>
-        <Link>
-          <button onClick={handleClearInput} className="close_detail_icon">
-            <CaretLeft size={ICON_SIZE_EXTRA_LARGE} />
-          </button>
-        </Link>
-      </div>
       <div className="detail_customer_container">
         <div className="count_quantity_type_order_cus">
           <div className="quantity_info">
@@ -132,7 +174,7 @@ function DetailCustomer({ closeDetail, userSelected }) {
             </div>
           </div>
           <div className="status_customer_blaclist_frame">
-            <div className="type_cus">{detailData.purpose}</div>
+            <div className="type_cus"></div>
             <div className="blacklist_frame ">
               <Warning size={20} />
             </div>
@@ -164,25 +206,7 @@ function DetailCustomer({ closeDetail, userSelected }) {
               ))}
             </div>
             <div className="content">
-              {tabs.map((tab, index) => (
-                <div key={index}>
-                  {currentTab === tab.id.toString() && (
-                    <TabContent
-                      nameUser={nameUser}
-                      setNameUser={setNameUser}
-                      des={des}
-                      setDes={setDes}
-                      phoneNum={phoneNum}
-                      setPhoneNum={setPhoneNum}
-                      email={email}
-                      setEmail={setEmail}
-                      tab={tab.id.toString()}
-                      userID={userSelected.id}
-                      clearData={handleClearInput}
-                    />
-                  )}
-                </div>
-              ))}
+              <TabContent tab={currentTab} data={tabData} />
             </div>
           </div>
         </div>

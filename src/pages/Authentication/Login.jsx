@@ -39,7 +39,7 @@ function Login(props) {
         } else if (checkLogin.data?.role === "customer") {
           navigation("/customer/store");
         } else if (checkLogin.data?.role === "shipper") {
-          navigation("/shipper");
+          navigation("/admin/order");
         } else {
           //staff
           navigation("/order");

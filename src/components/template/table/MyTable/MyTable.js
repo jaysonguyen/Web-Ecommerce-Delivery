@@ -20,8 +20,14 @@ export const MyTable = ({
   searchValue,
   searchCallback = function () {},
 }) => {
+  // flag: ignore ID column
+  let flag = false;
   const headers = list.length > 0 ? Object.keys(list[0]) : [];
   !hideDetails && headers.push("Thao tác");
+  if (headers[0] === "ID") {
+    headers.shift();
+    flag = true;
+  }
 
   const testCheck = (e, data) => {
     console.log("test check function");
@@ -59,18 +65,23 @@ export const MyTable = ({
             />
 
             {list.length > 0 &&
-              list.map((e, index) => (
-                <MyTableRow
-                  callback={handleActionButtons}
-                  showCheckBox={showCheckBox}
-                  handleCheck={testCheck}
-                  key={index}
-                  data={e}
-                  hideDetails={hideDetails}
-                  handleGetData={handleGetData}
-                  actionsElement={actionsElement}
-                />
-              ))}
+              list.map((e, index) => {
+                console.log(flag && index !== 0);
+                return (
+                  !(flag && index !== 0) && (
+                    <MyTableRow
+                      callback={handleActionButtons}
+                      showCheckBox={showCheckBox}
+                      handleCheck={testCheck}
+                      key={index}
+                      data={e}
+                      hideDetails={hideDetails}
+                      handleGetData={handleGetData}
+                      actionsElement={actionsElement}
+                    />
+                  )
+                );
+              })}
           </div>
         ) : (
           <div className="center h-75">

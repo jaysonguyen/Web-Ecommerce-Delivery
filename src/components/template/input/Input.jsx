@@ -16,6 +16,7 @@ function Input({
   value = "",
   className = "",
   onChange = function (v) {},
+  setDisabled = false,
 }) {
   let style = {
     width: width,
@@ -44,6 +45,7 @@ function Input({
           type={type}
           defaultValue={value}
           onChange={onChange}
+          disabled={setDisabled}
         />
       </div>
     </div>

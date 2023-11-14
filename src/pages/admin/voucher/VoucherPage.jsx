@@ -13,6 +13,7 @@ import { CaretLeft } from "phosphor-react";
 import AddVoucher from "../../../components/project/voucher/AddVoucher";
 import { tableSelector } from "../../../selectors/consumerSelector";
 import tableSlice from "../../../features/table/tableSlice";
+import { VoucherTableFromJson } from "../../../utils/modelHandle";
 
 function VoucherPage(props) {
   const [voucherSelected, setVoucherSelected] = useState({});
@@ -24,9 +25,6 @@ function VoucherPage(props) {
   const tableData = useSelector(tableSelector);
   const dispatch = useDispatch();
   const initData = async () => {
-    // let data = await getVoucherList();
-    // if (Array.isArray(data)) await setVoucherList(data);
-    // return data;
     if (isLoading) {
       // If a request is already in progress, don't make another one
       return -1;
@@ -36,8 +34,13 @@ function VoucherPage(props) {
     try {
       const data = await getVoucherList();
       console.log(data);
-      if (Array.isArray(data.data)) {
-        setVoucherList(data.data);
+      if (data.status === 200) {
+        for (let i = 0; i < data.data.length; i++) {
+          setVoucherList((voucherList) => [
+            ...voucherList,
+            VoucherTableFromJson(data.data[i]),
+          ]);
+        }
       }
       return data;
     } catch (error) {
@@ -56,8 +59,8 @@ function VoucherPage(props) {
     }
 
     for (let i = 0; i < list.length; i++) {
-      let res = await deleteVoucher(list[i].voucherId);
-      if (res.status != 200) {
+      let res = await deleteVoucher(list[i].ID);
+      if (res.status !== 200) {
         toast.error("Something went wrong");
         return;
       }

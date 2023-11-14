@@ -8,211 +8,35 @@ import {
 import { getBankList } from "../../../services/BankService";
 import toast from "react-hot-toast";
 
-export const TabContent = ({
-  nameUser,
-  setNameUser,
-  des,
-  setDes,
-  phoneNum,
-  setPhoneNum,
-  email,
-  setEmail,
-  tab = "1",
-  userID = "",
-  clearData,
-}) => {
-  const [bankList, setBankList] = useState([]);
-  const [customerInfo, setCustomerInfo] = useState([]);
-  const [storeInfo, setStoreInfo] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  // const [nameUser, setNameUser] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [phoneNum, setPhoneNum] = useState("");
-  // const [des, setDes] = useState("");
-
-  const getBankData = async () => {
-    if (isLoading) {
-      // If a request is already in progress, don't make another one
-      return -1;
-    }
-
-    setIsLoading(true);
-    try {
-      const data = await getBankList();
-      if (data != null) {
-        setBankList(data);
-      }
-      return data;
-    } catch (error) {
-      // Handle the error here
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const getCustomerDetails = async () => {
-    if (isLoading) {
-      // If a request is already in progress, don't make another one
-      return -1;
-    }
-
-    setIsLoading(true);
-    try {
-      const data = await getUserById(userID);
-      if (data != null) {
-        setCustomerInfo(data.data);
-      }
-      return data;
-    } catch (error) {
-      // Handle the error here
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const getStoreList = async () => {
-    if (isLoading) {
-      // If a request is already in progress, don't make another one
-      return -1;
-    }
-
-    setIsLoading(true);
-    try {
-      const data = await getStoreByUser(userID);
-      if (data != null) {
-        setStoreInfo(data.data);
-      }
-      return data;
-    } catch (error) {
-      // Handle the error here
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const initData = async () => {
-    switch (tab) {
-      case "1": {
-        //customer details
-        await getCustomerDetails();
-        await getBankData();
-        // console.log(bankList.map((e) => ({ content: e.name })));
-        break;
-      }
-      case "2": {
-        //order by user
-        break;
-      }
-      case "3": {
-        // bank account
-        break;
-      }
-      case "4": {
-        // store
-        await getStoreList();
-        break;
-      }
-      default:
-        break;
-    }
-  };
-
-  const handleNameUser = (e) => {
-    setNameUser(e.target.value);
-  };
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePhoneNumChange = (e) => {
-    setPhoneNum(e.target.value);
-  };
-
-  const handleDesChange = (e) => {
-    setDes(e.target.value);
-  };
-
-  const handleUpdateCustomer = async () => {
-    try {
-      const checkInsert = await updateUSer({
-        fullName: nameUser || customerInfo.fullName,
-        email: email || customerInfo.email,
-        account: customerInfo.account,
-        purpose: "nothing",
-        phone: phoneNum || customerInfo.phoneNumber,
-        des: des || customerInfo.des,
-      });
-      if (checkInsert != 200) {
-        toast.error("Update failed");
-      } else {
-        toast.success("Insert success");
-        clearData();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+export const TabContent = ({ tab = "1", data = {} }) => {
   useEffect(() => {
-    initData();
-  }, [tab]);
+    console.log(data);
+  }, [data]);
 
   return (
     <>
-      {tab === "1" && !isLoading && (
+      {tab === "1" && (
         <div className="row">
           <div className="col">
             <Input
-              value={nameUser}
-              onChange={handleNameUser}
-              placeholder={customerInfo.fullName}
+              value={data.fullName ?? ""}
+              setDisabled={true}
               label="Name"
             />
+            <Input value={data.phone ?? ""} label="Phone" setDisabled={true} />
             <Input
-              value={email}
-              onChange={handleEmailChange}
-              placeholder={customerInfo.email}
-              label="Email"
-            />
-            <Input
-              value={phoneNum}
-              onChange={handlePhoneNumChange}
-              placeholder={customerInfo.phone}
-              label="Phone"
-            />
-            <Input
-              value={des}
-              onChange={handleDesChange}
-              placeholder={customerInfo.des}
+              value={data.des ?? ""}
+              setDisabled={true}
               label="Description"
             />
           </div>
           <div className="col">
-            {/* div className="bank_account_info"></div> */}
-            <Dropdown
-              placeholder="NGUYEN VU THANH NGUYEN - 0200105062002 MB"
-              label="Bank"
-              item={
-                bankList.length > 0 &&
-                bankList.map((e) => ({ content: e.name }))
-              }
-              className="dropdown_bank"
+            <Input value={data.email ?? ""} setDisabled={true} label="Email" />
+            <Input
+              label="Account"
+              value={data.account ?? ""}
+              setDisabled={true}
             />
-            <Input placeholder={customerInfo.account} label="Account" />
-            <p className="changePassword_button">Change password?</p>
-            <div>
-              <button
-                onClick={handleUpdateCustomer}
-                className="btnAdd btnAccount buttonSave_info"
-              >
-                Save
-              </button>
-            </div>
           </div>
         </div>
       )}
@@ -231,21 +55,25 @@ export const TabContent = ({
       {tab === "4" && (
         <div>
           <button className="btnAdd btnAccount">Add new store</button>
-          {storeInfo.map((info, i) => (
-            <div className="row store_frame" key={i}>
-              <div className="col">
-                <Input placeholder={info.name} label="Name" />
-                <Input placeholder={info.des} label="Descript" />
-                <Input placeholder={info.address} label="Address" />
+          {data.length > 0 ? (
+            data.map((info, i) => (
+              <div className="row store_frame" key={i}>
+                <div className="col">
+                  <Input placeholder={info.name} label="Name" />
+                  <Input placeholder={info.des} label="Descript" />
+                  <Input placeholder={info.address} label="Address" />
+                </div>
+                <div className="col">
+                  <Input placeholder={info.phone} label="Phone" />
+                  <Input placeholder={info.created} label="Created" />
+                  <Input placeholder={info.updated} label="Updated" />
+                  <button className="btnAdd btnAccount">Delete</button>
+                </div>
               </div>
-              <div className="col">
-                <Input placeholder={info.phone} label="Phone" />
-                <Input placeholder={info.created} label="Created" />
-                <Input placeholder={info.updated} label="Updated" />
-                <button className="btnAdd btnAccount">Delete</button>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <></>
+          )}
         </div>
       )}
     </>

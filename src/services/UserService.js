@@ -23,9 +23,9 @@ export async function getCustomerList() {
     return error;
   }
 }
-export const getUserById = async (id) => {
+export const getUserByCode = async (code) => {
   try {
-    let data = await axios.get(`/api/user/${id}`);
+    let data = await axios.get(`/api/user/${code}`);
     return data;
   } catch (error) {
     return error;
