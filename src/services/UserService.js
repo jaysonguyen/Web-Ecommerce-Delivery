@@ -33,7 +33,7 @@ export const getUserById = async (id) => {
 };
 export const getStoreByUser = async (userId) => {
   try {
-    let data = await axios.get(`/api/user/store/${userId}`);
+    let data = await axios.get(`/api/user/${userId}/store`);
     return data;
   } catch (error) {
     return error;
@@ -76,11 +76,10 @@ export const loginCustomer = async (data) => {
   }
 };
 
-
 export const getShipperInBranchByBranchId = async (data) => {
   try {
     const shipperList = await axios.get(URL_GET_SHIPPER_BY_BRANCH + `/${data}`);
-  } catch(error) {
+  } catch (error) {
     console.log(error);
   }
-}
+};

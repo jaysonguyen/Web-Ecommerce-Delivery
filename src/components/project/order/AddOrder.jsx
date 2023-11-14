@@ -21,6 +21,7 @@ import {
   insertOrder,
 } from "../../../services/OrderService";
 import { JsonToString } from "../../../utils/modelHandle";
+import useToken from "../../../hooks/useToken";
 
 function AddOrder({
   handleClose,
@@ -36,6 +37,7 @@ function AddOrder({
   });
   const tableData = useSelector(tableSelector);
   const dispatch = useDispatch();
+  const { token, userPayload } = useToken();
 
   const handleImage = async (e) => {
     // console.log(URL.createObjectURL(e.target.files[0]));
@@ -194,9 +196,8 @@ function AddOrder({
       area: "",
     });
 
-
     const checkAddOrders = await insertOrder({
-      user_id: "ff097d8f-a316-49cd-9c55-2a7c7c026551",
+      user_id: token,
       order_code: orderCode,
       action_code: "0",
       receiver: receiverData,
@@ -204,7 +205,6 @@ function AddOrder({
       collect_money: false,
       product: productData,
       package_order: packageData,
-      shipper_name: "",
     });
     if (checkAddOrders.status === 200) {
       // await getNewsListByAction();
@@ -236,10 +236,10 @@ function AddOrder({
         </div>
       </div>
       <div
-        className="add_post_header sender_info d-flex flex-row "
+        className="add_post_header sender_info row "
         style={{ backgroundColor: "var(--bg-card-1)" }}
       >
-        <div className="add_post_header_title_box">
+        <div className="add_post_header_title_box col">
           <p
             className={
               isError.title
@@ -250,15 +250,11 @@ function AddOrder({
             Sender<span className="required">*</span>
           </p>
           <p className={isError.title ? "warning_empty" : ""}>
-            Sender<span className="required">*</span>
+            Sender Code<span className="required">*</span>
           </p>
-          <input
-            // value={title}
-            // onChange={(e) => setTitle(e.target.value)}
-            placeholder="Please enter a title..."
-          />
+          <h4 className="me-5">{userPayload && userPayload.userCode}</h4>
         </div>
-        <div className="add_subtitle_box w-100">
+        <div className="add_subtitle_box w-100 col">
           <p className={isError.sum ? "warning_empty" : ""}>Note</p>
           <textarea
             // value={sum}

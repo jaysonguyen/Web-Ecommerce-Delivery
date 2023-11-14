@@ -7,7 +7,7 @@ import { DayPicker } from "react-day-picker";
 //   onClose: (value: Date) => void;
 // }
 
-export function DayPickerDialog({ props }) {
+export function DayPickerDialog(props) {
   const { onClose, selectedValue, open } = props;
 
   const handleClose = () => {

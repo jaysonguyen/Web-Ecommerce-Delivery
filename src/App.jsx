@@ -60,13 +60,6 @@ function App() {
     },
     {
       icon: <ShoppingBag size={ICON_SIZE_BIG} />,
-      label: "Store",
-      link: "/customer/store",
-      position: "body",
-      role: ["customer"],
-    },
-    {
-      icon: <ShoppingBag size={ICON_SIZE_BIG} />,
       label: "Customer",
       link: "/",
       position: "body",
@@ -77,7 +70,7 @@ function App() {
       label: "Order",
       link: URL_ORDER,
       position: "body",
-      role: ["admin"],
+      // role: ["admin", ""],
     },
     {
       icon: <UsersFour size={ICON_SIZE_BIG} />,
@@ -114,6 +107,13 @@ function App() {
       link: URL_PRODUCTTYPE,
       position: "body",
       role: ["admin"],
+    },
+    {
+      icon: <ShoppingBag size={ICON_SIZE_BIG} />,
+      label: "Store",
+      link: "/customer/store",
+      position: "body",
+      role: ["customer"],
     },
     {
       icon: <GearSix size={ICON_SIZE_BIG} />,

@@ -145,7 +145,7 @@ const routes = [
   {
     path: URL_ORDER,
     element: <OrderPage />,
-    role: ["admin", "shipper", "staff"],
+    // role: ["admin", "shipper", "staff"],
   },
   {
     path: URL_FORGET,
@@ -209,6 +209,7 @@ root.render(
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/" element={<App />}>
             {routes.map((route, i) => {
               return (
@@ -228,7 +229,7 @@ root.render(
         </Routes>
       </Router>
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

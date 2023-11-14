@@ -45,6 +45,19 @@ export function BranchTableFromJson(data) {
   return newData;
 }
 
+export function StoreTableFromJson(data) {
+  // Ánh xạ key cũ sang key mới
+  const newData = {
+    Code: data.store_code,
+    Name: data.name,
+    Created: data.created,
+    State: data.state,
+  };
+
+  // Chuyển đổi kết quả thành JSON mới
+  return newData;
+}
+
 export function OrderItemFromJson(order) {
   // Ánh xạ key cũ sang key mới
   const newData = {

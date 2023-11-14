@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { getStoreByUser } from "../../services/UserService";
+import { deleteUser, getStoreByUser } from "../../services/UserService";
 import { isAuthenticated } from "../../auth/index";
 import { MyTable, Dropdown } from "../../components";
 import toast from "react-hot-toast";
 import AddStore from "../../components/project/store/AddStore";
+import { CaretLeft } from "phosphor-react";
+import { ICON_SIZE_BIG } from "../../utils/constraint";
+import AddOrder from "../../components/project/order/AddOrder";
+import useToken from "../../hooks/useToken";
+import { StoreTableFromJson } from "../../utils/modelHandle";
 
 function StorePage(props) {
   const [isShowAdd, setIsShowAdd] = useState(false);
   const [isShowDetails, setIsShowDetails] = useState(false);
   const [storeList, setStoreList] = useState([]);
-  let user = isAuthenticated();
+  const [storeTableList, setStoreTableList] = useState([]);
+  const [storeSelected, setStoreSelected] = useState({});
+  const { userPayload } = useToken();
 
   const handleCloseDialog = (type) => {
     switch (type) {
@@ -27,14 +34,34 @@ function StorePage(props) {
     }
   };
 
+  const handleButtonAction = async (data, type) => {
+    switch (type) {
+      case "details": {
+        await setStoreSelected(data);
+        await setIsShowDetails(true);
+        break;
+      }
+      case "delete": {
+        await deleteUser(data.id);
+        break;
+      }
+      default:
+        break;
+    }
+  };
+
   const getStoreData = async () => {
     try {
-      let res = await getStoreByUser(user.userID);
+      let res = await getStoreByUser(userPayload.userID);
 
       if (res.status === 200) {
         setStoreList(res.data);
-      } else {
-        toast.error("Add your store to the list");
+        for (let i = 0; i < res.data.length; i++) {
+          setStoreTableList((storeTableList) => [
+            ...storeTableList,
+            StoreTableFromJson(res.data[i]),
+          ]);
+        }
       }
     } catch (e) {
       console.log(e.message);
@@ -78,9 +105,9 @@ function StorePage(props) {
           </div>
 
           <MyTable
-            list={storeList}
+            list={storeTableList}
             showCheckBox={true}
-            // callback={handleButtonAction}
+            callback={handleButtonAction}
             // deleteCallback={handleDelete}
             hideDelete={true}
             hideDetais={true}
@@ -89,15 +116,30 @@ function StorePage(props) {
       )}
       {isShowAdd && (
         <div className="add_employee_container">
-          <AddStore showAdd={setIsShowAdd} />
+          <div
+            className="go_back_button_container"
+            onClick={() => setIsShowAdd(false)}
+          >
+            <CaretLeft size={ICON_SIZE_BIG} />
+          </div>
+          <AddStore isCreate={true} handleClose={() => setIsShowAdd(false)} />
         </div>
       )}
-      {/*{isShowDetails && (*/}
-      {/*  <DetailCustomer*/}
-      {/*    closeDetail={handleCloseDialog}*/}
-      {/*    userSelected={userSelected}*/}
-      {/*  />*/}
-      {/*)}*/}
+      {isShowDetails && (
+        <div className="add_employee_container">
+          <div
+            className="go_back_button_container"
+            onClick={() => setIsShowDetails(false)}
+          >
+            <CaretLeft size={ICON_SIZE_BIG} />
+          </div>
+          <AddStore
+            isCreate={false}
+            data={storeSelected}
+            handleClose={() => setIsShowDetails(false)}
+          />
+        </div>
+      )}
     </div>
   );
 }

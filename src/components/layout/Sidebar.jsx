@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 //component
 import { Notification } from "../index";
 import { isAuthenticated } from "../../auth/index";
+import useToken from "../../hooks/useToken";
 //state
 // import { useDispatch, useSelector } from "react-redux";
 // import displaySlice from "../../features/Display/displaySlice";
@@ -24,8 +25,7 @@ function Sidebar({
   displayNotification,
 }) {
   const [activeTab, setActiveTab] = useState(0);
-
-  const user = isAuthenticated();
+  const { userPayload } = useToken();
 
   // const dispatch = useDispatch();
   // const display = useSelector(displaySelector);
@@ -41,8 +41,12 @@ function Sidebar({
                 <img src={userDefaultAvatar} alt="" />
                 <h3 className="sidebar_heading_logo">
                   {heading}
-                  <p>{user && user.role}</p>
-                  <p>{user && user.branch.name}</p>
+                  <p>{userPayload && userPayload.role}</p>
+                  <p>
+                    {userPayload &&
+                      userPayload.branch &&
+                      userPayload.branch.name}
+                  </p>
                 </h3>
               </div>
 
@@ -103,8 +107,8 @@ function Sidebar({
                 .filter(
                   (item) =>
                     item.position === "body" &&
-                    user &&
-                    item.role.includes(user.role),
+                    userPayload &&
+                    (!item.role || item.role.includes(userPayload.role)),
                 )
                 .map((item, index) => {
                   return (
