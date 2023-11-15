@@ -103,7 +103,7 @@ function DetailCustomer({ userSelected }) {
       case "1": {
         //customer details
         await getCustomerDetails();
-        setTabData(userData);
+        await setTabData(userData);
         break;
       }
       case "2": {
@@ -117,7 +117,7 @@ function DetailCustomer({ userSelected }) {
       case "4": {
         // store
         await getStoreList();
-        setTabData(storeData);
+        await setTabData(storeData);
         break;
       }
       default:
@@ -127,7 +127,7 @@ function DetailCustomer({ userSelected }) {
 
   useEffect(() => {
     initData();
-  }, [currentTab]);
+  }, [currentTab, userSelected]);
 
   return (
     <>

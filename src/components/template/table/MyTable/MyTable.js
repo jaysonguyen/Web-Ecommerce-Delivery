@@ -14,6 +14,7 @@ export const MyTable = ({
   title,
   actionsElement,
   hideDetails = false,
+  hideDelete = false,
   handleGetData = function (e) {},
   hideToolkit = false,
   isDeleteRow = false,
@@ -21,13 +22,8 @@ export const MyTable = ({
   searchCallback = function () {},
 }) => {
   // flag: ignore ID column
-  let flag = false;
   const headers = list.length > 0 ? Object.keys(list[0]) : [];
   !hideDetails && headers.push("Thao tác");
-  if (headers[0] === "ID") {
-    headers.shift();
-    flag = true;
-  }
 
   const testCheck = (e, data) => {
     console.log("test check function");
@@ -53,33 +49,36 @@ export const MyTable = ({
           <div className="col text-end">{headerAction}</div>
         </div>
         {!hideToolkit && (
-          <Toolkit selectedList={select} deleteCallback={deleteCallback} />
+          <Toolkit
+            selectedList={select}
+            hideDelete={hideDelete}
+            deleteCallback={deleteCallback}
+          />
         )}
         {list.length > 0 ? (
           <div className="my_table_wrapper">
             <MyTableRow
               showCheckBox={showCheckBox}
               data={headers}
+              ignoreID={headers[0] === "ID"}
               isHeader={true}
               cellContentCenter={false}
             />
 
             {list.length > 0 &&
               list.map((e, index) => {
-                console.log(flag && index !== 0);
                 return (
-                  !(flag && index !== 0) && (
-                    <MyTableRow
-                      callback={handleActionButtons}
-                      showCheckBox={showCheckBox}
-                      handleCheck={testCheck}
-                      key={index}
-                      data={e}
-                      hideDetails={hideDetails}
-                      handleGetData={handleGetData}
-                      actionsElement={actionsElement}
-                    />
-                  )
+                  <MyTableRow
+                    callback={handleActionButtons}
+                    showCheckBox={showCheckBox}
+                    handleCheck={testCheck}
+                    key={index}
+                    data={e}
+                    ignoreID={headers[0] === "ID"}
+                    hideDetails={hideDetails}
+                    handleGetData={handleGetData}
+                    actionsElement={actionsElement}
+                  />
                 );
               })}
           </div>

@@ -12,6 +12,7 @@ export const Toolkit = ({
   borderRadius = "10px",
   bgColor = "var(--bg-light)",
   deleteCallback = function () {},
+  hideDelete = false,
 }) => {
   const style = {
     backgroundColor: bgColor,
@@ -48,29 +49,31 @@ export const Toolkit = ({
         padding="5px 20px"
         surfix=<Icon.Faders size={18} />
       />
-      <div className="w-100">
-        <div className="w-100 d-flex align-items-center justify-content-around">
-          <div className="d-flex align-items-center">
-            <div>{selectCount.toString()} Item selected</div>
+      {!hideDelete && (
+        <div className="w-100">
+          <div className="w-100 d-flex align-items-center justify-content-around">
+            <div className="d-flex align-items-center">
+              <div>{selectCount.toString()} Item selected</div>
+              <MyButton
+                prefix={<X size={18} />}
+                bgColor="transparent"
+                fontColor="var(--primary-color)"
+                padding="0"
+                width="40px"
+              />
+            </div>
             <MyButton
-              prefix={<X size={18} />}
-              bgColor="transparent"
-              fontColor="var(--primary-color)"
-              padding="0"
-              width="40px"
+              text="Delete"
+              height="44px"
+              bgColor="var(--color-error)"
+              fontColor="var(--text-white)"
+              hoverColor="var(--text-white)"
+              borderRadius="5px"
+              callback={deleteCallback}
             />
           </div>
-          <MyButton
-            text="Delete"
-            height="44px"
-            bgColor="var(--color-error)"
-            fontColor="var(--text-white)"
-            hoverColor="var(--text-white)"
-            borderRadius="5px"
-            callback={deleteCallback}
-          />
         </div>
-      </div>
+      )}
     </div>
   );
 };

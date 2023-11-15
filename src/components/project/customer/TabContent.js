@@ -9,10 +9,6 @@ import { getBankList } from "../../../services/BankService";
 import toast from "react-hot-toast";
 
 export const TabContent = ({ tab = "1", data = {} }) => {
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   return (
     <>
       {tab === "1" && (

@@ -135,7 +135,7 @@ const routes = [
   {
     path: URL_VOUCHER,
     element: <VoucherPage />,
-    role: ["admin"],
+    role: ["admin", "customer"],
   },
   {
     path: URL_CITY,

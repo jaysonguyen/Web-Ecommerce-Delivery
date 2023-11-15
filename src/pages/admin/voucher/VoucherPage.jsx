@@ -14,6 +14,7 @@ import AddVoucher from "../../../components/project/voucher/AddVoucher";
 import { tableSelector } from "../../../selectors/consumerSelector";
 import tableSlice from "../../../features/table/tableSlice";
 import { VoucherTableFromJson } from "../../../utils/modelHandle";
+import useToken from "../../../hooks/useToken";
 
 function VoucherPage(props) {
   const [voucherSelected, setVoucherSelected] = useState({});
@@ -24,6 +25,8 @@ function VoucherPage(props) {
   const [isShowAdd, setIsShowAdd] = useState(false);
   const tableData = useSelector(tableSelector);
   const dispatch = useDispatch();
+  const { userPayload } = useToken();
+
   const initData = async () => {
     if (isLoading) {
       // If a request is already in progress, don't make another one
@@ -134,8 +137,9 @@ function VoucherPage(props) {
           </div>
 
           <MyTable
+            hideDelete={userPayload.role !== "admin"}
             list={voucherList}
-            showCheckBox={true}
+            showCheckBox={!(userPayload.role !== "admin")}
             callback={handleButtonAction}
             hideDetails={true}
             deleteCallback={handleDelete}

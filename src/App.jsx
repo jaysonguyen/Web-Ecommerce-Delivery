@@ -98,7 +98,7 @@ function App() {
       label: "Voucher",
       link: URL_VOUCHER,
       position: "body",
-      role: ["admin"],
+      role: ["admin", "customer"],
     },
 
     {
