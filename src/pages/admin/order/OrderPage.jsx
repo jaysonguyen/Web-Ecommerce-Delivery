@@ -32,6 +32,7 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
 import { DayPickerDialog } from "../../../components/template/dialog/DayPickerDialog";
+import useToken from "../../../hooks/useToken";
 
 export const OrderPage = () => {
   const [open, setOpen] = useState(false);
@@ -53,6 +54,7 @@ export const OrderPage = () => {
   const [openDayDialog, setOpenDayDialog] = React.useState(false);
 
   const searchData = useSelector(searchSelector);
+  const { userPayload } = useToken();
 
   const handleShowDetail = async (data) => {
     try {
@@ -74,7 +76,7 @@ export const OrderPage = () => {
     setOrderTableList([]);
     setOrderCardList([]);
     try {
-      let res = await getOrderListByAction(actionSelected);
+      let res = await getOrderListByAction(actionSelected, userPayload.userID);
       if (res.status === 200) {
         //
         for (let i = 0; i < res.data.length; i++) {

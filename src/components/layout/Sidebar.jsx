@@ -31,6 +31,10 @@ function Sidebar({
   // const display = useSelector(displaySelector);
   // const consumer = useSelector(consumerSelector);
 
+  const infoStyle = {
+    fontSize: "12px",
+  };
+
   return (
     <>
       {show && (
@@ -49,7 +53,10 @@ function Sidebar({
                   </p>
                 </h3>
               </div>
-
+              <div style={infoStyle}>
+                <div>Point: {userPayload && userPayload.point}</div>
+                <div>COD: {userPayload && userPayload.cod}</div>
+              </div>
               <div className="sidebar_heading_dropdown">
                 <ArrowsDownUp
                   className="sidebar_heading_dropdown--icon"

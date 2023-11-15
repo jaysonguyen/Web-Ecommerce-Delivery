@@ -17,6 +17,7 @@ import {
   setAction,
 } from "../../../services/OrderService";
 import ActionCustomer from "../customer/ActionCustomer";
+import useToken from "../../../hooks/useToken";
 
 function DetailsOrder({ closeDetail, orderSelected }) {
   const [currentTab, setCurrentTab] = useState("1");
@@ -29,6 +30,8 @@ function DetailsOrder({ closeDetail, orderSelected }) {
   const [email, setEmail] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
   const [des, setDes] = useState("");
+
+  const { userPayload } = useToken();
 
   const handleShowAction = () => {
     const flag = !isShowAction;
@@ -157,7 +160,7 @@ function DetailsOrder({ closeDetail, orderSelected }) {
 
   useEffect(() => {
     initActionTitleButton();
-  }, [currentTab]);
+  }, [currentTab, orderSelected]);
 
   return (
     <>
@@ -211,24 +214,28 @@ function DetailsOrder({ closeDetail, orderSelected }) {
             <button className="dotthree_icon" onClick={handleShowAction}>
               <DotsThreeVertical size={32} />
             </button>
-            {nextAction !== "" && (
-              <div>
-                <button className="btn_Order" onClick={handleActionButton}>
-                  {nextAction}
-                </button>
-              </div>
-            )}
-            {orderSelected.action_code !== "2" && (
-              <div>
-                <button
-                  className="btn_Order"
-                  style={{ backgroundColor: "var(--color-error)" }}
-                  onClick={() => handleActionButton("decline")}
-                >
-                  Decline
-                </button>
-              </div>
-            )}
+            {nextAction !== "" &&
+              (userPayload.role === "admin" ||
+                orderSelected.action_code === "0") && (
+                <div>
+                  <button className="btn_Order" onClick={handleActionButton}>
+                    {nextAction}
+                  </button>
+                </div>
+              )}
+            {orderSelected.action_code !== "2" &&
+              (userPayload.role === "admin" ||
+                orderSelected.action_code === "0") && (
+                <div>
+                  <button
+                    className="btn_Order"
+                    style={{ backgroundColor: "var(--color-error)" }}
+                    onClick={() => handleActionButton("decline")}
+                  >
+                    Decline
+                  </button>
+                </div>
+              )}
           </div>
           {isShowAction && (
             <ActionCustomer item={actions} icon={<PencilSimple size={17} />} />

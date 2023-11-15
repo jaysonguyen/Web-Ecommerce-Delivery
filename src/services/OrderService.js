@@ -13,9 +13,13 @@ export async function getOrderDetails(orderCode) {
     return error;
   }
 }
-export const getOrderListByAction = async (actionCode) => {
+export const getOrderListByAction = async (actionCode, userID) => {
   try {
-    let data = await axios.get(`/api/order/action/${actionCode}`);
+    let data = await axios.get(`/api/order/action/${actionCode}`, {
+      headers: {
+        Authorization: `Bearer ${userID}`,
+      },
+    });
     return data;
   } catch (error) {
     return error;
