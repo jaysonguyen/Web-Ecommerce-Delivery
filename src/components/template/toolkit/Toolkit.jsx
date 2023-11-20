@@ -27,27 +27,29 @@ export const Toolkit = ({
 
   return (
     <div
-      className="tookit-wrapper py-3 px-4 d-flex align-items-center"
+      className="tookit-wrapper py-2 px-3 d-flex align-items-center"
       style={style}
     >
       <Input
         placeholder="Search by name, email or mobile number"
         borderRadius="50px"
+        height="45px"
         width="100%"
         onChange={(v) => dispatch(searchSlice.actions.searchInput(v.target))}
-        icon={<Icon.MagnifyingGlass size={24} />}
+        icon={<Icon.MagnifyingGlass size={16} />}
       />
       <div className="mx-2"></div>
       <MyButton
         text="Filter"
         height="44px"
         width="12%"
+        fontSize="12px"
         hoverColor="var(--text-white)"
         bgColor="var(--primary-color)"
         fontColor="var(--text-white)"
         borderRadius="20px"
         padding="5px 20px"
-        surfix=<Icon.Faders size={18} />
+        surfix=<Icon.Faders size={16} />
       />
       {!hideDelete && (
         <div className="w-100">

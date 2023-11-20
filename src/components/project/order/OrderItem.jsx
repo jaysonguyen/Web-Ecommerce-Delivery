@@ -8,9 +8,10 @@ export const OrderItem = ({ data = {} }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const itemStyle = {
-    padding: "15px 15px 10px 15px",
-    border: "2px solid var(--border-gray)",
+    padding: "15px 15px 5px 15px",
+    // border: "1px solid var(--border-gray)",
     borderRadius: "10px",
+    boxShadow: "0 0 5px #f1f1f1",
     borderOpacity: "0.5",
     cursor: "pointer",
     backgroundColor: isHovered ? "var(--bg-light)" : "white",
@@ -102,7 +103,7 @@ export const OrderItem = ({ data = {} }) => {
 const BorderWrap = ({ children }) => {
   const itemStyle = {
     padding: "10px 10px",
-    border: "2px solid var(--border-gray)",
+    border: "1px solid var(--border-gray)",
     borderRadius: "10px",
     borderOpacity: "0.5",
   };

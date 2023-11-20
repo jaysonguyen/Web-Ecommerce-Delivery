@@ -42,7 +42,7 @@ function Branch(props) {
       const data = await getBranchList();
       if (data.status === 200) {
         for (let i = 0; i < data.data.length; i++) {
-          setBranchList(BranchTableFromJson(data.data[i]));
+          setBranchList((list) => [...list, BranchTableFromJson(data.data[i])]);
         }
       }
       return;

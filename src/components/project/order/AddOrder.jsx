@@ -22,6 +22,10 @@ import {
 } from "../../../services/OrderService";
 import { JsonToString } from "../../../utils/modelHandle";
 import useToken from "../../../hooks/useToken";
+import {
+  getProductTypeDropdownList,
+  getProductTypeList,
+} from "../../../services/ProductType";
 
 function AddOrder({
   handleClose,
@@ -59,6 +63,20 @@ function AddOrder({
     }
   };
 
+  const getProductTypeData = async () => {
+    try {
+      let res = await getProductTypeDropdownList();
+      if (res.status === 200) {
+        setProductTypeList(res.data);
+      } else {
+        toast.error("Cannot get product type data, please try again");
+      }
+    } catch (e) {
+      console.log("Error from get product type data: " + e.message);
+      toast.error("Check your network");
+    }
+  };
+
   const [orderCode, setOrderCode] = useState("");
 
   const [productList, setProductList] = useState([]);
@@ -66,6 +84,8 @@ function AddOrder({
   const [productCode, setProductCode] = useState("");
   const [productWeight, setProductWeight] = useState("");
   const [productQuantity, setProductQuantity] = useState("");
+  const [productType, setProductType] = useState("");
+  const [productTypeList, setProductTypeList] = useState([]);
 
   const clearProData = () => {
     setProductCode("");
@@ -90,6 +110,7 @@ function AddOrder({
       name: productName,
       weight: productWeight,
       quantity: productQuantity,
+      "product type": productType,
     };
 
     for (let i = 0; i < productList.length; i++) {
@@ -144,6 +165,7 @@ function AddOrder({
 
   useEffect(() => {
     getCityData();
+    getProductTypeData();
     dispatch(tableSlice.actions.handleSelected([]));
   }, []);
 
@@ -201,7 +223,6 @@ function AddOrder({
       order_code: orderCode,
       action_code: "0",
       receiver: receiverData,
-      product_type_code: "type1",
       collect_money: false,
       product: productData,
       package_order: packageData,
@@ -364,6 +385,16 @@ function AddOrder({
                 onChange={(v) => setProductName(v.target.value)}
                 placeholder="Enter product's name"
               />
+              <p className={isError.type ? "warning_empty" : ""}>
+                Product type <span className="required">*</span>
+              </p>
+              <Dropdown
+                item={productTypeList}
+                value={productType}
+                bgColor="var(--text-white)"
+                onValue={(v) => setProductType(v)}
+                placeholder="Choose product type"
+              />
               <div className="row">
                 <div className="col">
                   <OrderInput
@@ -394,7 +425,7 @@ function AddOrder({
                 callback={addProductToList}
               />
             </div>
-            <div className="col">
+            <div className="col product_table">
               <MyTable
                 hideToolkit={true}
                 hideDetails={true}

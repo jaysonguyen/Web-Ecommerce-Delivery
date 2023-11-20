@@ -147,6 +147,10 @@ function DetailsOrder({ closeDetail, orderSelected }) {
         setNextAction("Return");
         break;
       }
+      case "4": {
+        setNextAction("Finished");
+        break;
+      }
       case "5": {
         setNextAction("Complete");
         break;

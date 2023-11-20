@@ -7,7 +7,6 @@ export const ButtonState = ({
   fontColor,
   hoverColor,
   prefix,
-  surfix,
   borderRadius = "30px",
   selected = false,
   width = "auto",
@@ -19,20 +18,21 @@ export const ButtonState = ({
     color: "var(--tab-color)",
     padding: "2px 10px",
     borderRadius: "50px",
+    fontSize: "10px",
     boxShadow: "1px 1px 4px var(--text-color-gray)",
   };
 
   return (
     <MyButton
       prefix={prefix}
-      surfix={surfix}
       text={label}
-      padding="25px 30px"
+      padding="18px 15px"
       margin="5px 0"
       borderRadius={borderRadius}
       callback={callback}
       bgColor={selected ? hoverColor : bgColor}
       fontColor={selected ? bgColor : fontColor}
+      fontSize="13px"
       hoverColor={selected ? null : hoverColor}
       borderColor={fontColor}
       width={width}

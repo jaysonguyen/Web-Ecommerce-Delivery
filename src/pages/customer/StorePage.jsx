@@ -51,6 +51,8 @@ function StorePage(props) {
   };
 
   const getStoreData = async () => {
+    setStoreTableList([]);
+
     try {
       let res = await getStoreByUser(userPayload.userID);
 

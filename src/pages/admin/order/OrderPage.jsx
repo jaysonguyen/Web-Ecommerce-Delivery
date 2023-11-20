@@ -206,11 +206,14 @@ export const OrderPage = () => {
                 />
               </div>
             </div>
-            <CustomMultiSelect
-              selectList={actionList}
-              selectActive={actionSelected}
-              onSelected={setActionSelected}
-            />
+            <div className="my-2">
+              <CustomMultiSelect
+                selectList={actionList}
+                selectActive={actionSelected}
+                onSelected={setActionSelected}
+              />
+            </div>
+
             {toggle === 1 ? (
               <MyTable
                 list={orderTableList}
@@ -223,20 +226,6 @@ export const OrderPage = () => {
             )}
           </>
         )}
-        {/*{isShowDetail && (*/}
-        {/*  <div className="add_employee_container">*/}
-        {/*    <div className="go_back_button_container">*/}
-        {/*      <CaretLeft*/}
-        {/*        onClick={() => setIsShowDetail(false)}*/}
-        {/*        size={ICON_SIZE_BIG}*/}
-        {/*      />*/}
-        {/*    </div>*/}
-        {/*    <DetailsOrder*/}
-        {/*      closeDetail={handleCloseDetail}*/}
-        {/*      orderSelected={dataSelected}*/}
-        {/*    />*/}
-        {/*  </div>*/}
-        {/*)}*/}
 
         {isShowAdd && (
           <div className="add_employee_container">
@@ -257,7 +246,7 @@ export const OrderPage = () => {
         <Drawer
           anchor="right"
           open={isShowDetail}
-          onClose={() => setIsShowAdd(false)}
+          onClose={() => setIsShowDetail(false)}
           child={detailsModal}
         />
       </div>

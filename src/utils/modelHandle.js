@@ -36,7 +36,8 @@ export function CustomerTableFromJson(data) {
 export function BranchTableFromJson(data) {
   // Ánh xạ key cũ sang key mới
   const newData = {
-    Code: data.branch_id,
+    ID: data.branch_id,
+    Code: data.code,
     Name: data.name,
     Address: data.address,
     Description: data.des,

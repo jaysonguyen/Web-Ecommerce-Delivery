@@ -120,8 +120,8 @@ a {
 
 .padding-body {
   padding-top: calc(var(--admin-header-height) + -20px);
-  padding-left: 3%;
-  padding-right: 3%;
+  padding-left: 6%;
+  padding-right: 6%;
 }
 
 .margin-none {

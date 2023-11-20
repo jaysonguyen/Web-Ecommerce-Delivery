@@ -16,7 +16,8 @@ function DropDown({
   margin = "0",
   placeholder = "",
   value = {},
-  onChange = function () {},
+  onChange = function (v) {},
+  onValue = function (v) {},
 }) {
   const [isShowDropDown, setIsShowDropDown] = useState(false);
   const [itemSelect, setItemSelect] = useState(placeholder);
@@ -34,6 +35,7 @@ function DropDown({
     await setItemSelect(e);
     await setIsShowDropDown(false);
     onChange(code);
+    onValue(e);
   };
 
   const style = {

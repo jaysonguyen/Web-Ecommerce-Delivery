@@ -36,8 +36,17 @@ function Input({
       style={style}
     >
       {label && <label className="text_dark text_gray">{label}</label>}
-      <div className="d-flex input_content" style={inputStyle}>
-        {icon && <MyButton bgColor="transparent" prefix={icon} />}
+      <div className="d-flex input_content m-0" style={inputStyle}>
+        {icon && (
+          <MyButton
+            width="5%"
+            height="25px"
+            bgColor="transparent"
+            padding="none"
+            margin="none"
+            prefix={icon}
+          />
+        )}
         <input
           className="text_dark"
           placeholder={placeholder}
