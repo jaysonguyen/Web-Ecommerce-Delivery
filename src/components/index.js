@@ -12,6 +12,7 @@ import AddStaff from "./project/staff/AddStaff";
 import { TextInfo } from "./template/text/TextInfo";
 import AssignShipperTag from "./project/staff/AssignShipperTag";
 import StaffWithImage from "./project/staff/StaffWithImage";
+import { MyTable } from "./template/table/MyTable/MyTable";
 import PackageShipment from "./project/staff/PackageShipment";
 import ShipmentReject from "./project/staff/ShipmentReject.jsx";
 
@@ -19,6 +20,7 @@ export {
   ShipmentReject,
   PackageShipment,
   TextInfo,
+  MyTable,
   Sidebar,
   Dropdown,
   StaffWithImage,

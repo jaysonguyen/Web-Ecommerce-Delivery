@@ -20,6 +20,7 @@ export const MyTableRow = ({
   hideDetails = false,
   cellContentCenter = false,
   actionsElement = [<></>],
+  ignoreID = false,
 }) => {
   const dispatch = useDispatch();
   const tableData = useSelector(tableSelector);
@@ -29,7 +30,7 @@ export const MyTableRow = ({
     : "my_table_row row";
 
   let checkBoxClassName = showCheckBox
-    ? `my_table_cell col-1 checkbox`
+    ? `my_table_cell col-1 checkbox `
     : `my_table_cell col-1 checkbox d-none`;
 
   let rowStyle = {
@@ -72,23 +73,25 @@ export const MyTableRow = ({
         </div>
       </div>
       {Object.values(data).map((e, index) => {
-        if (index === 0)
+        if ((ignoreID && index !== 0) || !ignoreID) {
+          if (index === 0)
+            return (
+              <MyTableCell
+                key={index}
+                data={e}
+                width={`-1`}
+                center={cellContentCenter}
+              />
+            );
           return (
             <MyTableCell
               key={index}
               data={e}
-              width={`-1`}
+              width={``}
               center={cellContentCenter}
             />
           );
-        return (
-          <MyTableCell
-            key={index}
-            data={e}
-            width={``}
-            center={cellContentCenter}
-          />
-        );
+        }
       })}
 
       {!isHeader && !hideDetails && (

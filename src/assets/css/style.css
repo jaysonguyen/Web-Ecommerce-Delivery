@@ -48,6 +48,7 @@
   border: 0;
   font-size: 100%;
   font-family: "Poppins", sans-serif;
+  /*overflow: hidden;*/
 }
 
 html,
@@ -119,9 +120,9 @@ a {
 }
 
 .padding-body {
-  padding-top: calc(var(--admin-header-height) + -20px);
-  padding-left: 3%;
-  padding-right: 3%;
+  padding-top: 5vh;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
 .margin-none {

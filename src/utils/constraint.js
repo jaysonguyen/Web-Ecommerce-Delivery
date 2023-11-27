@@ -4,6 +4,7 @@ export const ICON_SIZE_EXTRA_LARGE = 22;
 
 export const URL_STAFF = "/admin/staff";
 export const URL_ORDER = "/admin/order";
+export const URL_DASHBOARD = "/";
 export const URL_VOUCHER = "/admin/voucher";
 export const URL_CITY = "/admin/city";
 export const URL_VOUCHER_ADD = "/admin/voucher/add";
@@ -25,3 +26,4 @@ export const URL_GET_SHIPPER_BY_BRANCH = "api/user/shipper/branch"
 export const URL_GET_ASSIGN_INFO = "/api/user/shipper/assignment"
 
 export const URL_GET_ORDER_BY_SHIPPER_CODE = "/api/order/shipper"
+export const URL_GET_SHIPPER_BY_BRANCH = "/api/user/shipper/assignment";

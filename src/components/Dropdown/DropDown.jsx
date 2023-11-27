@@ -16,36 +16,44 @@ function DropDown({
   margin = "0",
   placeholder = "",
   value = {},
-  onChange = () => {},
+  onChange = function (v) {},
+  onValue = function (v) {},
 }) {
   const [isShowDropDown, setIsShowDropDown] = useState(false);
   const [itemSelect, setItemSelect] = useState(placeholder);
   const handleShowDropdown = () => {
+    console.log("show dropdown");
     setIsShowDropDown(true);
   };
 
   const handleCloseModal = () => {
+    console.log("close dropdown");
     setIsShowDropDown(false);
   };
 
-  const handleSelectItem = async (e) => {
+  const handleSelectItem = async (e, code) => {
     await setItemSelect(e);
     await setIsShowDropDown(false);
-    onChange(itemSelect);
+    onChange(code);
+    onValue(e);
   };
 
   const style = {
     margin: "10px 0",
     height: "50px",
     backgroundColor: bgColor,
-    boxShadow: isBoxShadow
-      ? "0px 0px 3px var(--primary-color)"
-      : "1px 1px 4px var(--border-color)",
+    boxShadow:
+      item.length > 0
+        ? isBoxShadow
+          ? "0px 0px 3px var(--primary-color)"
+          : "1px 1px 4px var(--border-color)"
+        : "none",
+    cursor: item.length > 0 ? "pointer" : "context-menu",
   };
 
   return (
     <>
-      {label && <label className="text_dark font-weight-b">{label}</label>}
+      {label && <label className="text-dark font-weight-b">{label}</label>}
       <div
         className="dropdown_container flex-align-center"
         style={style}
@@ -56,7 +64,14 @@ function DropDown({
             <Storefront size={ICON_SIZE_BIG} weight="fill" />
           </span>
         )}
-        <h6 style={{ margin: margin, color: textColor }}>{itemSelect}</h6>
+        <h6
+          style={{
+            margin: margin,
+            color: item.length > 0 ? textColor : "var(--text-color-gray)",
+          }}
+        >
+          {itemSelect}
+        </h6>
         <span className="dropdown_icon">
           <CaretDown size={ICON_SIZE_BIG} />
         </span>
@@ -74,12 +89,14 @@ function DropDown({
                   <li key={index} className="dropdown_item">
                     <button
                       className={
-                        item.content == itemSelect
+                        item.content === itemSelect
                           ? "font-weight-b active"
                           : "font-weight-b"
                       }
                       value={item.content}
-                      onClick={(e) => handleSelectItem(e.target.value)}
+                      onClick={(e) =>
+                        handleSelectItem(e.target.value, item.code)
+                      }
                     >
                       {item.content}
                     </button>

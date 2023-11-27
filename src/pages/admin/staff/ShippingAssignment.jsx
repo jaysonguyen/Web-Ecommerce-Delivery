@@ -46,7 +46,7 @@ function ShippingAssignment(props) {
   }, []);
 
   return (
-    <div className="padding-body shipping-assignment_container">
+    <div className=" shipping-assignment_container">
       <h3>Shipping assignment</h3>
       <dd>Assign location for your shipper </dd>
 

@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../../assets/css/Pages/login.css";
 import { Dropdown, Input } from "../../components/index";
 import { insertUser } from "../../services/UserService";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 function Register(props) {
   const [aim, setAim] = useState("");
   const [acc, setAcc] = useState("");
@@ -103,112 +103,116 @@ function Register(props) {
     dispatch(displaySlice.actions.displayHeader(false));
   }, []);
   return (
-    <div className="register_container flex-center-between">
-      <div className="login_img_container">
-        <img src={loginBackground} alt="" />
-      </div>
-      <div className="login_form flex-center-center">
-        <h6 className="margin-none font-weight-b title_size text_primary">
-          Tạo tài khoản
-        </h6>
-        <dd>DMNL luôn đồng hành cùng bạn</dd>
-        <form className="register_form">
-          <div className="row">
-            <div className="col col-6">
-              <Dropdown
-                placeholder="Nhập mục đích..."
-                label={"Mục đích sử dụng"}
-                textColor="var(--text-color-gray)"
-                item={itemPropose}
-                value={aim}
-                onChange={setAim}
-                margin="0"
-              />
-            </div>
-            <div className="col col-6">
-              <Input
-                value={acc}
-                onChange={(e) => setAcc(e.target.value)}
-                label="Account"
-                placeholder="Enter account"
-              />
-            </div>
-            <div className="col col-6">
-              <Input
-                label="Full name"
-                placeholder="Nhập tài khoản"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-              />
-            </div>
-            <div className="col col-6">
-              <Dropdown
-                placeholder="Chọn quy mô vận chuyển..."
-                label={"Quy mô vận chuyển"}
-                item={itemScale}
-                textColor="var(--text-color-gray)"
-                margin="0"
-                value={scale}
-                onChange={setScale}
-              />
-            </div>
-            <div className="col col-6">
-              <Input
-                label="Ngành hàng"
-                placeholder="Nhập ngành hàng"
-                value={major}
-                onChange={(e) => setMajor(e.target.value)}
-              />
-            </div>
-            <div className="col col-6">
-              <Input
-                label="Số điện thoại"
-                placeholder="Nhập số điện thoại"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
-            </div>
-            <div className="col col-6">
-              <Input
-                label="Email"
-                placeholder="Nhập email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="col col-6">
-              <Input
-                label="Mật khẩu"
-                placeholder="Nhập mật khẩu"
-                value={ps}
-                onChange={(e) => setPs(e.target.value)}
-              />
-            </div>
+    <>
+      <Toaster />
 
-            <div className="col col-6">
-              <Input
-                value={conPs}
-                onChange={(e) => setConPs(e.target.value)}
-                label="Nhập lại mật khẩu"
-                placeholder="Nhập lại mật khẩu"
-              />
+      <div className="register_container flex-center-between">
+        <div className="login_img_container">
+          <img src={loginBackground} alt="" />
+        </div>
+        <div className="login_form flex-center-center">
+          <h6 className="margin-none font-weight-b title_size text_primary">
+            Tạo tài khoản
+          </h6>
+          <dd>DMNL luôn đồng hành cùng bạn</dd>
+          <form className="register_form">
+            <div className="row">
+              <div className="col col-6">
+                <Dropdown
+                  placeholder="Nhập mục đích..."
+                  label={"Mục đích sử dụng"}
+                  textColor="var(--text-color-gray)"
+                  item={itemPropose}
+                  value={aim}
+                  onChange={setAim}
+                  margin="0"
+                />
+              </div>
+              <div className="col col-6">
+                <Input
+                  value={acc}
+                  onChange={(e) => setAcc(e.target.value)}
+                  label="Account"
+                  placeholder="Enter account"
+                />
+              </div>
+              <div className="col col-6">
+                <Input
+                  label="Full name"
+                  placeholder="Nhập tài khoản"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
+              </div>
+              <div className="col col-6">
+                <Dropdown
+                  placeholder="Chọn quy mô vận chuyển..."
+                  label={"Quy mô vận chuyển"}
+                  item={itemScale}
+                  textColor="var(--text-color-gray)"
+                  margin="0"
+                  value={scale}
+                  onChange={setScale}
+                />
+              </div>
+              <div className="col col-6">
+                <Input
+                  label="Ngành hàng"
+                  placeholder="Nhập ngành hàng"
+                  value={major}
+                  onChange={(e) => setMajor(e.target.value)}
+                />
+              </div>
+              <div className="col col-6">
+                <Input
+                  label="Số điện thoại"
+                  placeholder="Nhập số điện thoại"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </div>
+              <div className="col col-6">
+                <Input
+                  label="Email"
+                  placeholder="Nhập email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="col col-6">
+                <Input
+                  label="Mật khẩu"
+                  placeholder="Nhập mật khẩu"
+                  value={ps}
+                  onChange={(e) => setPs(e.target.value)}
+                />
+              </div>
+
+              <div className="col col-6">
+                <Input
+                  value={conPs}
+                  onChange={(e) => setConPs(e.target.value)}
+                  label="Nhập lại mật khẩu"
+                  placeholder="Nhập lại mật khẩu"
+                />
+              </div>
             </div>
-          </div>
-          <button
-            onClick={handleRegisterUser}
-            className="button_login button button_primary font-weight-b"
-          >
-            Đăng ký
-          </button>
-          <div className="text_center">
-            Bạn đã có tài khoản?
-            <Link to="/login" className="go_back_login text_decoration_none">
-              Đăng nhập!
-            </Link>
-          </div>
-        </form>
+            <button
+              onClick={handleRegisterUser}
+              className="button_login button button_primary font-weight-b"
+            >
+              Đăng ký
+            </button>
+            <div className="text_center">
+              Bạn đã có tài khoản?
+              <Link to="/login" className="go_back_login text_decoration_none">
+                Đăng nhập!
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

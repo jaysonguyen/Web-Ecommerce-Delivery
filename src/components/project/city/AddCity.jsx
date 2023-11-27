@@ -84,6 +84,7 @@ function AddCity({ showAdd = (v) => {} }) {
                     <Input
                       label={"Code"}
                       placeholder={"Enter city's code"}
+                      value={code}
                       onChange={(v) => setCode(v.target.value)}
                     />
                   </div>
@@ -91,6 +92,7 @@ function AddCity({ showAdd = (v) => {} }) {
                     <Input
                       label={"City Name"}
                       placeholder={"Enter city's name"}
+                      value={name}
                       onChange={(v) => setName(v.target.value)}
                     />
                   </div>
@@ -102,6 +104,7 @@ function AddCity({ showAdd = (v) => {} }) {
                     <Input
                       label={"City Description"}
                       placeholder={"Enter city's description"}
+                      value={des}
                       onChange={(v) => setDes(v.target.value)}
                     />
                   </div>

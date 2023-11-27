@@ -8,7 +8,6 @@ function AddArea({ showAdd = (v) => {}, cityId = "" }) {
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [des, setDes] = useState("");
-
   const handleSubmit = async () => {
     try {
       let res = await insertArea({
@@ -53,6 +52,7 @@ function AddArea({ showAdd = (v) => {}, cityId = "" }) {
                   <div className="col-6">
                     <Input
                       label={"Code"}
+                      value={code}
                       placeholder={"Enter area's code"}
                       onChange={(v) => setCode(v.target.value)}
                     />
@@ -60,6 +60,7 @@ function AddArea({ showAdd = (v) => {}, cityId = "" }) {
                   <div className="col-6">
                     <Input
                       label={"Area Name"}
+                      value={name}
                       placeholder={"Enter area's name"}
                       onChange={(v) => setName(v.target.value)}
                     />
@@ -71,6 +72,7 @@ function AddArea({ showAdd = (v) => {}, cityId = "" }) {
                   <div className="col">
                     <Input
                       label={"Area Description"}
+                      value={des}
                       placeholder={"Enter area's description"}
                       onChange={(v) => setDes(v.target.value)}
                     />

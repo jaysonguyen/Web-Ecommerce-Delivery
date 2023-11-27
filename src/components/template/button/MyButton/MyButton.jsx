@@ -47,9 +47,9 @@ export const MyButton = ({
         (hide ? "d-none" : "")
       }
     >
-      {prefix && <div className="button-icon">{prefix}</div>}
+      {prefix && <div className="button-icon m-0">{prefix}</div>}
       {text && <div>{text}</div>}
-      {surfix && <div className="button-icon">{surfix}</div>}
+      {surfix && <div className="button-icon m-0">{surfix}</div>}
     </button>
   );
 };

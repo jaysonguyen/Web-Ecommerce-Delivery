@@ -20,12 +20,57 @@ export function OrderTableFromJson(order) {
 export function CustomerTableFromJson(data) {
   // Ánh xạ key cũ sang key mới
   const newData = {
+    // ID: data.id,
     Code: data.code,
     Account: data.account,
     Phone: data.phoneNumber,
     Address: data.address,
     COD: data.cod,
     Point: data.point,
+  };
+
+  // Chuyển đổi kết quả thành JSON mới
+  return newData;
+}
+
+export function BranchTableFromJson(data) {
+  // Ánh xạ key cũ sang key mới
+  const newData = {
+    ID: data.branch_id,
+    Code: data.code,
+    Name: data.name,
+    Address: data.address,
+    Description: data.des,
+  };
+
+  // Chuyển đổi kết quả thành JSON mới
+  return newData;
+}
+
+export function StoreTableFromJson(data) {
+  // Ánh xạ key cũ sang key mới
+  const newData = {
+    Code: data.store_code,
+    Name: data.name,
+    Created: data.created,
+    State: data.state,
+  };
+
+  // Chuyển đổi kết quả thành JSON mới
+  return newData;
+}
+
+export function VoucherTableFromJson(data) {
+  // Ánh xạ key cũ sang key mới
+  const newData = {
+    ID: data.voucherId,
+    Name: data.name,
+    Cost: data.cost,
+    Period: data.created,
+    Quantity: data.quantity,
+    Remain: data.quantity - data.used,
+    Created: data.created,
+    Status: data.status === "1" ? <div>Active</div> : <div>Inactive</div>,
   };
 
   // Chuyển đổi kết quả thành JSON mới

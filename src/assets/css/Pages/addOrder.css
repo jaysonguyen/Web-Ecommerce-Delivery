@@ -24,6 +24,10 @@
   padding-right: 30px;
 }
 
+.add_post_container .product_info .product_table {
+  height: 30em;
+}
+
 .add_post_container > div {
   margin: 1em 0 ;
   padding: 2em 1em;

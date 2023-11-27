@@ -60,22 +60,39 @@ function AddVoucher(props) {
     <div className="add_staff_container">
       <div className="row">
         <div className="col col-6">
-          <Input onChange={handleNameOnChange} label={"Voucher name"} />
+          <Input
+            value={name}
+            onChange={handleNameOnChange}
+            label={"Voucher name"}
+          />
         </div>
         <div className="col col-6">
-          <Input onChange={handleCostChange} label={"Cost"} />
+          <Input value={cost} onChange={handleCostChange} label={"Cost"} />
         </div>
         <div className="col col-6">
-          <Input onChange={handleQuantityChange} label={"Quantity"}  type="number"/>
+          <Input
+            value={quantity}
+            onChange={handleQuantityChange}
+            label={"Quantity"}
+            type="number"
+          />
         </div>
         <div className="col col-6">
-          <Input onChange={handlePeriodChange} label={"Period"} />
+          <Input
+            value={period}
+            onChange={handlePeriodChange}
+            label={"Period"}
+          />
         </div>
         <div className="col col-6">
-          <Input onChange={handleUsedChange} label={"Used"} />
+          <Input value={used} onChange={handleUsedChange} label={"Used"} />
         </div>
         <div className="col col-6">
-          <Input onChange={handleStatusChange} label={"Status"} />
+          <Input
+            value={status}
+            onChange={handleStatusChange}
+            label={"Status"}
+          />
         </div>
       </div>
       <button onClick={handleInsertVoucher} className="btnAdd">

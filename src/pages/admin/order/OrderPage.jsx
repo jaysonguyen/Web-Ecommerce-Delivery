@@ -3,10 +3,9 @@ import CustomMultiSelect from "../../../components/template/multiselect/CustomMu
 import { MyButton } from "../../../components";
 import "../../../assets/css/Pages/customer.css";
 import { OrderList } from "../../../components/project/order/OrderList";
-import { CaretLeft, Rows, SquaresFour } from "phosphor-react";
+import { CalendarBlank, CaretLeft, Rows, SquaresFour } from "phosphor-react";
 import { ButtonState } from "../../../components/template/multiselect/CustomMultiSelect/ButtonState";
-import { MyTable } from "../../../components/template/table/MyTable/MyTable";
-import toast from "react-hot-toast";
+import { MyTable } from "../../../components";
 import {
   getActions,
   getOrderDetails,
@@ -22,48 +21,36 @@ import { ICON_SIZE_BIG } from "../../../utils/constraint";
 import AddOrder from "../../../components/project/order/AddOrder";
 import { SwipeableDrawer } from "@mui/material";
 import { Drawer } from "../../../components/project/drawer/Drawer";
+import { useSelector } from "react-redux";
+import {
+  searchSelector,
+  tableSelector,
+} from "../../../selectors/consumerSelector";
+import toast from "react-hot-toast";
+import { OrderModel } from "../../../model/order";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
+import { format } from "date-fns";
+import { DayPickerDialog } from "../../../components/template/dialog/DayPickerDialog";
+import useToken from "../../../hooks/useToken";
 
 export const OrderPage = () => {
-  // let state = [
-  //   {
-  //     code: 0,
-  //     name: "Đơn nháp",
-  //   },
-  //   {
-  //     code: 1,
-  //     name: "Chờ bàn giao",
-  //   },
-  //   {
-  //     code: 2,
-  //     name: "Đã bàn giao-Đang giao",
-  //   },
-  //   {
-  //     code: 3,
-  //     name: "Đã bàn giao-Đang hoàn hàng",
-  //   },
-  //   {
-  //     code: 4,
-  //     name: "Chờ xác nhận giao lại",
-  //   },
-  //   {
-  //     code: 5,
-  //     name: "Hoàn tất",
-  //   },
-  // ];
-
-  const [open, setOpen] = useState(false);
-  const handleOpen = useCallback(() => setOpen(true), []);
-  const handleClose = useCallback(() => setOpen(false), []);
-
   const [dataSelected, setDataSelected] = useState({});
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [isShowAdd, setIsShowAdd] = useState(false);
   const [toggle, setToggle] = useState(1);
 
   const [actionList, setActionList] = useState([]);
-  const [orderList, setOrderList] = useState([]);
+  const [orderCardList, setOrderCardList] = useState([]);
   const [orderTableList, setOrderTableList] = useState([]);
+  const [orderList, setOrderList] = useState([]);
+
   const [actionSelected, setActionSelected] = useState("0");
+  const [dayBeginSelected, setDayStartSelected] = useState(new Date());
+  const [dayEndSelected, setDayEndSelected] = useState(new Date());
+
+  const searchData = useSelector(searchSelector);
+  const { userPayload } = useToken();
 
   const handleShowDetail = async (data) => {
     try {
@@ -82,15 +69,28 @@ export const OrderPage = () => {
   };
 
   const getOrdersByAction = async () => {
-    setOrderTableList([]);
-    setOrderList([]);
+    clearList();
+
+    // Format options
+    const options = { day: "numeric", month: "numeric", year: "numeric" };
     try {
-      let res = await getOrderListByAction(actionSelected);
+      let res = await getOrderListByAction(actionSelected, userPayload.userID, {
+        start: new Intl.DateTimeFormat("en-US", options)
+          .format(dayBeginSelected)
+          .replace(/\//g, "-"),
+        end: new Intl.DateTimeFormat("en-US", options)
+          .format(dayEndSelected)
+          .replace(/\//g, "-"),
+      });
       if (res.status === 200) {
         //
         for (let i = 0; i < res.data.length; i++) {
           setOrderList((orderList) => [
             ...orderList,
+            new OrderModel(res.data[i]),
+          ]);
+          setOrderCardList((orderCardList) => [
+            ...orderCardList,
             OrderItemFromJson(res.data[i]),
           ]);
           setOrderTableList((orderTableList) => [
@@ -121,13 +121,44 @@ export const OrderPage = () => {
     }
   };
 
+  const handleSearch = async () => {
+    if (searchData === "") {
+      return;
+    }
+    // setOrderCardList((orderCardList) => orderCardList.map((e) => e.receiver_name));
+  };
+
+  const handleCloseDayStart = (day) => {
+    if (day > dayEndSelected) {
+      toast.error("Please select date start less than date end");
+    } else {
+      setDayStartSelected(day);
+      clearList();
+      getOrdersByAction().then((r) => true);
+    }
+  };
+
+  const handleCloseDayEnd = (day) => {
+    if (day < dayBeginSelected) {
+      toast.error("Please select date end greater than date start");
+    } else {
+      setDayEndSelected(day);
+      clearList();
+      getOrdersByAction().then((r) => true);
+    }
+  };
+
+  const clearList = () => {
+    setOrderTableList([]);
+    setOrderCardList([]);
+  };
+
   useEffect(() => {
     getActionList().then((r) => true);
     getOrdersByAction().then((r) => true);
 
     return () => {
-      setOrderTableList([]);
-      setOrderList([]);
+      clearList();
     };
   }, [toggle, actionSelected, isShowAdd, isShowDetail]);
 
@@ -148,12 +179,12 @@ export const OrderPage = () => {
 
   return (
     <>
-      <div className="padding-body">
+      <div className="">
         {!isShowAdd && (
           <>
             <div className="title_total_number_table">
               <h3 className="title_table">Order List </h3>
-              <p className="total_number_table">{orderList.length}</p>
+              <p className="total_number_table">{orderCardList.length}</p>
               <div className="ms-2">
                 <MyButton text="Add" callback={() => setIsShowAdd(true)} />
               </div>
@@ -180,7 +211,7 @@ export const OrderPage = () => {
                   fontColor="var(--tab-color)"
                   callback={() => {
                     setToggle(2);
-                    setOrderList([]);
+                    setOrderCardList([]);
                   }}
                   selected={toggle === 2}
                   isCount={false}
@@ -188,11 +219,27 @@ export const OrderPage = () => {
                 />
               </div>
             </div>
-            <CustomMultiSelect
-              selectList={actionList}
-              selectActive={actionSelected}
-              onSelected={setActionSelected}
-            />
+            {/* SORT BY DATE  */}
+            <div className="d-flex gap-3 align-items-center">
+              Date start:
+              <DayPickerDialog
+                selectedValue={dayBeginSelected}
+                onClose={handleCloseDayStart}
+              />
+              Date end:
+              <DayPickerDialog
+                selectedValue={dayEndSelected}
+                onClose={handleCloseDayEnd}
+              />
+            </div>
+            <div className="my-2">
+              <CustomMultiSelect
+                selectList={actionList}
+                selectActive={actionSelected}
+                onSelected={setActionSelected}
+              />
+            </div>
+
             {toggle === 1 ? (
               <MyTable
                 list={orderTableList}
@@ -201,24 +248,10 @@ export const OrderPage = () => {
                 // actionsElement={<OrderButtons data={rowData} />}
               />
             ) : (
-              <OrderList data={orderList} />
+              <OrderList data={orderCardList} />
             )}
           </>
         )}
-        {/*{isShowDetail && (*/}
-        {/*  <div className="add_employee_container">*/}
-        {/*    <div className="go_back_button_container">*/}
-        {/*      <CaretLeft*/}
-        {/*        onClick={() => setIsShowDetail(false)}*/}
-        {/*        size={ICON_SIZE_BIG}*/}
-        {/*      />*/}
-        {/*    </div>*/}
-        {/*    <DetailsOrder*/}
-        {/*      closeDetail={handleCloseDetail}*/}
-        {/*      orderSelected={dataSelected}*/}
-        {/*    />*/}
-        {/*  </div>*/}
-        {/*)}*/}
 
         {isShowAdd && (
           <div className="add_employee_container">
@@ -239,7 +272,7 @@ export const OrderPage = () => {
         <Drawer
           anchor="right"
           open={isShowDetail}
-          onClose={() => setIsShowAdd(false)}
+          onClose={() => setIsShowDetail(false)}
           child={detailsModal}
         />
       </div>

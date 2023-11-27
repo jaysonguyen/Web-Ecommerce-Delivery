@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { MyTable } from "../../../components/template/table/MyTable/MyTable";
-import { Dropdown, DetailCustomer, AddCustomer } from "../../../components";
+import {
+  Dropdown,
+  DetailCustomer,
+  AddCustomer,
+  MyTable,
+} from "../../../components";
 import "../../../assets/css/Pages/customer.css";
 import { deleteUser, getCustomerList } from "../../../services/UserService";
 import toast from "react-hot-toast";
@@ -8,6 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { tableSelector } from "../../../selectors/consumerSelector";
 import tableSlice from "../../../features/table/tableSlice";
 import { CustomerTableFromJson } from "../../../utils/modelHandle";
+import { Drawer } from "../../../components/project/drawer/Drawer";
+import { CaretLeft } from "phosphor-react";
+import { ICON_SIZE_BIG } from "../../../utils/constraint";
+import DetailsOrder from "../../../components/project/order/DetailsOrder";
 
 function Customer(props) {
   const [userSelected, setUserSelected] = useState({});
@@ -58,6 +66,7 @@ function Customer(props) {
   const handleButtonAction = async (data, type) => {
     switch (type) {
       case "details": {
+        console.log(data);
         await setUserSelected(data);
         await setIsShowDetail(true);
         break;
@@ -72,6 +81,7 @@ function Customer(props) {
   };
   const handleCloseDetail = () => {
     setIsShowDetail(false);
+    setUserSelected({});
   };
   const handleDelete = async () => {
     let list = [...tableData.selectList];
@@ -100,9 +110,18 @@ function Customer(props) {
     },
   ];
 
+  const detailsModal = (
+    <>
+      <div className="go_back_button_container">
+        <CaretLeft onClick={handleCloseDetail} size={ICON_SIZE_BIG} />
+      </div>
+      <DetailCustomer userSelected={userSelected} />
+    </>
+  );
+
   return (
-    <div className="padding-body">
-      {!isShowDetail && !isShowAdd && (
+    <div className="">
+      {!isShowAdd && (
         <>
           <div className="header_of_customer">
             <div className="row">
@@ -141,18 +160,19 @@ function Customer(props) {
         </>
       )}
 
-      {isShowDetail && (
-        <DetailCustomer
-          closeDetail={handleCloseDetail}
-          userSelected={userSelected}
-        />
-      )}
-
       {isShowAdd && (
         <div className="add_employee_container">
           <AddCustomer showAdd={setIsShowAdd} />
         </div>
       )}
+      <div className="w-100">
+        <Drawer
+          anchor="right"
+          open={isShowDetail}
+          onClose={handleCloseDetail}
+          child={detailsModal}
+        />
+      </div>
     </div>
   );
 }

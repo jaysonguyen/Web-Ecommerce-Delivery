@@ -4,19 +4,15 @@ import { URL_GET_SHIPPER_BY_BRANCH } from "../utils/constraint";
 export async function getBranchList() {
   try {
     const data = await axios.get("/api/branch");
-    return data.data;
+    return data;
   } catch (error) {
     return error;
   }
 }
 
-export const createBranch = async ({ name, address, des }) => {
+export const createBranch = async (branch) => {
   try {
-    const data = await axios.post("/api/branch", {
-      name,
-      address,
-      des,
-    });
+    const data = await axios.post("/api/branch", branch);
     return data.status;
   } catch (error) {
     return error;

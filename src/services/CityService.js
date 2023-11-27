@@ -11,6 +11,7 @@ export async function getCityList() {
 export const getCityById = async (id) => {
   try {
     let data = await axios.get(`/api/city/${id}`);
+    console.log("get city details: " + data);
     return data;
   } catch (error) {
     return error;

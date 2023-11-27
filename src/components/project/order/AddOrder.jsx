@@ -9,16 +9,23 @@ import {
   UploadSimple,
   X,
 } from "phosphor-react";
-import { ICON_SIZE_EXTRA_LARGE } from "../../../utils/constraint";
 import { Input, Dropdown, MyButton } from "../../index";
 import { MyTable } from "../../template/table/MyTable/MyTable";
 import toast from "react-hot-toast";
-import { deleteUser } from "../../../services/UserService";
 import tableSlice from "../../../features/table/tableSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { tableSelector } from "../../../selectors/consumerSelector";
-import { getCityList, insertOrder } from "../../../services/OrderService";
+import {
+  getCityDropdownList,
+  getCityList,
+  insertOrder,
+} from "../../../services/OrderService";
 import { JsonToString } from "../../../utils/modelHandle";
+import useToken from "../../../hooks/useToken";
+import {
+  getProductTypeDropdownList,
+  getProductTypeList,
+} from "../../../services/ProductType";
 
 function AddOrder({
   handleClose,
@@ -34,6 +41,7 @@ function AddOrder({
   });
   const tableData = useSelector(tableSelector);
   const dispatch = useDispatch();
+  const { token, userPayload } = useToken();
 
   const handleImage = async (e) => {
     // console.log(URL.createObjectURL(e.target.files[0]));
@@ -43,7 +51,7 @@ function AddOrder({
   const [cityList, setCityList] = useState([]);
   const getCityData = async () => {
     try {
-      let res = await getCityList();
+      let res = await getCityDropdownList();
       if (res.status === 200) {
         setCityList(res.data);
       } else {
@@ -55,6 +63,20 @@ function AddOrder({
     }
   };
 
+  const getProductTypeData = async () => {
+    try {
+      let res = await getProductTypeDropdownList();
+      if (res.status === 200) {
+        setProductTypeList(res.data);
+      } else {
+        toast.error("Cannot get product type data, please try again");
+      }
+    } catch (e) {
+      console.log("Error from get product type data: " + e.message);
+      toast.error("Check your network");
+    }
+  };
+
   const [orderCode, setOrderCode] = useState("");
 
   const [productList, setProductList] = useState([]);
@@ -62,6 +84,8 @@ function AddOrder({
   const [productCode, setProductCode] = useState("");
   const [productWeight, setProductWeight] = useState("");
   const [productQuantity, setProductQuantity] = useState("");
+  const [productType, setProductType] = useState("");
+  const [productTypeList, setProductTypeList] = useState([]);
 
   const clearProData = () => {
     setProductCode("");
@@ -86,6 +110,7 @@ function AddOrder({
       name: productName,
       weight: productWeight,
       quantity: productQuantity,
+      "product type": productType,
     };
 
     for (let i = 0; i < productList.length; i++) {
@@ -140,6 +165,7 @@ function AddOrder({
 
   useEffect(() => {
     getCityData();
+    getProductTypeData();
     dispatch(tableSlice.actions.handleSelected([]));
   }, []);
 
@@ -192,17 +218,14 @@ function AddOrder({
       area: "",
     });
 
-
     const checkAddOrders = await insertOrder({
-      user_id: "ff097d8f-a316-49cd-9c55-2a7c7c026551",
+      user_id: token,
       order_code: orderCode,
       action_code: "0",
       receiver: receiverData,
-      product_type_code: "type1",
       collect_money: false,
       product: productData,
       package_order: packageData,
-      shipper_name: "",
     });
     if (checkAddOrders.status === 200) {
       // await getNewsListByAction();
@@ -234,10 +257,10 @@ function AddOrder({
         </div>
       </div>
       <div
-        className="add_post_header sender_info d-flex flex-row "
+        className="add_post_header sender_info row "
         style={{ backgroundColor: "var(--bg-card-1)" }}
       >
-        <div className="add_post_header_title_box">
+        <div className="add_post_header_title_box col">
           <p
             className={
               isError.title
@@ -248,15 +271,11 @@ function AddOrder({
             Sender<span className="required">*</span>
           </p>
           <p className={isError.title ? "warning_empty" : ""}>
-            Sender<span className="required">*</span>
+            Sender Code<span className="required">*</span>
           </p>
-          <input
-            // value={title}
-            // onChange={(e) => setTitle(e.target.value)}
-            placeholder="Please enter a title..."
-          />
+          <h4 className="me-5">{userPayload && userPayload.userCode}</h4>
         </div>
-        <div className="add_subtitle_box w-100">
+        <div className="add_subtitle_box w-100 col">
           <p className={isError.sum ? "warning_empty" : ""}>Note</p>
           <textarea
             // value={sum}
@@ -366,6 +385,16 @@ function AddOrder({
                 onChange={(v) => setProductName(v.target.value)}
                 placeholder="Enter product's name"
               />
+              <p className={isError.type ? "warning_empty" : ""}>
+                Product type <span className="required">*</span>
+              </p>
+              <Dropdown
+                item={productTypeList}
+                value={productType}
+                bgColor="var(--text-white)"
+                onValue={(v) => setProductType(v)}
+                placeholder="Choose product type"
+              />
               <div className="row">
                 <div className="col">
                   <OrderInput
@@ -396,7 +425,7 @@ function AddOrder({
                 callback={addProductToList}
               />
             </div>
-            <div className="col">
+            <div className="col product_table">
               <MyTable
                 hideToolkit={true}
                 hideDetails={true}

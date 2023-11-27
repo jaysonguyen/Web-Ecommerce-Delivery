@@ -1,6 +1,5 @@
 import React from "react";
 
-
 function StatusButton({
   text = "Done",
   backgroundColor = "#a6bbe0",
@@ -14,9 +13,8 @@ function StatusButton({
   height = "5px",
   width = "5px",
   display = "inline-block",
- alignItems = "center",
- marginRight = "7px",
-
+  alignItems = "center",
+  marginRight = "7px",
 }) {
   const style = {
     backgroundColor: backgroundColor,
@@ -29,23 +27,20 @@ function StatusButton({
     margin: margin,
     display: "flex",
     alignItems: alignItems,
-    
   };
   const styleDot = {
     backgroundColor: "#0e5ee7",
     borderRadius: "50%",
-    height:height,
+    height: height,
     width: width,
-    display: display, 
-    marginRight:marginRight,
-
-
+    display: display,
+    marginRight: marginRight,
   };
-  
+
   return (
-    <div className="padding-body btn_frame"  >
+    <div className="btn_frame">
       <button className="title_btn" style={style}>
-      <span class="dot" style={styleDot} ></span>
+        <span class="dot" style={styleDot}></span>
         {text}
       </button>
     </div>

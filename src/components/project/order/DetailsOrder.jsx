@@ -17,6 +17,7 @@ import {
   setAction,
 } from "../../../services/OrderService";
 import ActionCustomer from "../customer/ActionCustomer";
+import useToken from "../../../hooks/useToken";
 
 function DetailsOrder({ closeDetail, orderSelected }) {
   const [currentTab, setCurrentTab] = useState("1");
@@ -29,6 +30,8 @@ function DetailsOrder({ closeDetail, orderSelected }) {
   const [email, setEmail] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
   const [des, setDes] = useState("");
+
+  const { userPayload } = useToken();
 
   const handleShowAction = () => {
     const flag = !isShowAction;
@@ -84,27 +87,51 @@ function DetailsOrder({ closeDetail, orderSelected }) {
       } else {
         switch (orderSelected.action_code) {
           case "0": {
-            res = await setAction(orderSelected.order_code, "1");
+            res = await setAction(
+              orderSelected.order_id,
+              "1",
+              userPayload.userID,
+            );
             break;
           }
           case "1": {
-            res = await setAction(orderSelected.order_code, "2");
+            res = await setAction(
+              orderSelected.order_id,
+              "2",
+              userPayload.userID,
+            );
             break;
           }
           case "2": {
-            res = await setAction(orderSelected.order_code, "3");
+            res = await setAction(
+              orderSelected.order_id,
+              "3",
+              userPayload.userID,
+            );
             break;
           }
           case "3": {
-            res = await setAction(orderSelected.order_code, "4");
+            res = await setAction(
+              orderSelected.order_id,
+              "4",
+              userPayload.userID,
+            );
             break;
           }
           case "4": {
-            res = await setAction(orderSelected.order_code, "5");
+            res = await setAction(
+              orderSelected.order_id,
+              "5",
+              userPayload.userID,
+            );
             break;
           }
           case "5": {
-            res = await setAction(orderSelected.order_code, "6");
+            res = await setAction(
+              orderSelected.order_id,
+              "6",
+              userPayload.userID,
+            );
             break;
           }
           default:
@@ -144,6 +171,10 @@ function DetailsOrder({ closeDetail, orderSelected }) {
         setNextAction("Return");
         break;
       }
+      case "4": {
+        setNextAction("Finished");
+        break;
+      }
       case "5": {
         setNextAction("Complete");
         break;
@@ -157,7 +188,7 @@ function DetailsOrder({ closeDetail, orderSelected }) {
 
   useEffect(() => {
     initActionTitleButton();
-  }, [currentTab]);
+  }, [currentTab, orderSelected]);
 
   return (
     <>
@@ -211,24 +242,28 @@ function DetailsOrder({ closeDetail, orderSelected }) {
             <button className="dotthree_icon" onClick={handleShowAction}>
               <DotsThreeVertical size={32} />
             </button>
-            {nextAction !== "" && (
-              <div>
-                <button className="btn_Order" onClick={handleActionButton}>
-                  {nextAction}
-                </button>
-              </div>
-            )}
-            {orderSelected.action_code !== "2" && (
-              <div>
-                <button
-                  className="btn_Order"
-                  style={{ backgroundColor: "var(--color-error)" }}
-                  onClick={() => handleActionButton("decline")}
-                >
-                  Decline
-                </button>
-              </div>
-            )}
+            {nextAction !== "" &&
+              (userPayload.role === "admin" ||
+                orderSelected.action_code === "0") && (
+                <div>
+                  <button className="btn_Order" onClick={handleActionButton}>
+                    {nextAction}
+                  </button>
+                </div>
+              )}
+            {orderSelected.action_code !== "2" &&
+              (userPayload.role === "admin" ||
+                orderSelected.action_code === "0") && (
+                <div>
+                  <button
+                    className="btn_Order"
+                    style={{ backgroundColor: "var(--color-error)" }}
+                    onClick={() => handleActionButton("decline")}
+                  >
+                    Decline
+                  </button>
+                </div>
+              )}
           </div>
           {isShowAction && (
             <ActionCustomer item={actions} icon={<PencilSimple size={17} />} />

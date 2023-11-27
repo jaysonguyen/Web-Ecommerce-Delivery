@@ -14,10 +14,14 @@ export const MyTable = ({
   title,
   actionsElement,
   hideDetails = false,
+  hideDelete = false,
   handleGetData = function (e) {},
   hideToolkit = false,
   isDeleteRow = false,
+  searchValue,
+  searchCallback = function () {},
 }) => {
+  // flag: ignore ID column
   const headers = list.length > 0 ? Object.keys(list[0]) : [];
   !hideDetails && headers.push("Thao tác");
 
@@ -45,30 +49,38 @@ export const MyTable = ({
           <div className="col text-end">{headerAction}</div>
         </div>
         {!hideToolkit && (
-          <Toolkit selectedList={select} deleteCallback={deleteCallback} />
+          <Toolkit
+            selectedList={select}
+            hideDelete={hideDelete}
+            deleteCallback={deleteCallback}
+          />
         )}
         {list.length > 0 ? (
           <div className="my_table_wrapper">
             <MyTableRow
               showCheckBox={showCheckBox}
               data={headers}
+              ignoreID={headers && headers[0].toLowerCase() === "id"}
               isHeader={true}
               cellContentCenter={false}
             />
 
             {list.length > 0 &&
-              list.map((e, index) => (
-                <MyTableRow
-                  callback={handleActionButtons}
-                  showCheckBox={showCheckBox}
-                  handleCheck={testCheck}
-                  key={index}
-                  data={e}
-                  hideDetails={hideDetails}
-                  handleGetData={handleGetData}
-                  actionsElement={actionsElement}
-                />
-              ))}
+              list.map((e, index) => {
+                return (
+                  <MyTableRow
+                    callback={handleActionButtons}
+                    showCheckBox={showCheckBox}
+                    handleCheck={testCheck}
+                    key={index}
+                    data={e}
+                    ignoreID={headers && headers[0].toLowerCase() === "id"}
+                    hideDetails={hideDetails}
+                    handleGetData={handleGetData}
+                    actionsElement={actionsElement}
+                  />
+                );
+              })}
           </div>
         ) : (
           <div className="center h-75">

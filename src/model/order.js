@@ -12,3 +12,18 @@ const Order = {
   updated: "2023-11-03T12:47:54.070123",
   user_name: "user number one",
 };
+
+export class OrderModel {
+  constructor(json) {
+    this.order_id = json.order_id;
+    this.order_code = json.order_code;
+    this.action_name = json.action_name;
+    this.product_type_name = json.product_type_name;
+    this.collect_money = json.collect_money;
+    this.created = json.created;
+    this.updated = json.updated;
+    this.user_name = json.user_name;
+    this.receiver = JSON.parse(json.receiver);
+    this.product = JSON.parse(json.product);
+  }
+}

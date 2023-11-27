@@ -9,6 +9,10 @@ import { tableSelector } from "../../../selectors/consumerSelector";
 import tableSlice from "../../../features/table/tableSlice";
 import DetailCity from "../../../components/project/city/DetailCity";
 import AddCity from "../../../components/project/city/AddCity";
+import { Drawer } from "../../../components/project/drawer/Drawer";
+import { CaretLeft } from "phosphor-react";
+import { ICON_SIZE_BIG } from "../../../utils/constraint";
+import DetailsOrder from "../../../components/project/order/DetailsOrder";
 
 function CityPage(props) {
   const [citySelected, setCitySelected] = useState({});
@@ -34,6 +38,7 @@ function CityPage(props) {
         }
         return data;
       } else {
+        console.log("city list: " + data);
         toast.error(data.data);
       }
     } catch (error) {
@@ -94,20 +99,35 @@ function CityPage(props) {
     },
   ];
 
+  const detailsModal = (
+    <>
+      <div className="go_back_button_container">
+        <CaretLeft
+          onClick={() => setIsShowDetail(false)}
+          size={ICON_SIZE_BIG}
+        />
+      </div>
+      <DetailCity
+        closeDetail={() => setIsShowDetail(false)}
+        citySelected={citySelected}
+      />
+    </>
+  );
+
   return (
-    <div className="padding-body">
-      {!isShowDetail && !isShowAdd && (
+    <div className="">
+      {!isShowAdd && (
         <>
           <div className="header_of_customer">
             <div className="row">
               <div className="col-8">
                 <div className="header_bar_left_Cus ">
                   <div className="title_total_number_Cus">
-                    <h3 className="title_Cus">Clients list </h3>
+                    <h3 className="title_Cus">City list </h3>
                     <p className="total_number_Cus">{cityList.length}</p>
                   </div>
                   <p className="introduce_Cus">
-                    View, add, edit and delete your client's details.{" "}
+                    View, add, edit and delete your city's details.{" "}
                   </p>
                 </div>
               </div>
@@ -135,12 +155,14 @@ function CityPage(props) {
         </>
       )}
 
-      {isShowDetail && (
-        <DetailCity
-          closeDetail={handleCloseDetail}
-          citySelected={citySelected}
+      <div className="w-100">
+        <Drawer
+          anchor="right"
+          open={isShowDetail}
+          onClose={() => setIsShowDetail(false)}
+          child={detailsModal}
         />
-      )}
+      </div>
 
       {isShowAdd && (
         <div className="add_employee_container">

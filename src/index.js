@@ -2,6 +2,8 @@
 import React from "react";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom/client";
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -38,90 +40,209 @@ import AddVoucher from "./components/project/voucher/AddVoucher";
 import CityPage from "./pages/admin/city/CityPage";
 import ProductType from "./pages/admin/productTyppe/ProductType";
 import ShippingAssignment from "./pages/admin/staff/ShippingAssignment";
+import PrivateRoute from "./auth/PrivateRoute";
+
+//customer
+import StorePage from "./pages/customer/StorePage";
+import DashboardPage from "./pages/admin/dashboard/DashboardPage";
 import ShipperPage from "./pages/admin/staff/ShipperPage";
 import PackageShipmentDetail from "./pages/admin/staff/PackageShipmentDetail";
 
-const router = createBrowserRouter([
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <App />,
+//     children: [
+//       {
+//         path: URL_STAFF,
+//         element: <StaffPage />,
+//         role: ["admin"],
+//       },
+//       {
+//         path: URL_VOUCHER,
+//         element: <VoucherPage />,
+//         role: ["admin"],
+//       },
+//       {
+//         path: URL_CITY,
+//         element: <CityPage />,
+//         role: ["admin"],
+//       },
+//       {
+//         path: URL_ORDER,
+//         element: <OrderPage />,
+//         role: ["admin", "shipper", "staff"],
+//       },
+//       {
+//         path: URL_LOGIN,
+//         element: <Login />,
+//       },
+//       {
+//         path: URL_FORGET,
+//         element: <Forget />,
+//       },
+//       {
+//         path: URL_REGISTER,
+//         element: <Register />,
+//       },
+//       {
+//         path: URL_BRANCH,
+//         element: <Branch />,
+//         role: ["admin"],
+//       },
+//       {
+//         index: true,
+//         element: <Customer />,
+//         role: ["admin"],
+//       },
+//       {
+//         path: "/customer/add",
+//         element: <AddCustomer />,
+//         role: ["admin"],
+//       },
+//       {
+//         path: URL_PRODUCTTYPE,
+//         element: <ProductType />,
+//         role: ["admin", "staff"],
+//       },
+//       {
+//         path: URL_VOUCHER_ADD,
+//         element: <AddVoucher />,
+//         role: ["admin", "staff"],
+//       },
+//       {
+//         path: "/statusbutton",
+//         element: <StatusButton />,
+//       },
+//       {
+//         path: "/order",
+//         element: <OrderCustomer />,
+//         role: ["admin", "staff"],
+//       },
+//       {
+//         path: "/shipping-assignment",
+//         element: <ShippingAssignment />,
+//         role: ["shipper"],
+//       },
+//     ],
+//   },
+// ]);
+
+const routes = [
   {
-    path: "/",
-    element: <App />,
-    children: [
-      {
-        path: URL_STAFF,
-        element: <StaffPage />,
-      },
-      {
-        path: URL_VOUCHER,
-        element: <VoucherPage />,
-      },
-      {
-        path: URL_CITY,
-        element: <CityPage />,
-      },
-      {
-        path: URL_ORDER,
-        element: <OrderPage />,
-      },
-      {
-        path: URL_LOGIN,
-        element: <Login />,
-      },
-      {
-        path: URL_FORGET,
-        element: <Forget />,
-      },
-      {
-        path: URL_REGISTER,
-        element: <Register />,
-      },
-      {
-        path: URL_BRANCH,
-        element: <Branch />,
-      },
-      {
-        index: true,
-        element: <Customer />,
-      },
-      {
-        path: "/customer/add",
-        element: <AddCustomer />,
-      },
-      {
-        path: URL_PRODUCTTYPE,
-        element: <ProductType />,
-      },
-      {
-        path: URL_VOUCHER_ADD,
-        element: <AddVoucher />,
-      },
-      {
-        path: "/statusbutton",
-        element: <StatusButton />,
-      },
-      {
-        path: "/order",
-        element: <OrderCustomer />,
-      },
-      {
-        path: "/shipping-assignment",
-        element: <ShippingAssignment />,
-      },
-      {
+    path: URL_STAFF,
+    element: <StaffPage />,
+    role: ["admin"],
+  },
+  {
+    path: URL_VOUCHER,
+    element: <VoucherPage />,
+    role: ["admin", "customer"],
+  },
+  {
+    path: URL_CITY,
+    element: <CityPage />,
+    role: ["admin"],
+  },
+  {
+    path: URL_ORDER,
+    element: <OrderPage />,
+    // role: ["admin", "shipper", "staff"],
+  },
+  {
+    path: URL_FORGET,
+    element: <Forget />,
+  },
+  {
+    path: URL_REGISTER,
+    element: <Register />,
+  },
+  {
+    path: URL_BRANCH,
+    element: <Branch />,
+    role: ["admin"],
+  },
+  {
+    path: URL_CUSTOMER,
+    element: <Customer />,
+    role: ["admin"],
+  },
+  {
+    path: "/customer/add",
+    element: <AddCustomer />,
+    role: ["admin"],
+  },
+  {
+    path: URL_PRODUCTTYPE,
+    element: <ProductType />,
+    role: ["admin", "staff"],
+  },
+  {
+    path: URL_VOUCHER_ADD,
+    element: <AddVoucher />,
+    role: ["admin", "staff"],
+  },
+  {
+    path: "/statusbutton",
+    element: <StatusButton />,
+  },
+  {
+    path: "/order",
+    element: <OrderCustomer />,
+    role: ["admin", "staff"],
+  },
+  {
+    path: "/shipping-assignment",
+    element: <ShippingAssignment />,
+    role: ["shipper"],
+  },
+  {
+    path: "/customer/store",
+    element: <StorePage />,
+    role: ["customer"],
+  },
+    {
         path: "/shipper",
         element: <ShipperPage />,
-      },
-      {
+    },
+    {
         path: "/shipper/order/detail",
         element: <PackageShipmentDetail />,
-      },
-    ],
+    },
+  {
+    // index: true,
+    path: URL_DASHBOARD,
+    element: <DashboardPage />,
   },
-]);
+];
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      {/* <RouterProvider router={router} /> */}
+      <Router>
+        <Routes>
+          <Route path="/login" index={true} element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<App />}>
+            {routes.map((route, i) => {
+              return (
+                <Route
+                  key={i}
+                  index={route.index ?? null}
+                  path={route.path}
+                  element={
+                    <PrivateRoute role={route.role}>
+                      {route.element}
+                    </PrivateRoute>
+                  }
+                />
+              );
+            })}
+          </Route>
+        </Routes>
+      </Router>
     </Provider>
   </React.StrictMode>
 );

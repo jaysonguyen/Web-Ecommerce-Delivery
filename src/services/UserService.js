@@ -25,9 +25,9 @@ export async function getCustomerList() {
     return error;
   }
 }
-export const getUserById = async (id) => {
+export const getUserByCode = async (code) => {
   try {
-    let data = await axios.get(`/api/user/${id}`);
+    let data = await axios.get(`/api/user/${code}`);
     return data;
   } catch (error) {
     return error;
@@ -35,7 +35,7 @@ export const getUserById = async (id) => {
 };
 export const getStoreByUser = async (userId) => {
   try {
-    let data = await axios.get(`/api/user/store/${userId}`);
+    let data = await axios.get(`/api/user/${userId}/store`);
     return data;
   } catch (error) {
     return error;
@@ -78,6 +78,7 @@ export const loginCustomer = async (data) => {
   }
 };
 
+
 export const getShipperInBranchByBranchId = async (data) => {
   try {
     const assignList = await axios.get(URL_GET_ASSIGN_INFO + `/${data}`);
@@ -118,4 +119,4 @@ export const setAssignShipment = async (area_code, branch_code, user_code) => {
   } catch (error) {
     console.log(error);
   }
-};
+}

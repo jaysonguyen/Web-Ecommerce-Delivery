@@ -10,8 +10,6 @@ import tableSlice from "../../../features/table/tableSlice";
 import { deleteProductType } from "../../../services/ProductType";
 import toast from "react-hot-toast";
 
-
-
 function ProductType(props) {
   const [isShowAdd, setIsShowAdd] = useState(false);
   const [typeList, setTypeList] = useState([]);
@@ -62,11 +60,13 @@ function ProductType(props) {
     }
     toast.success("Deleted successfully");
     dispatch(tableSlice.actions.handleSelected([]));
-    getTypeList().then((r) => r === null && toast.error("Something went wrong!"));
+    getTypeList().then(
+      (r) => r === null && toast.error("Something went wrong!"),
+    );
   };
 
   return (
-    <div className="padding-body">
+    <div className="">
       {!isShowAdd && (
         <>
           <div className="header_of_customer">
@@ -92,10 +92,15 @@ function ProductType(props) {
               </div>
             </div>
           </div>
-          <MyTable showCheckBox={true} list={typeList} hideDetails={true} deleteCallback={handleDelete}/>
+          <MyTable
+            showCheckBox={true}
+            list={typeList}
+            hideDetails={true}
+            deleteCallback={handleDelete}
+          />
         </>
       )}
-        {isShowAdd && (
+      {isShowAdd && (
         <div className="add_branch_container">
           <div
             className="go_back_button_container"
@@ -113,7 +118,6 @@ function ProductType(props) {
           />
         </div>
       )}
-
     </div>
   );
 }
