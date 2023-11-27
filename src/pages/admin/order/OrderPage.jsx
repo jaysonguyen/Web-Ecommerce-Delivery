@@ -3,7 +3,7 @@ import CustomMultiSelect from "../../../components/template/multiselect/CustomMu
 import { MyButton } from "../../../components";
 import "../../../assets/css/Pages/customer.css";
 import { OrderList } from "../../../components/project/order/OrderList";
-import { CaretLeft, Rows, SquaresFour } from "phosphor-react";
+import { CalendarBlank, CaretLeft, Rows, SquaresFour } from "phosphor-react";
 import { ButtonState } from "../../../components/template/multiselect/CustomMultiSelect/ButtonState";
 import { MyTable } from "../../../components";
 import {
@@ -35,10 +35,6 @@ import { DayPickerDialog } from "../../../components/template/dialog/DayPickerDi
 import useToken from "../../../hooks/useToken";
 
 export const OrderPage = () => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = useCallback(() => setOpen(true), []);
-  const handleClose = useCallback(() => setOpen(false), []);
-
   const [dataSelected, setDataSelected] = useState({});
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [isShowAdd, setIsShowAdd] = useState(false);
@@ -50,8 +46,8 @@ export const OrderPage = () => {
   const [orderList, setOrderList] = useState([]);
 
   const [actionSelected, setActionSelected] = useState("0");
-  const [dayaSelected, setDaySelected] = useState(new Date());
-  const [openDayDialog, setOpenDayDialog] = React.useState(false);
+  const [dayBeginSelected, setDayStartSelected] = useState(new Date());
+  const [dayEndSelected, setDayEndSelected] = useState(new Date());
 
   const searchData = useSelector(searchSelector);
   const { userPayload } = useToken();
@@ -73,10 +69,19 @@ export const OrderPage = () => {
   };
 
   const getOrdersByAction = async () => {
-    setOrderTableList([]);
-    setOrderCardList([]);
+    clearList();
+
+    // Format options
+    const options = { day: "numeric", month: "numeric", year: "numeric" };
     try {
-      let res = await getOrderListByAction(actionSelected, userPayload.userID);
+      let res = await getOrderListByAction(actionSelected, userPayload.userID, {
+        start: new Intl.DateTimeFormat("en-US", options)
+          .format(dayBeginSelected)
+          .replace(/\//g, "-"),
+        end: new Intl.DateTimeFormat("en-US", options)
+          .format(dayEndSelected)
+          .replace(/\//g, "-"),
+      });
       if (res.status === 200) {
         //
         for (let i = 0; i < res.data.length; i++) {
@@ -123,9 +128,29 @@ export const OrderPage = () => {
     // setOrderCardList((orderCardList) => orderCardList.map((e) => e.receiver_name));
   };
 
-  const handleCloseDayDialog = (day) => {
-    setOpenDayDialog(false);
-    setDaySelected(day);
+  const handleCloseDayStart = (day) => {
+    if (day > dayEndSelected) {
+      toast.error("Please select date start less than date end");
+    } else {
+      setDayStartSelected(day);
+      clearList();
+      getOrdersByAction().then((r) => true);
+    }
+  };
+
+  const handleCloseDayEnd = (day) => {
+    if (day < dayBeginSelected) {
+      toast.error("Please select date end greater than date start");
+    } else {
+      setDayEndSelected(day);
+      clearList();
+      getOrdersByAction().then((r) => true);
+    }
+  };
+
+  const clearList = () => {
+    setOrderTableList([]);
+    setOrderCardList([]);
   };
 
   useEffect(() => {
@@ -133,8 +158,7 @@ export const OrderPage = () => {
     getOrdersByAction().then((r) => true);
 
     return () => {
-      setOrderTableList([]);
-      setOrderCardList([]);
+      clearList();
     };
   }, [toggle, actionSelected, isShowAdd, isShowDetail]);
 
@@ -155,20 +179,9 @@ export const OrderPage = () => {
 
   return (
     <>
-      <div className="padding-body">
+      <div className="">
         {!isShowAdd && (
           <>
-            <div
-              className="py-2 p-4 border border-sm"
-              onClick={() => setOpenDayDialog(true)}
-            >
-              day picked: {format(dayaSelected, "PP")}
-            </div>
-            <DayPickerDialog
-              selectedValue={dayaSelected}
-              onClose={handleCloseDayDialog}
-              open={open}
-            />
             <div className="title_total_number_table">
               <h3 className="title_table">Order List </h3>
               <p className="total_number_table">{orderCardList.length}</p>
@@ -205,6 +218,19 @@ export const OrderPage = () => {
                   borderRadius={"5px"}
                 />
               </div>
+            </div>
+            {/* SORT BY DATE  */}
+            <div className="d-flex gap-3 align-items-center">
+              Date start:
+              <DayPickerDialog
+                selectedValue={dayBeginSelected}
+                onClose={handleCloseDayStart}
+              />
+              Date end:
+              <DayPickerDialog
+                selectedValue={dayEndSelected}
+                onClose={handleCloseDayEnd}
+              />
             </div>
             <div className="my-2">
               <CustomMultiSelect

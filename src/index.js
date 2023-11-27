@@ -29,6 +29,8 @@ import {
   URL_VOUCHER_ADD,
   URL_PRODUCTTYPE,
   URL_CITY,
+  URL_CUSTOMER,
+  URL_DASHBOARD,
 } from "./utils/constraint";
 import { Switch } from "@mui/base";
 
@@ -45,6 +47,7 @@ import PrivateRoute from "./auth/PrivateRoute";
 
 //customer
 import StorePage from "./pages/customer/StorePage";
+import DashboardPage from "./pages/admin/dashboard/DashboardPage";
 
 // const router = createBrowserRouter([
 //   {
@@ -161,7 +164,7 @@ const routes = [
     role: ["admin"],
   },
   {
-    index: true,
+    path: URL_CUSTOMER,
     element: <Customer />,
     role: ["admin"],
   },
@@ -199,6 +202,11 @@ const routes = [
     element: <StorePage />,
     role: ["customer"],
   },
+  {
+    // index: true,
+    path: URL_DASHBOARD,
+    element: <DashboardPage />,
+  },
 ];
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -208,7 +216,7 @@ root.render(
       {/* <RouterProvider router={router} /> */}
       <Router>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" index={true} element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<App />}>
             {routes.map((route, i) => {

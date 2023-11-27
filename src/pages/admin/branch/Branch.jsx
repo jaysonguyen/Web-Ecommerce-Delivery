@@ -112,7 +112,7 @@ function Branch(props) {
   }, [isShowAdd]);
 
   return (
-    <div className="padding-body">
+    <div className="">
       {!isShowAdd && (
         <>
           <div className="header_of_customer">

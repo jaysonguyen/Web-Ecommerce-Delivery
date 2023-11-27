@@ -76,7 +76,7 @@ function StorePage(props) {
   }, []);
 
   return (
-    <div className="padding-body">
+    <div className="">
       {!isShowDetails && !isShowAdd && (
         <>
           <div className="header_of_customer">

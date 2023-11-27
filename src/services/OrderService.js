@@ -4,6 +4,7 @@ import {
   URL_LOGIN_CUSTOMER,
   URL_USER,
 } from "../utils/constraint";
+import { string } from "prop-types";
 
 export async function getOrderDetails(orderCode) {
   try {
@@ -13,11 +14,13 @@ export async function getOrderDetails(orderCode) {
     return error;
   }
 }
-export const getOrderListByAction = async (actionCode, userID) => {
+export const getOrderListByAction = async (actionCode, userID, dateRange) => {
+  console.log(dateRange);
   try {
-    let data = await axios.get(`/api/order/action/${actionCode}`, {
+    let data = await axios.post(`/api/order/action/${actionCode}`, dateRange, {
       headers: {
         Authorization: `Bearer ${userID}`,
+        "Content-Type": "application/json",
       },
     });
     return data;
@@ -52,10 +55,47 @@ export const insertOrder = async (data) => {
   }
 };
 
-export const setAction = async (orderCode, actionCode) => {
+export const setAction = async (orderId, actionCode, userID) => {
   try {
+    let note = "";
+    switch (actionCode) {
+      case "1": {
+        note = "Order have been sent!";
+        break;
+      }
+      case "2": {
+        note = "Order have been accepted!";
+        break;
+      }
+      case "3": {
+        note = "Order have been delivering!";
+        break;
+      }
+      case "4": {
+        note = "Order are waiting for return!";
+        break;
+      }
+      case "5": {
+        note = "Order have been returning!";
+        break;
+      }
+      case "6": {
+        note = "Order have been finished!";
+        break;
+      }
+      default:
+        break;
+    }
+
     const checkData = await axios.put(
-      `/api/order/${orderCode}/action/${actionCode}`,
+      `/api/order/${orderId}/action/${actionCode}`,
+      { note: note },
+      {
+        headers: {
+          Authorization: `Bearer ${userID}`,
+          "Content-Type": "application/json",
+        },
+      },
     );
     return checkData;
   } catch (error) {

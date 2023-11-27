@@ -119,7 +119,7 @@ export const StaffPage = () => {
   }, []);
 
   return (
-    <div className="padding-body">
+    <div className="">
       {!isShowAdd && (
         <>
           <div className="pd-bt-10 staff_page_header flex-center-between">

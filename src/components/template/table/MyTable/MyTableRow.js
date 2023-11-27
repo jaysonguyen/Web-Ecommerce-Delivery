@@ -30,7 +30,7 @@ export const MyTableRow = ({
     : "my_table_row row";
 
   let checkBoxClassName = showCheckBox
-    ? `my_table_cell col-1 checkbox`
+    ? `my_table_cell col-1 checkbox `
     : `my_table_cell col-1 checkbox d-none`;
 
   let rowStyle = {

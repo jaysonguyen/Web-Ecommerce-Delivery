@@ -60,7 +60,7 @@ export const MyTable = ({
             <MyTableRow
               showCheckBox={showCheckBox}
               data={headers}
-              ignoreID={headers[0] === "ID"}
+              ignoreID={headers && headers[0].toLowerCase() === "id"}
               isHeader={true}
               cellContentCenter={false}
             />
@@ -74,7 +74,7 @@ export const MyTable = ({
                     handleCheck={testCheck}
                     key={index}
                     data={e}
-                    ignoreID={headers[0] === "ID"}
+                    ignoreID={headers && headers[0].toLowerCase() === "id"}
                     hideDetails={hideDetails}
                     handleGetData={handleGetData}
                     actionsElement={actionsElement}

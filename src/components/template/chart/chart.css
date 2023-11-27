@@ -1,0 +1,13 @@
+.chart-container > * {
+    --height-1: 45vh;
+    --bg-color-primary: #ffff;
+}
+
+
+.chart-body{
+    height: var(--height-1);
+    margin-top: 10px;
+    background-color: var(--bg-color-primary);
+    border-radius: 10px;
+    box-shadow: 0 0 2px #d3d3d3;
+}

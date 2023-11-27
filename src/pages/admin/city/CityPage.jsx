@@ -38,6 +38,7 @@ function CityPage(props) {
         }
         return data;
       } else {
+        console.log("city list: " + data);
         toast.error(data.data);
       }
     } catch (error) {
@@ -114,7 +115,7 @@ function CityPage(props) {
   );
 
   return (
-    <div className="padding-body">
+    <div className="">
       {!isShowAdd && (
         <>
           <div className="header_of_customer">
@@ -122,11 +123,11 @@ function CityPage(props) {
               <div className="col-8">
                 <div className="header_bar_left_Cus ">
                   <div className="title_total_number_Cus">
-                    <h3 className="title_Cus">Clients list </h3>
+                    <h3 className="title_Cus">City list </h3>
                     <p className="total_number_Cus">{cityList.length}</p>
                   </div>
                   <p className="introduce_Cus">
-                    View, add, edit and delete your client's details.{" "}
+                    View, add, edit and delete your city's details.{" "}
                   </p>
                 </div>
               </div>
@@ -154,12 +155,6 @@ function CityPage(props) {
         </>
       )}
 
-      {/*{isShowDetail && (*/}
-      {/*  <DetailCity*/}
-      {/*    closeDetail={handleCloseDetail}*/}
-      {/*    citySelected={citySelected}*/}
-      {/*  />*/}
-      {/*)}*/}
       <div className="w-100">
         <Drawer
           anchor="right"

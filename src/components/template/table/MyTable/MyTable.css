@@ -1,7 +1,8 @@
 .myTable {
     /*width: max-content;*/
     height: 100%;
-    overflow: scroll;
+    overflow: hidden;
+    scrollbar-width: none;
     position: relative;
     font-size: 13px;
 }

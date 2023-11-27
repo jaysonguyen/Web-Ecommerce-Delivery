@@ -106,7 +106,7 @@ function VoucherPage(props) {
   ];
 
   return (
-    <div className="padding-body">
+    <div className="">
       {!isShowDetail && !isShowAdd && (
         <>
           <div className="header_of_customer">

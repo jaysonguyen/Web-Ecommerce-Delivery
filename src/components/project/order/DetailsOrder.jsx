@@ -87,27 +87,51 @@ function DetailsOrder({ closeDetail, orderSelected }) {
       } else {
         switch (orderSelected.action_code) {
           case "0": {
-            res = await setAction(orderSelected.order_code, "1");
+            res = await setAction(
+              orderSelected.order_id,
+              "1",
+              userPayload.userID,
+            );
             break;
           }
           case "1": {
-            res = await setAction(orderSelected.order_code, "2");
+            res = await setAction(
+              orderSelected.order_id,
+              "2",
+              userPayload.userID,
+            );
             break;
           }
           case "2": {
-            res = await setAction(orderSelected.order_code, "3");
+            res = await setAction(
+              orderSelected.order_id,
+              "3",
+              userPayload.userID,
+            );
             break;
           }
           case "3": {
-            res = await setAction(orderSelected.order_code, "4");
+            res = await setAction(
+              orderSelected.order_id,
+              "4",
+              userPayload.userID,
+            );
             break;
           }
           case "4": {
-            res = await setAction(orderSelected.order_code, "5");
+            res = await setAction(
+              orderSelected.order_id,
+              "5",
+              userPayload.userID,
+            );
             break;
           }
           case "5": {
-            res = await setAction(orderSelected.order_code, "6");
+            res = await setAction(
+              orderSelected.order_id,
+              "6",
+              userPayload.userID,
+            );
             break;
           }
           default:

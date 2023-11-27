@@ -1,6 +1,6 @@
 import "./App.css";
 import "./assets/css/plugin.css";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js";
 import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js";
 import {
@@ -16,6 +16,8 @@ import {
   Graph,
   Wallet,
   Archive,
+  ChartBar,
+  CaretLeft,
 } from "phosphor-react";
 import {
   ICON_SIZE_BIG,
@@ -27,6 +29,7 @@ import {
   URL_PRODUCTTYPE,
   URL_CITY,
   URL_LOGIN,
+  URL_DASHBOARD,
 } from "./utils/constraint";
 import { Sidebar, AdminHeader } from "./components/index";
 import { displaySelector } from "./selectors/displaySelector";
@@ -59,9 +62,16 @@ function App() {
       },
     },
     {
+      icon: <ChartBar size={ICON_SIZE_BIG} />,
+      label: "Dashboard",
+      link: URL_DASHBOARD,
+      position: "body",
+      // role: ["admin", ""],
+    },
+    {
       icon: <ShoppingBag size={ICON_SIZE_BIG} />,
       label: "Customer",
-      link: "/",
+      link: URL_CUSTOMER,
       position: "body",
       role: ["admin"],
     },
@@ -72,49 +82,49 @@ function App() {
       position: "body",
       // role: ["admin", ""],
     },
-    {
-      icon: <UsersFour size={ICON_SIZE_BIG} />,
-      label: "Employee",
-      link: URL_STAFF,
-      position: "body",
-      role: ["admin"],
-    },
-    {
-      icon: <Graph size={ICON_SIZE_BIG} />,
-      label: "City",
-      link: URL_CITY,
-      position: "body",
-      role: ["admin"],
-    },
-    {
-      icon: <Graph size={ICON_SIZE_BIG} />,
-      label: "Branch",
-      link: URL_BRANCH,
-      position: "body",
-      role: ["admin"],
-    },
-    {
-      icon: <Wallet size={ICON_SIZE_BIG} />,
-      label: "Voucher",
-      link: URL_VOUCHER,
-      position: "body",
-      role: ["admin", "customer"],
-    },
-
-    {
-      icon: <Archive size={ICON_SIZE_BIG} />,
-      label: "Product Type",
-      link: URL_PRODUCTTYPE,
-      position: "body",
-      role: ["admin"],
-    },
-    {
-      icon: <ShoppingBag size={ICON_SIZE_BIG} />,
-      label: "Store",
-      link: "/customer/store",
-      position: "body",
-      role: ["customer"],
-    },
+    // {
+    //   icon: <UsersFour size={ICON_SIZE_BIG} />,
+    //   label: "Employee",
+    //   link: URL_STAFF,
+    //   position: "body",
+    //   role: ["admin"],
+    // },
+    // {
+    //   icon: <Graph size={ICON_SIZE_BIG} />,
+    //   label: "City",
+    //   link: URL_CITY,
+    //   position: "body",
+    //   role: ["admin"],
+    // },
+    // {
+    //   icon: <Graph size={ICON_SIZE_BIG} />,
+    //   label: "Branch",
+    //   link: URL_BRANCH,
+    //   position: "body",
+    //   role: ["admin"],
+    // },
+    // {
+    //   icon: <Wallet size={ICON_SIZE_BIG} />,
+    //   label: "Voucher",
+    //   link: URL_VOUCHER,
+    //   position: "body",
+    //   role: ["admin", "customer"],
+    // },
+    //
+    // {
+    //   icon: <Archive size={ICON_SIZE_BIG} />,
+    //   label: "Product Type",
+    //   link: URL_PRODUCTTYPE,
+    //   position: "body",
+    //   role: ["admin"],
+    // },
+    // {
+    //   icon: <ShoppingBag size={ICON_SIZE_BIG} />,
+    //   label: "Store",
+    //   link: "/customer/store",
+    //   position: "body",
+    //   role: ["customer"],
+    // },
     {
       icon: <GearSix size={ICON_SIZE_BIG} />,
       label: "Setting",
@@ -150,6 +160,14 @@ function App() {
     );
   };
 
+  const url = window.location.href;
+
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log(location.pathname);
+  }, [location]);
+
   return (
     <div className="app_container">
       <Toaster />
@@ -170,7 +188,29 @@ function App() {
               <AdminHeader />
             </div>
           )} */}
-        <Outlet />
+
+        <div className={"padding-body"}>
+          {location.pathname !== "/" && (
+            <div>
+              <CaretLeft
+                className="mx-1 my-3"
+                size={16}
+                color="#3d3d3d"
+                weight="fill"
+              />
+              <Link
+                to="/"
+                style={{
+                  color: "var(--text-color-primary)",
+                  fontSize: "14px",
+                }}
+              >
+                Dashboard
+              </Link>
+            </div>
+          )}
+          <Outlet />
+        </div>
       </div>
     </div>
   );

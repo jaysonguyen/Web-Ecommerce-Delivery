@@ -83,6 +83,7 @@ function Login(props) {
               value={pass}
               onChange={(e) => setPass(e.target.value)}
               label="Mật khẩu"
+              type="password"
               placeholder="Nhập mật khẩu"
             />
             <Link to="/forget" className="forget_pass text_decoration_none">

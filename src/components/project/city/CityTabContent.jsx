@@ -7,9 +7,13 @@ import {
   updateCity,
 } from "../../../services/CityService";
 import { MyTable } from "../../template/table/MyTable/MyTable";
-import { getAreaList } from "../../../services/AreaService";
+import { deleteArea, getAreaList } from "../../../services/AreaService";
 import AddCity from "./AddCity";
 import AddArea from "./AddArea";
+import { deleteProductType } from "../../../services/ProductType";
+import tableSlice from "../../../features/table/tableSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { tableSelector } from "../../../selectors/consumerSelector";
 
 export const CityTabContent = ({
   nameCity,
@@ -20,6 +24,9 @@ export const CityTabContent = ({
   cityID = "",
   clearData,
 }) => {
+  const tableData = useSelector(tableSelector);
+  const dispatch = useDispatch();
+
   const [cityInfo, setCityInfo] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [areaList, setAreaList] = useState([]);
@@ -53,6 +60,7 @@ export const CityTabContent = ({
 
     setIsLoading(true);
     try {
+      console.log(cityID !== "");
       const data = await getAreaList(cityID);
       if (data.status === 200) {
         if (Array.isArray(data.data)) {
@@ -74,12 +82,12 @@ export const CityTabContent = ({
     switch (tab) {
       case "1": {
         //city details
-        await getCityDetails();
+        // await getCityDetails();
         break;
       }
       case "2": {
         //area
-        getAreaData();
+        cityID !== "" && (await getAreaData());
         break;
       }
       default:
@@ -112,20 +120,44 @@ export const CityTabContent = ({
     }
   };
 
+  const handleDelete = async () => {
+    let list = [...tableData.selectList];
+    if (list.length === 0) {
+      toast.error("Choose area to delete");
+      return;
+    }
+    for (let i = 0; i < list.length; i++) {
+      let res = await deleteArea(list[i].id);
+      if (!res) {
+        toast.error("Something went wrong");
+        return;
+      }
+    }
+    toast.success("Deleted successfully");
+    dispatch(tableSlice.actions.handleSelected([]));
+    cityID !== "" && (await getAreaData());
+  };
+
   useEffect(() => {
     initData();
-    getAreaData();
-  }, [isShowAdd]);
+    // cityID !== "" && getAreaData();
+  }, [cityID]);
 
   return (
     <>
       {tab === "1" && !isLoading && (
         <div className="row">
           <div className="col">
-            <Input placeholder={nameCity} label="Name" />
+            <Input
+              value={nameCity}
+              placeholder={"Enter city name"}
+              label="Name"
+              onChange={handleNameCity}
+            />
             <Input
               onChange={handleDesChange}
-              placeholder={des}
+              value={des}
+              placeholder={"Enter city description"}
               label="Description"
             />
           </div>
@@ -143,19 +175,12 @@ export const CityTabContent = ({
       )}
       {tab === "2" && (
         <div className="">
-          {!isShowAdd && (
-            <>
-              <button className="btnAdd" onClick={() => setIsShowAdd(true)}>
-                Add
-              </button>
-              <MyTable list={areaList} showCheckBox={true} hideDetails={true} />
-            </>
-          )}
-          {isShowAdd && (
-            <div className="add_employee_container">
-              <AddArea showAdd={setIsShowAdd} cityId={cityID} />
-            </div>
-          )}
+          <MyTable
+            list={areaList}
+            showCheckBox={true}
+            hideDetails={true}
+            deleteCallback={handleDelete}
+          />
         </div>
       )}
       {tab === "3" && (
