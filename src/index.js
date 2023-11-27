@@ -29,6 +29,9 @@ import {
   URL_VOUCHER_ADD,
   URL_PRODUCTTYPE,
   URL_CITY,
+  URL_DASHBOARD,
+  URL_CUSTOMER,
+  URL_SHIPPER_PAGE,
 } from "./utils/constraint";
 
 import Customer from "./pages/admin/customer/Customer";
@@ -201,14 +204,14 @@ const routes = [
     element: <StorePage />,
     role: ["customer"],
   },
-    {
-        path: "/shipper",
-        element: <ShipperPage />,
-    },
-    {
-        path: "/shipper/order/detail",
-        element: <PackageShipmentDetail />,
-    },
+  {
+    path: URL_SHIPPER_PAGE,
+    element: <ShipperPage />,
+  },
+  {
+    path: "/shipper/order/detail",
+    element: <PackageShipmentDetail />,
+  },
   {
     // index: true,
     path: URL_DASHBOARD,
@@ -244,7 +247,7 @@ root.render(
         </Routes>
       </Router>
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

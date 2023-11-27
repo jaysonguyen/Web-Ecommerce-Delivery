@@ -151,18 +151,6 @@ export const StaffPage = () => {
                   borderColor="var(--primary-color)"
                   callback={fetchShipper}
                 />
-                <MyButton
-                  text="Shipping Assignment"
-                  height="44px"
-                  width="auto"
-                  hoverColor="var(--text-white)"
-                  bgColor="var(--primary-color)"
-                  fontColor="var(--text-white)"
-                  borderRadius="5px"
-                  padding="5px 20px"
-                  borderColor="var(--primary-color)"
-                  callback={() => navigate("/shipping-assignment")}
-                />
               </div>
             </div>
             <button onClick={handleAddButton} className="btnAdd">

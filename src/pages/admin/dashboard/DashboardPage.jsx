@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { getOrderReport } from "../../../services/ReportService";
 import toast from "react-hot-toast";
 import { DayPickerDialog } from "../../../components/template/dialog/DayPickerDialog";
+import useToken from "../../../hooks/useToken";
 
 export default function DashboardPage() {
   // dataAPI: {labels: [], points: [{key: string, values: []}]}
@@ -30,6 +31,7 @@ export default function DashboardPage() {
   const [chartData, setchartData] = useState(dataList);
   const [dayBeginSelected, setDayStartSelected] = useState(new Date());
   const [dayEndSelected, setDayEndSelected] = useState(new Date());
+  const { userPayload } = useToken();
 
   const handleCloseDayStart = (day) => {
     if (day > dayEndSelected) {
@@ -95,15 +97,23 @@ export default function DashboardPage() {
             )}
           </div>
           <div className="col">
-            <SettingOptionOne />
+            {userPayload.role === "admin" ? (
+              <SettingOptionOne />
+            ) : userPayload.role === "shipper" ? (
+              <div>shipper logged in</div>
+            ) : (
+              <div>Customer or staff?</div>
+            )}
           </div>
         </div>
       </div>
-      <div className="row">
-        <div className="col">
-          <SettingOptionTwo />
+      {userPayload.role === "admin" && (
+        <div className="row">
+          <div className="col">
+            <SettingOptionTwo />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

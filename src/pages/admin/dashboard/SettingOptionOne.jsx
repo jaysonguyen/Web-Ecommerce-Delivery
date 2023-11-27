@@ -5,6 +5,8 @@ import shipperImg from "../../../assets/img/dashboard/motivation.png";
 import {
   URL_CUSTOMER,
   URL_GET_SHIPPER,
+  URL_GET_SHIPPER_BY_BRANCH,
+  URL_SHIPPER_ASSIGNMENT_PAGE,
   URL_STAFF,
 } from "../../../utils/constraint";
 export default function SettingOptionOne() {
@@ -30,9 +32,9 @@ export default function SettingOptionOne() {
               </div>
             </div>
           </Link>
-          <Link to={URL_STAFF}>
+          <Link to={URL_SHIPPER_ASSIGNMENT_PAGE}>
             <div className="option-card">
-              <div className="option-title">Shipper</div>
+              <div className="option-title">Shipper Assignment</div>
               <div className="option-icon">
                 <img className="option-img" src={shipperImg} alt="" />
               </div>

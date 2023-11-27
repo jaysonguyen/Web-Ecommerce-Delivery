@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import "../../../assets/css/Pages/customer.css";
 import {
   DotsThreeVertical,
@@ -9,19 +8,9 @@ import {
   Warning,
   CaretLeft,
 } from "phosphor-react";
-import { ICON_SIZE_EXTRA_LARGE } from "../../../utils/constraint";
 import ActionCustomer from "./ActionCustomer";
-import { Input, Dropdown } from "../../index";
-import {
-  getStoreByUser,
-  getUserByCode,
-  getUserById,
-  getUserList,
-} from "../../../services/UserService";
-import { User } from "../../../model/user";
-import toast from "react-hot-toast";
+import { getStoreByUser, getUserByCode } from "../../../services/UserService";
 import { TabContent } from "./TabContent";
-import { getBankList } from "../../../services/BankService";
 
 function DetailCustomer({ userSelected }) {
   const [currentTab, setCurrentTab] = useState("1");
@@ -127,6 +116,7 @@ function DetailCustomer({ userSelected }) {
 
   useEffect(() => {
     initData();
+    console.log(userData);
   }, [currentTab, userSelected]);
 
   return (
@@ -156,17 +146,15 @@ function DetailCustomer({ userSelected }) {
               <span>D</span>
             </div>
             <div className="name_email_cus">
-              <h3>{userSelected.fullName}</h3>
+              <h3>{userData.fullName}</h3>
               <div className="email_phone_frame">
-                <a href="#">{userSelected.email}</a>
+                <a href="#">{userData.email}</a>
                 <div className="phone_number_cus">
                   <Phone size={13} className="phone_number_icon" />
                   <div className="over_lay">
                     <a href="#" className="phone_number_data">
                       <Phone size={16} className="icon_mini_phone" />
-                      {userSelected.phone == null
-                        ? "Chưa cập nhật"
-                        : userSelected.phone}
+                      {userData.phone}
                     </a>
                   </div>
                 </div>
@@ -184,9 +172,7 @@ function DetailCustomer({ userSelected }) {
             <button className="dotthree_icon" onClick={handleShowAction}>
               <DotsThreeVertical size={32} />
             </button>
-            <div>
-              <button className="btn_Order"> Order</button>
-            </div>
+            <div>{/*<button className="btn_Order"> Order</button>*/}</div>
           </div>
           {isShowAction && (
             <ActionCustomer item={actions} icon={<PencilSimple size={17} />} />
