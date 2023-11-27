@@ -38,6 +38,8 @@ import AddVoucher from "./components/project/voucher/AddVoucher";
 import CityPage from "./pages/admin/city/CityPage";
 import ProductType from "./pages/admin/productTyppe/ProductType";
 import ShippingAssignment from "./pages/admin/staff/ShippingAssignment";
+import ShipperPage from "./pages/admin/staff/ShipperPage";
+import PackageShipmentDetail from "./pages/admin/staff/PackageShipmentDetail";
 
 const router = createBrowserRouter([
   {
@@ -103,6 +105,14 @@ const router = createBrowserRouter([
       {
         path: "/shipping-assignment",
         element: <ShippingAssignment />,
+      },
+      {
+        path: "/shipper",
+        element: <ShipperPage />,
+      },
+      {
+        path: "/shipper/order/detail",
+        element: <PackageShipmentDetail />,
       },
     ],
   },

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-function StaffWithImage({ nameShipper }) {
+function StaffWithImage({ shipperName, callBack = () => {} }) {
   const bgColorList = [
     "#4d28d2",
     "#ff1717",
@@ -21,7 +21,6 @@ function StaffWithImage({ nameShipper }) {
     return Math.floor(Math.random(0, 20) * 14);
   };
 
-
   return (
     <>
       <div
@@ -30,7 +29,7 @@ function StaffWithImage({ nameShipper }) {
       >
         S
       </div>
-      <div className="shipper_assign_name">{nameShipper}</div>
+      <div className="shipper_assign_name">{shipperName && shipperName}</div>
     </>
   );
 }
