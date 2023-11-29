@@ -67,15 +67,14 @@ function AddStaff({
     }
   };
 
+  console.log("data: " + data);
+
   return (
     <div className="add_staff_container">
       <div className="row">
         {buttonType === "Save" && (
           <div className="col col-6">
-            <Input
-              label={"Code"}
-              placeholder={data && data.code || ""}
-            />
+            <Input label={"Code"} placeholder={(data && data.code) || ""} />
           </div>
         )}
 
@@ -129,7 +128,7 @@ function AddStaff({
         </div>
       </div>
       <button
-        onClick={buttonType == "Add" ? handleInsertStaff : handleUpdateStaff}
+        onClick={buttonType === "Add" ? handleInsertStaff : handleUpdateStaff}
         className="btnAdd"
       >
         {buttonType}

@@ -18,7 +18,7 @@ const store = configureStore({
     display: displaySlice.reducer,
     table: tableSlice.reducer,
     search: searchSlice.reducer,
-    initialState,
+    package: packageSlice.reducer,
     consumer: consumerSlice.reducer,
   },
 });

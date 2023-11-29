@@ -154,7 +154,6 @@ export const StaffPage = () => {
               </div>
             </div>
             <button onClick={handleAddButton} className="btnAdd">
-              {" "}
               <Plus size={ICON_SIZE_BIG} />
               Add
             </button>
@@ -177,7 +176,7 @@ export const StaffPage = () => {
               size={ICON_SIZE_BIG}
             />
           </div>
-          <h3>Add staff</h3>
+          <h3>{buttonType === "Add" ? "Add staff" : "Staff Detals"}</h3>
           <AddStaff
             setNameStaff={setNameStaff}
             nameStaff={nameStaff}

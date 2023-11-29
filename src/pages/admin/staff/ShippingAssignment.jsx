@@ -3,24 +3,27 @@ import "../../../assets/css/Pages/shippingAssignment.css";
 import { AssignShipperTag, Input, StaffWithImage } from "../../../components";
 import { getUserByBranchCode } from "../../../services/BranchService";
 import {
+  getShipperAssignmentByBranchId,
   getShipperInBranchByBranchId,
   getShipperListByBranchCode,
+  getShipperListByBranchId,
   setAssignShipment,
 } from "../../../services/UserService";
 import toast from "react-hot-toast";
+import useToken from "../../../hooks/useToken";
 
 function ShippingAssignment(props) {
   const [assignInfo, setAssignInfo] = useState([]);
   const [shipperList, setShipperList] = useState([]);
+  const { userPayload } = useToken();
 
   const fetchAssignmentInfo = async () => {
     try {
-      const branchID = JSON.parse(localStorage.getItem("user_payload")).branch
-        .branch_id;
-      const shipperList = await getShipperInBranchByBranchId(branchID);
-      if (shipperList) {
-        setAssignInfo(shipperList.data);
-        console.log(shipperList);
+      const assignList = await getShipperAssignmentByBranchId(
+        userPayload.branch.branch_id,
+      );
+      if (assignList) {
+        setAssignInfo(assignList.data);
       }
     } catch (error) {
       console.log(error);
@@ -29,11 +32,12 @@ function ShippingAssignment(props) {
 
   const fetchShipperList = async () => {
     try {
-      const branchCode = JSON.parse(localStorage.getItem("user_payload")).branch
-        .code;
-      const shipperList = await getShipperListByBranchCode(branchCode);
+      const shipperList = await getShipperListByBranchId(
+        userPayload.branch.branch_id,
+      );
       if (shipperList) {
         setShipperList(shipperList.data);
+        console.log(shipperList);
       }
     } catch (error) {
       console.log(error);
@@ -53,9 +57,10 @@ function ShippingAssignment(props) {
       <div className="row">
         <div className="col col-lg-9">
           {assignInfo &&
-            assignInfo.map((item) => {
+            assignInfo.map((item, index) => {
               return (
                 <AssignShipperTag
+                  key={index}
                   fetchAssignmentInfo={fetchAssignmentInfo}
                   assignInfo={item}
                   shipperList={shipperList}
@@ -67,12 +72,12 @@ function ShippingAssignment(props) {
         <div className="shipping_assignment_list_shipper_container col col-lg-3">
           <h6>Shipper list</h6>
           <ul className="shipper_list">
-            {assignInfo &&
-              assignInfo.map((item, index) => {
+            {shipperList &&
+              shipperList.map((item, index) => {
                 return item?.user != null ? (
                   <li key={index} className="shipper_item flex-align-center">
                     <span className="dot-assign"></span>
-                    <StaffWithImage shipperName={item.user.fullName} />
+                    <StaffWithImage shipperName={item.fullName} />
                   </li>
                 ) : (
                   ""

@@ -3,9 +3,20 @@ import React, { useEffect, useState } from "react";
 
 import toast from "react-hot-toast";
 import { MyTable } from "../../template/table/MyTable/MyTable";
+import {
+  getHistoryOrderList,
+  getHítoryOrderList,
+} from "../../../services/OrderService";
+import { OrderModel } from "../../../model/order";
+import {
+  HistoryOrderFromJson,
+  OrderItemFromJson,
+  OrderTableFromJson,
+} from "../../../utils/modelHandle";
 
 export const OrderTabContent = ({ data = {}, tab = "1", clearData }) => {
   const [receiverInfo, setReceiverInfo] = useState({});
+  const [historyList, setHistoryList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const styleTitle = {
@@ -14,6 +25,23 @@ export const OrderTabContent = ({ data = {}, tab = "1", clearData }) => {
     marginTop: "1em",
   };
 
+  const getHistoryList = async () => {
+    try {
+      let res = await getHistoryOrderList(data.order_id);
+      if (res.status === 200) {
+        setHistoryList([]);
+        for (let i = 0; i < res.data.length; i++) {
+          setHistoryList((historyList) => [
+            ...historyList,
+            new HistoryOrderFromJson(res.data[i]),
+          ]);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong");
+    }
+  };
   const initData = async () => {
     switch (tab) {
       case "1": {
@@ -32,7 +60,7 @@ export const OrderTabContent = ({ data = {}, tab = "1", clearData }) => {
         break;
       }
       case "3": {
-        // bank account
+        await getHistoryList();
         break;
       }
       default:
@@ -124,22 +152,7 @@ export const OrderTabContent = ({ data = {}, tab = "1", clearData }) => {
       )}
       {tab === "3" && (
         <div>
-          <button className="btnAdd btnAccount">Add new store</button>
-          {/*{storeInfo.map((info, i) => (*/}
-          {/*  <div className="row store_frame" key={i}>*/}
-          {/*    <div className="col">*/}
-          {/*      <Input placeholder={info.name} label="Name" />*/}
-          {/*      <Input placeholder={info.des} label="Descript" />*/}
-          {/*      <Input placeholder={info.address} label="Address" />*/}
-          {/*    </div>*/}
-          {/*    <div className="col">*/}
-          {/*      <Input placeholder={info.phone} label="Phone" />*/}
-          {/*      <Input placeholder={info.created} label="Created" />*/}
-          {/*      <Input placeholder={info.updated} label="Updated" />*/}
-          {/*      <button className="btnAdd btnAccount">Delete</button>*/}
-          {/*    </div>*/}
-          {/*  </div>*/}
-          {/*))}*/}
+          <MyTable list={historyList} hideToolkit={true} hideDetails={true} />
         </div>
       )}
     </>

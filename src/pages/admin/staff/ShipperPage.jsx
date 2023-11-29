@@ -21,14 +21,16 @@ import "../../../assets/css/Pages/shipper.css";
 import { PackageShipment } from "../../../components";
 import { getOrderListByShipperCode } from "../../../services/UserService";
 import toast from "react-hot-toast";
+import useToken from "../../../hooks/useToken";
 
 function ShipperPage(props) {
   const dispatch = useDispatch();
   const [orderList, setOrderList] = useState([]);
+  const { userPayload } = useToken();
 
   const fetchData = async () => {
     try {
-      const tempShipperCode = "shipper5385";
+      const tempShipperCode = userPayload.userCode;
       const listOrder = await getOrderListByShipperCode(tempShipperCode);
       if (listOrder.status === 200) {
         setOrderList(listOrder.data);
@@ -62,11 +64,10 @@ function ShipperPage(props) {
       <div className="shipper_page_body">
         <h3 className="font-weight-b">Shipment package</h3>
         <div className="shipper_page_package_container">
-          {orderList && orderList.map((item, index) => {
-            return (
-              <PackageShipment key={index} packageInfo={item}/>
-            )
-          })}
+          {orderList &&
+            orderList.map((item, index) => {
+              return <PackageShipment key={index} packageInfo={item} />;
+            })}
         </div>
       </div>
       <div className="shipper_page_tool_bar flex-center-center">

@@ -11,6 +11,7 @@ import { Input } from "../../components/index";
 import { loginCustomer } from "../../services/UserService";
 import consumerSlice from "../../features/consumer/consumerSlice";
 import toast, { Toaster } from "react-hot-toast";
+import { URL_SHIPPER_PAGE } from "../../utils/constraint";
 
 function Login(props) {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ function Login(props) {
         } else if (checkLogin.data?.role === "customer") {
           navigation("/customer/store");
         } else if (checkLogin.data?.role === "shipper") {
-          navigation("/admin/order");
+          navigation(URL_SHIPPER_PAGE);
         } else {
           //staff
           navigation("/order");

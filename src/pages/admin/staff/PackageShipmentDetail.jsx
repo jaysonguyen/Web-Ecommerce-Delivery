@@ -14,6 +14,7 @@ import { CaretCircleLeft, Upload } from "phosphor-react";
 import { ICON_SIZE_EXTRA_LARGE } from "../../../utils/constraint";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 function PackageShipmentDetail(props) {
   const navigate = useNavigate();
@@ -50,11 +51,22 @@ function PackageShipmentDetail(props) {
     }
 
     try {
-      await axios.post("http://localhost:8080/api/history/delivery", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const checkInsert = await axios.post(
+        "http://localhost:8080/api/history/delivery",
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         },
-      });
+      );
+
+      console.log(checkInsert);
+
+      if (checkInsert.status == 200) {
+        await toast.success("Received!");
+        await navigate("/shipper");
+      }
 
       console.log("Delivery history created successfully.");
     } catch (error) {

@@ -78,8 +78,7 @@ export const loginCustomer = async (data) => {
   }
 };
 
-
-export const getShipperInBranchByBranchId = async (data) => {
+export const getShipperAssignmentByBranchId = async (data) => {
   try {
     const assignList = await axios.get(URL_GET_ASSIGN_INFO + `/${data}`);
     return assignList;
@@ -88,10 +87,10 @@ export const getShipperInBranchByBranchId = async (data) => {
   }
 };
 
-export const getShipperListByBranchCode = async (branchCode) => {
+export const getShipperListByBranchId = async (branchCode) => {
   try {
     const shipperList = await axios.get(
-      URL_GET_SHIPPER_BY_BRANCH + `/${branchCode}`
+      "/api/user/shipper/branch" + `/${branchCode}`,
     );
     return shipperList;
   } catch (error) {
@@ -102,7 +101,7 @@ export const getShipperListByBranchCode = async (branchCode) => {
 export const getOrderListByShipperCode = async (shipperCode) => {
   try {
     const getListOrder = await axios.get(
-      URL_GET_ORDER_BY_SHIPPER_CODE + `/${shipperCode}`
+      URL_GET_ORDER_BY_SHIPPER_CODE + `/${shipperCode}`,
     );
     return getListOrder;
   } catch (error) {
@@ -113,10 +112,10 @@ export const getOrderListByShipperCode = async (shipperCode) => {
 export const setAssignShipment = async (area_code, branch_code, user_code) => {
   try {
     const setListOrder = await axios.post(
-      `/api/user/shipper/assignment/${area_code}/${branch_code}/${user_code}`
+      `/api/user/shipper/assignment/${area_code}/${branch_code}/${user_code}`,
     );
     return setListOrder;
   } catch (error) {
     console.log(error);
   }
-}
+};

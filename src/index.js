@@ -204,10 +204,10 @@ const routes = [
     element: <StorePage />,
     role: ["customer"],
   },
-  {
-    path: URL_SHIPPER_PAGE,
-    element: <ShipperPage />,
-  },
+  // {
+  //   path: URL_SHIPPER_PAGE,
+  //   element: <ShipperPage />,
+  // },
   {
     path: "/shipper/order/detail",
     element: <PackageShipmentDetail />,
@@ -228,6 +228,7 @@ root.render(
         <Routes>
           <Route path="/login" index={true} element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path={URL_SHIPPER_PAGE} element={<ShipperPage />} />
           <Route path="/" element={<App />}>
             {routes.map((route, i) => {
               return (

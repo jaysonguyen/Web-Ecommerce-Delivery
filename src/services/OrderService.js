@@ -45,6 +45,14 @@ export const getCityDropdownList = async () => {
     return error;
   }
 };
+export const getHistoryOrderList = async (orderId) => {
+  try {
+    let data = await axios.get(`/api/history_order?orderId=${orderId}`);
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
 
 export const insertOrder = async (data) => {
   try {

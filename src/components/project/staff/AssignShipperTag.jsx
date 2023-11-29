@@ -45,7 +45,7 @@ function AssignShipperTag({
       <div>
         <div className="assign_location_title flex-align-center">
           <span className="font-weight-b">
-            {assignInfo && assignInfo.area.name}
+            {assignInfo.area && assignInfo.area.name}
           </span>
           <span
             className={

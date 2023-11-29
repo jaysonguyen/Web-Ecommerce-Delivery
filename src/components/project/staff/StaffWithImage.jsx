@@ -21,6 +21,8 @@ function StaffWithImage({ shipperName, callBack = () => {} }) {
     return Math.floor(Math.random(0, 20) * 14);
   };
 
+  console.log(shipperName);
+
   return (
     <>
       <div

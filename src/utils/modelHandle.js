@@ -96,6 +96,21 @@ export function OrderItemFromJson(order) {
   // Chuyển đổi kết quả thành JSON mới
   return newData;
 }
+export function HistoryOrderFromJson(history) {
+  // Ánh xạ key cũ sang key mới
+  const newData = {
+    ID: history.history_id,
+    // "Order ID": history.order_id,
+    // Branch: history.branch_id,
+    Shipper: history.shipper_name,
+    "Date Time": history.date_time,
+    "Action By": history.input_by,
+    Note: history.note,
+  };
+
+  // Chuyển đổi kết quả thành JSON mới
+  return newData;
+}
 
 export function OrderDetailsFromJson(order) {
   // Ánh xạ key cũ sang key mới
