@@ -83,7 +83,9 @@ function DetailsOrder({ closeDetail, orderSelected }) {
     try {
       let res = null;
       if (v === "decline") {
-        // res = await setAction(orderSelected.order_code, "2");
+        res = await setAction(orderSelected.order_id, "0", userPayload.userID);
+      } else if (v === "finish") {
+        res = await setAction(orderSelected.order_id, "6", userPayload.userID);
       } else {
         switch (orderSelected.action_code) {
           case "0": {
@@ -251,7 +253,25 @@ function DetailsOrder({ closeDetail, orderSelected }) {
                   </button>
                 </div>
               )}
-            {orderSelected.action_code !== "2" &&
+            {orderSelected.action_code !== "0" &&
+              orderSelected.action_code !== "1" &&
+              orderSelected.action_code !== "2" &&
+              orderSelected.action_code !== "4" &&
+              orderSelected.action_code !== "6" &&
+              (userPayload.role === "admin" ||
+                orderSelected.action_code === "0") && (
+                <div>
+                  <button
+                    className="btn_Order"
+                    style={{ backgroundColor: "var(--color-success)" }}
+                    onClick={() => handleActionButton("finish")}
+                  >
+                    Finish
+                  </button>
+                </div>
+              )}
+            {orderSelected.action_code === "1" &&
+              orderSelected.action_code === "2" &&
               (userPayload.role === "admin" ||
                 orderSelected.action_code === "0") && (
                 <div>

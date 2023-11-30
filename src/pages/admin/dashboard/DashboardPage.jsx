@@ -7,6 +7,7 @@ import { getOrderReport } from "../../../services/ReportService";
 import toast from "react-hot-toast";
 import { DayPickerDialog } from "../../../components/template/dialog/DayPickerDialog";
 import useToken from "../../../hooks/useToken";
+import CustomerOption from "./CustomerOption";
 
 export default function DashboardPage() {
   // dataAPI: {labels: [], points: [{key: string, values: []}]}
@@ -101,6 +102,8 @@ export default function DashboardPage() {
               <SettingOptionOne />
             ) : userPayload.role === "shipper" ? (
               <div>shipper logged in</div>
+            ) : userPayload.role === "customer" ? (
+              <CustomerOption />
             ) : (
               <div>Customer or staff?</div>
             )}

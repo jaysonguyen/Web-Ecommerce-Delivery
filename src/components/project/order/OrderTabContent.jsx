@@ -45,13 +45,14 @@ export const OrderTabContent = ({ data = {}, tab = "1", clearData }) => {
   const initData = async () => {
     switch (tab) {
       case "1": {
+        console.log(data);
         //receiver details
         setReceiverInfo({
           name: data.receiver ? data.receiver.name : "",
-          address: data.receiver ? data.receiver.address : "",
+          address: data ? data.address : "",
           phone: data.receiver ? data.receiver.phone : "",
-          city: data.receiver ? data.receiver.city : "",
-          area: data.receiver ? data.receiver.area : "",
+          city: data ? data.city_name : "",
+          area: data ? data.area_name : "",
         });
         break;
       }

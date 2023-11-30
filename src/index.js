@@ -5,8 +5,6 @@ import ReactDOM from "react-dom/client";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
 import store from "./store/store";
 import "./index.css";
 
@@ -21,7 +19,6 @@ import StatusButton from "./components/project/order/StatusButton";
 import {
   URL_STAFF,
   URL_FORGET,
-  URL_LOGIN,
   URL_REGISTER,
   URL_ORDER,
   URL_BRANCH,

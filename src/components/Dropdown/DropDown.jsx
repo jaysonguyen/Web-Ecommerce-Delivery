@@ -1,5 +1,5 @@
 import { CaretDown, Storefront } from "phosphor-react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 //constraint
 import { ICON_SIZE_BIG } from "../../utils/constraint";
 
@@ -15,12 +15,14 @@ function DropDown({
   bgColor = "transparent",
   margin = "0",
   placeholder = "",
-  value = {},
+  value = "",
   onChange = function (v) {},
   onValue = function (v) {},
 }) {
   const [isShowDropDown, setIsShowDropDown] = useState(false);
-  const [itemSelect, setItemSelect] = useState(placeholder);
+  const [itemSelect, setItemSelect] = useState(
+    value === "" ? placeholder : value,
+  );
   const handleShowDropdown = () => {
     console.log("show dropdown");
     setIsShowDropDown(true);
@@ -50,6 +52,10 @@ function DropDown({
         : "none",
     cursor: item.length > 0 ? "pointer" : "context-menu",
   };
+
+  useEffect(() => {
+    setItemSelect(value === "" ? placeholder : value);
+  }, [item]);
 
   return (
     <>

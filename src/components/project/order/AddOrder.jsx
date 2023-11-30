@@ -26,6 +26,7 @@ import {
   getProductTypeDropdownList,
   getProductTypeList,
 } from "../../../services/ProductType";
+import { getAreaDropdownList } from "../../../services/AreaService";
 
 function AddOrder({
   handleClose,
@@ -49,6 +50,7 @@ function AddOrder({
   };
 
   const [cityList, setCityList] = useState([]);
+  const [areaList, setAreaList] = useState([]);
   const getCityData = async () => {
     try {
       let res = await getCityDropdownList();
@@ -59,6 +61,19 @@ function AddOrder({
       }
     } catch (e) {
       console.log("Error from get city data: " + e.message);
+      toast.error("Check your network");
+    }
+  };
+  const getAreaData = async (cityCode) => {
+    try {
+      let res = await getAreaDropdownList(cityCode);
+      if (res.status === 200) {
+        setAreaList(res.data);
+      } else {
+        // toast.error("Cannot get area data, please try again");
+      }
+    } catch (e) {
+      console.log("Error from get area data: " + e.message);
       toast.error("Check your network");
     }
   };
@@ -153,16 +168,6 @@ function AddOrder({
   const [receiverCity, setReceiverCity] = useState("");
   const [receiverArea, setReceiverArea] = useState("");
 
-  const items = [
-    { content: "Business", code: "BS" },
-    { content: "Entertainment", code: "VH" },
-    { content: "General", code: "THS" },
-    { content: "Health", code: "KT" },
-    { content: "Science", code: "KT" },
-    { content: "Sports", code: "KT" },
-    { content: "Technology", code: "KT" },
-  ];
-
   useEffect(() => {
     getCityData();
     getProductTypeData();
@@ -213,9 +218,6 @@ function AddOrder({
     let receiverData = JsonToString({
       name: receiverName,
       phone: receiverPhone,
-      address: receiverAddress,
-      city: "",
-      area: "",
     });
 
     const checkAddOrders = await insertOrder({
@@ -226,6 +228,9 @@ function AddOrder({
       collect_money: false,
       product: productData,
       package_order: packageData,
+      address: receiverAddress,
+      city_code: receiverCity,
+      area_code: receiverArea,
     });
     if (checkAddOrders.status === 200) {
       // await getNewsListByAction();
@@ -336,7 +341,12 @@ function AddOrder({
               item={cityList}
               value={receiverCity}
               bgColor="var(--text-white)"
-              setValue={(v) => setReceiverCity(v.target.value)}
+              onValue={(v) => {}}
+              onChange={async (v) => {
+                await getAreaData(v);
+                setReceiverArea("");
+                setReceiverCity(v);
+              }}
               placeholder="Choose city"
             />
             <p className={isError.type ? "warning_empty" : ""}>
@@ -344,9 +354,10 @@ function AddOrder({
             </p>
             <Dropdown
               // setValue={setType}
+              item={areaList}
               value={receiverArea}
               bgColor="var(--text-white)"
-              setValue={(v) => setReceiverArea(v.target.value)}
+              onChange={(v) => setReceiverArea(v)}
               placeholder="Choose area"
             />
           </div>

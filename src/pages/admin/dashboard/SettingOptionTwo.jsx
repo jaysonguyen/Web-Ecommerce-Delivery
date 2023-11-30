@@ -6,10 +6,7 @@ import productTypeImg from "../../../assets/img/dashboard/clip.png";
 import {
   URL_BRANCH,
   URL_CITY,
-  URL_CUSTOMER,
-  URL_GET_SHIPPER,
   URL_PRODUCTTYPE,
-  URL_STAFF,
   URL_VOUCHER,
 } from "../../../utils/constraint";
 export default function SettingOptionTwo() {

@@ -50,6 +50,7 @@ export function BranchTableFromJson(data) {
 export function StoreTableFromJson(data) {
   // Ánh xạ key cũ sang key mới
   const newData = {
+    ID: data.store_id,
     Code: data.store_code,
     Name: data.name,
     Created: data.created,
@@ -69,6 +70,7 @@ export function VoucherTableFromJson(data) {
     Period: data.created,
     Quantity: data.quantity,
     Remain: data.quantity - data.used,
+    Points: data.points,
     Created: data.created,
     Status: data.status === "1" ? <div>Active</div> : <div>Inactive</div>,
   };
@@ -119,6 +121,9 @@ export function OrderDetailsFromJson(order) {
     order_code: order.order_code,
     action_code: order.action_code,
     user_name: order.user_name,
+    city_name: order.city_name,
+    area_name: order.area_name,
+    address: order.address,
     receiver: JSON.parse(order.receiver),
     product: JSON.parse(order.product),
     package_order: JSON.parse(order.package_order),

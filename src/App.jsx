@@ -1,8 +1,8 @@
 import "./App.css";
 import "./assets/css/plugin.css";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js";
-import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js";
+// import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js";
+// import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js";
 import {
   BellSimple,
   Clock,
@@ -11,11 +11,6 @@ import {
   ListNumbers,
   ShoppingBag,
   SignOut,
-  Table,
-  UsersFour,
-  Graph,
-  Wallet,
-  Archive,
   ChartBar,
   CaretLeft,
 } from "phosphor-react";
@@ -24,10 +19,6 @@ import {
   URL_STAFF,
   URL_CUSTOMER,
   URL_ORDER,
-  URL_BRANCH,
-  URL_VOUCHER,
-  URL_PRODUCTTYPE,
-  URL_CITY,
   URL_LOGIN,
   URL_DASHBOARD,
 } from "./utils/constraint";

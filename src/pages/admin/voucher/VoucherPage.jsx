@@ -13,8 +13,12 @@ import { CaretLeft } from "phosphor-react";
 import AddVoucher from "../../../components/project/voucher/AddVoucher";
 import { tableSelector } from "../../../selectors/consumerSelector";
 import tableSlice from "../../../features/table/tableSlice";
-import { VoucherTableFromJson } from "../../../utils/modelHandle";
+import {
+  OrderDetailsFromJson,
+  VoucherTableFromJson,
+} from "../../../utils/modelHandle";
 import useToken from "../../../hooks/useToken";
+import { getOrderDetails } from "../../../services/OrderService";
 
 function VoucherPage(props) {
   const [voucherSelected, setVoucherSelected] = useState({});
@@ -36,7 +40,7 @@ function VoucherPage(props) {
     setIsLoading(true);
     try {
       const data = await getVoucherList();
-      console.log(data);
+      setVoucherList([]);
       if (data.status === 200) {
         for (let i = 0; i < data.data.length; i++) {
           setVoucherList((voucherList) => [
@@ -78,20 +82,20 @@ function VoucherPage(props) {
     initData().then((r) => r === null && toast.error("Something went wrong!"));
   }, [isShowAdd]);
 
-  const handleButtonAction = async (data, type) => {
-    console.log("click");
-    switch (type) {
-      case "details": {
-        await setVoucherSelected(data);
-        await setIsShowDetail(true);
-        break;
+  const handleShowDetail = async (data) => {
+    try {
+      let res = await getOrderDetails(data.ID);
+
+      if (res.status === 200) {
+        setVoucherSelected(res.data);
+      } else {
+        toast.error("Cannot found order data!");
       }
-      case "delete": {
-      }
-      default:
-        break;
+    } catch (e) {
+      toast.error("Something went wrong");
     }
   };
+
   const handleCloseDetail = () => {
     setIsShowDetail(false);
   };
@@ -140,8 +144,7 @@ function VoucherPage(props) {
             hideDelete={userPayload.role !== "admin"}
             list={voucherList}
             showCheckBox={!(userPayload.role !== "admin")}
-            callback={handleButtonAction}
-            hideDetails={true}
+            callback={handleShowDetail}
             deleteCallback={handleDelete}
           />
         </>
