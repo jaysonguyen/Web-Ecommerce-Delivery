@@ -27,34 +27,22 @@ function PackageShipment({ packageInfo = {}, hideLocation }) {
           </span>
           <span
             className={
-              packageInfo?.orders?.action_code == 3
-                ? "shipper_page_package_status status_shipping"
-                : "shipper_page_package_status status_received"
+              (packageInfo?.orders?.action_code == 0 &&
+                "shipper_page_package_status status_shipping") ||
+              (packageInfo?.orders?.action_code == 1 &&
+                "shipper_page_package_status status_shipping") ||
+              (packageInfo?.orders?.action_code == 2 &&
+                "shipper_page_package_status status_receive")
             }
           >
-            {packageInfo?.orders?.action_code == 3 ? "Shipping" : "Receive"}
+            {(packageInfo?.orders?.action_code == 0 && "Shipping") ||
+              (packageInfo?.orders?.action_code == 1 && "Reject") ||
+              (packageInfo?.orders?.action_code == 2 && "Receive")}
           </span>
         </span>
         <h6 className="font-weight-b">{packageInfo.customerName}</h6>
         <span className="shipper_page_address">
           <MapPin size={ICON_SIZE_BIG} weight="fill" />
-          {/*<span className="shipper_address_details">*/}
-          {/*  {packageInfo*/}
-          {/*    ? JSON.parse(packageInfo?.orders?.address).ap_number*/}
-          {/*    : "Default Value"}*/}
-          {/*</span>*/}
-          {/*<span className="shipper_address_details">*/}
-          {/*  Street:{" "}*/}
-          {/*  {packageInfo*/}
-          {/*    ? JSON.parse(packageInfo.orders.address).street*/}
-          {/*    : "Default Value"}*/}
-          {/*</span>*/}
-          {/*Ward:{" "}*/}
-          {/*<span className="shipper_address_details">*/}
-          {/*  {packageInfo*/}
-          {/*    ? JSON.parse(packageInfo?.orders?.address).ward*/}
-          {/*    : "Default Value"}*/}
-          {/*</span>*/}
         </span>
         <h6 className="font-weight-b shipper_page_cost">
           Cost:

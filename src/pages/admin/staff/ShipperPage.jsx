@@ -30,7 +30,7 @@ function ShipperPage(props) {
 
   const fetchData = async () => {
     try {
-      const tempShipperCode = userPayload.userCode;
+      const tempShipperCode = userPayload.userID;
       const listOrder = await getOrderListByShipperCode(tempShipperCode);
       if (listOrder.status === 200) {
         setOrderList(listOrder.data);
