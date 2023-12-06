@@ -39,7 +39,7 @@ function App() {
     {
       icon: <BellSimple size={ICON_SIZE_BIG} />,
       label: "Activity",
-      link: "/",
+      link: "/notify",
       position: "header",
       option: {
         count: 10,

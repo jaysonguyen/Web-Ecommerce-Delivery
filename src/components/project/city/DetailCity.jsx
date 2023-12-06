@@ -62,6 +62,7 @@ function DetailCity({ closeDetail, citySelected }) {
 
   useEffect(() => {
     clearInput();
+    console.log(citySelected);
   }, [citySelected]);
 
   return (
@@ -91,14 +92,11 @@ function DetailCity({ closeDetail, citySelected }) {
               <span>D</span>
             </div>
             <div className="name_email_cus">
-              <h3>{citySelected.code}</h3>
-              <div className="email_phone_frame">
-                <a href="#">{citySelected.name}</a>
-              </div>
+              <h3>{citySelected.Code}</h3>
             </div>
           </div>
           <div className="status_customer_blaclist_frame">
-            <div className="type_cus">{citySelected.name}</div>
+            <div className="type_cus">{citySelected.Name}</div>
             <div className="blacklist_frame ">
               <Warning size={20} />
             </div>
@@ -116,7 +114,7 @@ function DetailCity({ closeDetail, citySelected }) {
           </div>
           {isShowAdd ? (
             <div className="add_employee_container">
-              <AddArea showAdd={setIsShowAdd} cityId={citySelected.id} />
+              <AddArea showAdd={setIsShowAdd} cityId={citySelected.ID} />
             </div>
           ) : (
             <div className="container">
@@ -137,12 +135,12 @@ function DetailCity({ closeDetail, citySelected }) {
                   <div key={index}>
                     {currentTab === tab.id.toString() && (
                       <CityTabContent
-                        nameCity={citySelected.name}
+                        nameCity={citySelected.Name}
                         setNameCity={setNameCity}
-                        des={citySelected.des}
+                        des={citySelected.Description}
                         setDes={setDes}
                         tab={tab.id.toString()}
-                        cityID={citySelected.id}
+                        cityID={citySelected.ID}
                         clearData={handleClearInput}
                       />
                     )}

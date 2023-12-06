@@ -31,6 +31,7 @@ import {
   URL_SHIPPER_PAGE,
   URL_LOGIN,
   URL_PROFILE,
+  URL_LANDING_PAGE,
 } from "./utils/constraint";
 
 import Customer from "./pages/admin/customer/Customer";
@@ -50,6 +51,7 @@ import DashboardPage from "./pages/admin/dashboard/DashboardPage";
 import ShipperPage from "./pages/admin/staff/ShipperPage";
 import PackageShipmentDetail from "./pages/admin/staff/PackageShipmentDetail";
 import { ProfilePage } from "./pages/profile/ProfilePage";
+import { LandingPage } from "./pages/social/LandingPage";
 
 // const router = createBrowserRouter([
 //   {
@@ -223,6 +225,11 @@ root.render(
       {/* <RouterProvider router={router} /> */}
       <Router>
         <Routes>
+          <Route
+            path={URL_LANDING_PAGE}
+            index={true}
+            element={<LandingPage />}
+          />
           <Route path={URL_LOGIN} index={true} element={<Login />} />
           <Route path={URL_REGISTER} element={<Register />} />
           <Route path={URL_FORGET} element={<Forget />} />

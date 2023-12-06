@@ -2,27 +2,23 @@ import React, { useEffect, useState } from "react";
 import Input from "../../template/Input/Input";
 import { insertUser, updateUSer } from "../../../services/UserService";
 import toast from "react-hot-toast";
+import { Dropdown } from "../../../components";
 
-function AddStaff({
-  setNameStaff,
-  nameStaff,
-  setButtonType,
-  setAccount,
-  account,
-  setEmail,
-  email,
-  setRole,
-  role,
-  phoneNum,
-  setPhoneNum,
-  des,
-  setDes,
-  data,
-  buttonType,
-  clearInput,
-  fetchStaff,
-  fetchShipper,
-}) {
+function AddStaff({ data, isCreate, isOpen, fetchStaff, fetchShipper }) {
+  const [nameStaff, setNameStaff] = useState("");
+  const [account, setAccount] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+  const [phoneNum, setPhoneNum] = useState("");
+  const [des, setDes] = useState("");
+  const handleClearInput = () => {
+    setNameStaff("");
+    setAccount("");
+    setEmail("");
+    setRole("");
+    setPhoneNum("");
+    setDes("");
+  };
   const handleInsertStaff = async () => {
     try {
       const checkInsert = await insertUser({
@@ -37,7 +33,7 @@ function AddStaff({
         toast.error("insert failed");
       } else {
         toast.success("Insert success");
-        clearInput();
+        handleClearInput();
         fetchStaff();
       }
     } catch (error) {
@@ -55,11 +51,11 @@ function AddStaff({
         phone: phoneNum || data.phoneNumber,
         des: des || data.des,
       });
-      if (checkInsert != 200) {
+      if (checkInsert !== 200) {
         toast.error("Update failed");
       } else {
         toast.success("Insert success");
-        clearInput();
+        handleClearInput();
         fetchStaff();
       }
     } catch (error) {
@@ -67,12 +63,27 @@ function AddStaff({
     }
   };
 
+  const roles = [
+    {
+      code: "3",
+      content: "Staff",
+    },
+    {
+      code: "4",
+      content: "Shipper",
+    },
+  ];
+
+  useEffect(() => {
+    handleClearInput();
+  }, [isOpen]);
+
   console.log("data: " + data);
 
   return (
     <div className="add_staff_container">
       <div className="row">
-        {buttonType === "Save" && (
+        {isCreate && (
           <div className="col col-6">
             <Input label={"Code"} placeholder={(data && data.code) || ""} />
           </div>
@@ -102,12 +113,19 @@ function AddStaff({
             placeholder={data.email || ""}
           />
         </div>
-        <div className="col col-6">
-          <Input
-            onChange={(e) => setRole(e.target.value)}
-            label={"Role"}
-            value={role}
-            placeholder={data.roleName || ""}
+        <div className="col pt-2 col-6">
+          {/*<Input*/}
+          {/*  onChange={(e) => setRole(e.target.value)}*/}
+          {/*  label={"Role"}*/}
+          {/*  value={role}*/}
+          {/*  placeholder={data.roleName || ""}*/}
+          {/*/>*/}
+          <Dropdown
+            placeholder={"Choose Role"}
+            item={roles}
+            width="200px"
+            fontSize="14px"
+            onChange={setRole}
           />
         </div>
         <div className="col col-6">
@@ -128,10 +146,10 @@ function AddStaff({
         </div>
       </div>
       <button
-        onClick={buttonType === "Add" ? handleInsertStaff : handleUpdateStaff}
+        onClick={isCreate ? handleInsertStaff : handleUpdateStaff}
         className="btnAdd"
       >
-        {buttonType}
+        {isCreate ? "Add" : "Save"}
       </button>
     </div>
   );

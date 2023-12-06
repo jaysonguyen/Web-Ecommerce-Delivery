@@ -280,8 +280,10 @@ export const OrderPage = () => {
                 item={cityList}
                 width="200px"
                 fontSize="14px"
-                onChange={setCitySelected}
-                onValue={getAreaList}
+                onChange={async (v) => {
+                  await getAreaList(v);
+                  setCitySelected(v);
+                }}
               />
               Area:
               <Dropdown
@@ -305,6 +307,7 @@ export const OrderPage = () => {
                 list={orderTableList}
                 showCheckBox={true}
                 callback={handleShowDetail}
+                hideDelete={true}
                 // actionsElement={<OrderButtons data={rowData} />}
               />
             ) : (

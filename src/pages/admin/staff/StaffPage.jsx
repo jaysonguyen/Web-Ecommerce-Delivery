@@ -18,12 +18,6 @@ export const StaffPage = () => {
 
   const [staffs, setStaffs] = useState([]);
   const [isShowAdd, setIsShowAdd] = useState(false);
-  const [nameStaff, setNameStaff] = useState("");
-  const [account, setAccount] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
-  const [phoneNum, setPhoneNum] = useState("");
-  const [des, setDes] = useState("");
   const [data, setData] = useState({});
   const [buttonType, setButtonType] = useState("Add");
 
@@ -54,21 +48,6 @@ export const StaffPage = () => {
     }
   };
 
-  const handleClearInput = () => {
-    setNameStaff("");
-    setAccount("");
-    setEmail("");
-    setRole("");
-    setPhoneNum("");
-    setDes("");
-    setData({});
-  };
-
-  const handleDisplayInsertStaff = async () => {
-    await setIsShowAdd(false);
-    await handleClearInput();
-  };
-
   const handleDelete = async () => {
     let list = [...tableData.selectList];
     if (list.length === 0) {
@@ -96,9 +75,9 @@ export const StaffPage = () => {
   const handleButtonAction = async (data, type) => {
     switch (type) {
       case "details": {
-        await setIsShowAdd(true);
-        await setData(data);
-        await setButtonType("Save");
+        setIsShowAdd(true);
+        setData(data);
+        setButtonType("Save");
         break;
       }
       case "delete": {
@@ -172,30 +151,18 @@ export const StaffPage = () => {
         <div className="add_employee_container">
           <div className="go_back_button_container">
             <CaretLeft
-              onClick={handleDisplayInsertStaff}
+              onClick={() => setIsShowAdd(false)}
               size={ICON_SIZE_BIG}
             />
           </div>
           <h3>{buttonType === "Add" ? "Add staff" : "Staff Detals"}</h3>
           <AddStaff
-            setNameStaff={setNameStaff}
-            nameStaff={nameStaff}
-            setAccount={setAccount}
-            account={account}
-            setEmail={setEmail}
+            isOpen={isShowAdd}
             fetchShipper={fetchShipper}
             fetchStaff={fetchStaff}
-            email={email}
-            setRole={setRole}
             data={data}
-            role={role}
-            phoneNum={phoneNum}
-            setPhoneNum={setPhoneNum}
-            des={des}
             buttonType={buttonType}
             setButtonType={setButtonType}
-            setDes={setDes}
-            clearInput={handleDisplayInsertStaff}
           />
         </div>
       )}

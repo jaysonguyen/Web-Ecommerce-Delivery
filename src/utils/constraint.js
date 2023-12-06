@@ -17,6 +17,7 @@ export const URL_BRANCH = "/branch";
 export const URL_PRODUCTTYPE = "/productTyppe";
 export const URL_SHIPPER_PAGE = "/shipper";
 export const URL_SHIPPER_ASSIGNMENT_PAGE = "/shipping-assignment";
+export const URL_LANDING_PAGE = "/main";
 
 /* API */
 export const URL_GET_STAFF = "/api/user/staff";

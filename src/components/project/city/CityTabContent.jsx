@@ -60,7 +60,7 @@ export const CityTabContent = ({
 
     setIsLoading(true);
     try {
-      console.log(cityID !== "");
+      console.log(cityID);
       const data = await getAreaList(cityID);
       if (data.status === 200) {
         if (Array.isArray(data.data)) {
@@ -96,11 +96,11 @@ export const CityTabContent = ({
   };
 
   const handleNameCity = (e) => {
-    setNameCity(e.target.value);
+    setNameCity(e);
   };
 
   const handleDesChange = (e) => {
-    setDes(e.target.value);
+    setDes(e);
   };
 
   const handleUpdateCity = async () => {
@@ -140,6 +140,7 @@ export const CityTabContent = ({
 
   useEffect(() => {
     initData();
+    console.log();
     // cityID !== "" && getAreaData();
   }, [cityID]);
 
@@ -152,10 +153,10 @@ export const CityTabContent = ({
               value={nameCity}
               placeholder={"Enter city name"}
               label="Name"
-              onChange={handleNameCity}
+              onValue={handleNameCity}
             />
             <Input
-              onChange={handleDesChange}
+              onValue={handleDesChange}
               value={des}
               placeholder={"Enter city description"}
               label="Description"

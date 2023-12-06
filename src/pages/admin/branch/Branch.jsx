@@ -41,6 +41,7 @@ function Branch(props) {
     try {
       const data = await getBranchList();
       if (data.status === 200) {
+        setBranchList([]);
         for (let i = 0; i < data.data.length; i++) {
           setBranchList((list) => [...list, BranchTableFromJson(data.data[i])]);
         }
