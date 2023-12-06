@@ -9,6 +9,7 @@ export const URL_VOUCHER = "/admin/voucher";
 export const URL_CITY = "/admin/city";
 export const URL_VOUCHER_ADD = "/admin/voucher/add";
 export const URL_CUSTOMER = "/customer/account";
+export const URL_PROFILE = "/profile";
 export const URL_LOGIN = "/login";
 export const URL_REGISTER = "/register";
 export const URL_FORGET = "/forget";

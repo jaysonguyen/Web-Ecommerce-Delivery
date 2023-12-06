@@ -13,6 +13,12 @@ import { Drawer } from "../../../components/project/drawer/Drawer";
 import { CaretLeft } from "phosphor-react";
 import { ICON_SIZE_BIG } from "../../../utils/constraint";
 import DetailsOrder from "../../../components/project/order/DetailsOrder";
+import { OrderModel } from "../../../model/order";
+import {
+  CityFromJson,
+  OrderItemFromJson,
+  OrderTableFromJson,
+} from "../../../utils/modelHandle";
 
 function CityPage(props) {
   const [citySelected, setCitySelected] = useState({});
@@ -34,7 +40,12 @@ function CityPage(props) {
       const data = await getCityList();
       if (data.status === 200) {
         if (Array.isArray(data.data)) {
-          setCityList(data.data);
+          for (let i = 0; i < data.data.length; i++) {
+            setCityList((cityList) => [
+              ...cityList,
+              new CityFromJson(data.data[i]),
+            ]);
+          }
         }
         return data;
       } else {

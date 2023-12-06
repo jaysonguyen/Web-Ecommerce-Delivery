@@ -11,6 +11,8 @@ import {
 import ActionCustomer from "./ActionCustomer";
 import { getStoreByUser, getUserByCode } from "../../../services/UserService";
 import { TabContent } from "./TabContent";
+import { getCustomerBankByUser } from "../../../services/BankService";
+import { MyButton } from "../../template/button/MyButton/MyButton";
 
 function DetailCustomer({ userSelected }) {
   const [currentTab, setCurrentTab] = useState("1");
@@ -32,16 +34,11 @@ function DetailCustomer({ userSelected }) {
     },
     {
       id: 2,
-      tabTitle: "Orders list",
-      title: "Orders list",
-    },
-    {
-      id: 3,
       tabTitle: "Bank account",
       title: "Bank account",
     },
     {
-      id: 4,
+      id: 3,
       tabTitle: "Store",
       title: "Invoices",
     },
@@ -87,26 +84,38 @@ function DetailCustomer({ userSelected }) {
     }
   };
 
+  const [customerBankList, setCustomerBankList] = useState([]);
+
+  const getCustomerBank = async () => {
+    try {
+      let res = await getCustomerBankByUser(userData.id);
+
+      if (res.status === 200) {
+        setCustomerBankList(res.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const initData = async () => {
     switch (currentTab) {
       case "1": {
         //customer details
         await getCustomerDetails();
-        await setTabData(userData);
+        setTabData(userData);
         break;
       }
       case "2": {
-        //order by user
+        // bank account
+        await getCustomerBank();
+        setTabData(customerBankList);
         break;
       }
       case "3": {
-        // bank account
-        break;
-      }
-      case "4": {
         // store
         await getStoreList();
-        await setTabData(storeData);
+        setTabData(storeData);
         break;
       }
       default:
@@ -172,6 +181,12 @@ function DetailCustomer({ userSelected }) {
             <button className="dotthree_icon" onClick={handleShowAction}>
               <DotsThreeVertical size={32} />
             </button>
+            <MyButton
+              text={"Add new store"}
+              width={"auto"}
+              height={"auto"}
+              padding={"10px 25px"}
+            />
             <div>{/*<button className="btn_Order"> Order</button>*/}</div>
           </div>
           {isShowAction && (

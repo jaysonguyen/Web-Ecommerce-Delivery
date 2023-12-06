@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import CustomMultiSelect from "../../../components/template/multiselect/CustomMultiSelect/CustomMultiSelect";
-import { MyButton } from "../../../components";
+import { Dropdown, MyButton } from "../../../components";
 import "../../../assets/css/Pages/customer.css";
 import { OrderList } from "../../../components/project/order/OrderList";
 import { CalendarBlank, CaretLeft, Rows, SquaresFour } from "phosphor-react";
@@ -8,6 +8,7 @@ import { ButtonState } from "../../../components/template/multiselect/CustomMult
 import { MyTable } from "../../../components";
 import {
   getActions,
+  getCityDropdownList,
   getOrderDetails,
   getOrderListByAction,
 } from "../../../services/OrderService";
@@ -33,6 +34,7 @@ import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
 import { DayPickerDialog } from "../../../components/template/dialog/DayPickerDialog";
 import useToken from "../../../hooks/useToken";
+import { getAreaDropdownList } from "../../../services/AreaService";
 
 export const OrderPage = () => {
   const [dataSelected, setDataSelected] = useState({});
@@ -41,6 +43,8 @@ export const OrderPage = () => {
   const [toggle, setToggle] = useState(1);
 
   const [actionList, setActionList] = useState([]);
+  const [cityList, setCityList] = useState([]);
+  const [areaList, setAreaList] = useState([]);
   const [orderCardList, setOrderCardList] = useState([]);
   const [orderTableList, setOrderTableList] = useState([]);
   const [orderList, setOrderList] = useState([]);
@@ -48,6 +52,8 @@ export const OrderPage = () => {
   const [actionSelected, setActionSelected] = useState("0");
   const [dayBeginSelected, setDayStartSelected] = useState(new Date());
   const [dayEndSelected, setDayEndSelected] = useState(new Date());
+  const [citySelected, setCitySelected] = useState("");
+  const [areaSelected, setAreaSelected] = useState("");
 
   const searchData = useSelector(searchSelector);
   const { userPayload } = useToken();
@@ -58,8 +64,8 @@ export const OrderPage = () => {
       let res = await getOrderDetails(orderCode);
 
       if (res.status === 200) {
-        await setDataSelected(OrderDetailsFromJson(res.data));
-        await setIsShowDetail(true);
+        setDataSelected(OrderDetailsFromJson(res.data));
+        setIsShowDetail(true);
       } else {
         toast.error("Cannot found order data!");
       }
@@ -69,11 +75,11 @@ export const OrderPage = () => {
   };
 
   const getOrdersByAction = async () => {
-    clearList();
-
     // Format options
     const options = { day: "numeric", month: "numeric", year: "numeric" };
     try {
+      clearList();
+
       let res = await getOrderListByAction(actionSelected, userPayload.userID, {
         start: new Intl.DateTimeFormat("en-US", options)
           .format(dayBeginSelected)
@@ -81,6 +87,8 @@ export const OrderPage = () => {
         end: new Intl.DateTimeFormat("en-US", options)
           .format(dayEndSelected)
           .replace(/\//g, "-"),
+        city_code: citySelected,
+        area_code: areaSelected,
       });
       if (res.status === 200) {
         //
@@ -121,6 +129,34 @@ export const OrderPage = () => {
     }
   };
 
+  const getCityList = async () => {
+    try {
+      let res = await getCityDropdownList();
+      if (res.status === 200) {
+        setCityList(res.data);
+      } else {
+        toast.error("City list empty");
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error("Something went wrong");
+    }
+  };
+
+  const getAreaList = async (cityCode) => {
+    try {
+      let res = await getAreaDropdownList(cityCode);
+      if (res.status === 200) {
+        setAreaList(res.data);
+      } else {
+        toast.error("Area list empty");
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error("Something went wrong");
+    }
+  };
+
   const handleSearch = async () => {
     if (searchData === "") {
       return;
@@ -154,13 +190,17 @@ export const OrderPage = () => {
   };
 
   useEffect(() => {
+    clearList();
     getActionList().then((r) => true);
     getOrdersByAction().then((r) => true);
-
     return () => {
       clearList();
     };
   }, [toggle, actionSelected, isShowAdd, isShowDetail]);
+
+  useEffect(() => {
+    getCityList().then((r) => true);
+  }, []);
 
   const detailsModal = (
     <>
@@ -230,6 +270,26 @@ export const OrderPage = () => {
               <DayPickerDialog
                 selectedValue={dayEndSelected}
                 onClose={handleCloseDayEnd}
+              />
+            </div>
+            {/* SORT BY CITY AND AREA  */}
+            <div className="d-flex gap-5 mt-2 align-items-center">
+              City:
+              <Dropdown
+                placeholder={"Choose City"}
+                item={cityList}
+                width="200px"
+                fontSize="14px"
+                onChange={setCitySelected}
+                onValue={getAreaList}
+              />
+              Area:
+              <Dropdown
+                placeholder={"Choose Area"}
+                item={areaList}
+                width="200px"
+                fontSize="14px"
+                onChange={setAreaSelected}
               />
             </div>
             <div className="my-2">

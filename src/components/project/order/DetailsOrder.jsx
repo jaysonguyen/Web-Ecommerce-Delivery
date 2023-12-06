@@ -51,6 +51,11 @@ function DetailsOrder({ closeDetail, orderSelected }) {
     },
     {
       id: 3,
+      tabTitle: "Voucher Used",
+      title: "History",
+    },
+    {
+      id: 4,
       tabTitle: "History",
       title: "History",
     },

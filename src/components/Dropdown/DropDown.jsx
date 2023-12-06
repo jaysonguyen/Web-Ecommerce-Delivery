@@ -8,12 +8,14 @@ import "../../assets/css/dropdown.css";
 function DropDown({
   isShowIcon = false,
   label = "",
+  fontSize = "16px",
   item = [],
   isShowSearchField = false,
   isBoxShadow = false,
   textColor = "#000",
   bgColor = "transparent",
   margin = "0",
+  width = "auto",
   placeholder = "",
   value = "",
   onChange = function (v) {},
@@ -34,15 +36,15 @@ function DropDown({
   };
 
   const handleSelectItem = async (e, code) => {
-    await setItemSelect(e);
-    await setIsShowDropDown(false);
+    setItemSelect(e);
+    setIsShowDropDown(false);
     onChange(code);
     onValue(e);
   };
 
   const style = {
-    margin: "10px 0",
-    height: "50px",
+    padding: "10px 15px",
+    width: width,
     backgroundColor: bgColor,
     boxShadow:
       item.length > 0
@@ -58,7 +60,12 @@ function DropDown({
   }, [item]);
 
   return (
-    <>
+    <div
+      className=""
+      style={{
+        position: "relative",
+      }}
+    >
       {label && <label className="text-dark font-weight-b">{label}</label>}
       <div
         className="dropdown_container flex-align-center"
@@ -70,53 +77,51 @@ function DropDown({
             <Storefront size={ICON_SIZE_BIG} weight="fill" />
           </span>
         )}
-        <h6
+        <div
           style={{
             margin: margin,
+            fontSize: fontSize,
             color: item.length > 0 ? textColor : "var(--text-color-gray)",
           }}
         >
           {itemSelect}
-        </h6>
+        </div>
         <span className="dropdown_icon">
           <CaretDown size={ICON_SIZE_BIG} />
         </span>
-        {item.length > 0 && isShowDropDown && (
-          <div className="dropdown_content">
-            {isShowSearchField && (
-              <input
-                className="dropdown_input"
-                placeholder="Enter your field"
-              />
-            )}
-            <ul className="dropdown_list">
-              {item.map((item, index) => {
-                return (
-                  <li key={index} className="dropdown_item">
-                    <button
-                      className={
-                        item.content === itemSelect
-                          ? "font-weight-b active"
-                          : "font-weight-b"
-                      }
-                      value={item.content}
-                      onClick={(e) =>
-                        handleSelectItem(e.target.value, item.code)
-                      }
-                    >
-                      {item.content}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        )}
       </div>
+      {item.length > 0 && isShowDropDown && (
+        <div className="dropdown_content">
+          {isShowSearchField && (
+            <input className="dropdown_input" placeholder="Enter your field" />
+          )}
+          <ul className="dropdown_list">
+            {item.map((item, index) => {
+              return (
+                <li key={index} className="dropdown_item">
+                  <button
+                    className={
+                      item.content === itemSelect
+                        ? "font-weight-b active"
+                        : "font-weight-b"
+                    }
+                    value={item.content}
+                    onClick={async (e) => {
+                      await handleSelectItem(e.target.value, item.code);
+                    }}
+                  >
+                    {item.content}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
       {item.length > 0 && isShowDropDown && (
         <div onClick={handleCloseModal} className="overlay"></div>
       )}
-    </>
+    </div>
   );
 }
 

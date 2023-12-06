@@ -8,8 +8,6 @@ export function OrderTableFromJson(order) {
       </div>
     ),
     "Receiver Name": JSON.parse(order.receiver).name,
-    Address: JSON.parse(order.receiver).address,
-    "ProductType Name": order.product_type_name,
     "Total Cost": order.total_cost,
   };
 
@@ -70,8 +68,6 @@ export function VoucherTableFromJson(data) {
     Period: data.created,
     Quantity: data.quantity,
     Remain: data.quantity - data.used,
-    Points: data.points,
-    Created: data.created,
     Status: data.status === "1" ? <div>Active</div> : <div>Inactive</div>,
   };
 
@@ -98,16 +94,40 @@ export function OrderItemFromJson(order) {
   // Chuyển đổi kết quả thành JSON mới
   return newData;
 }
-export function HistoryOrderFromJson(history) {
+export function HistoryOrderFromJson(history, index) {
   // Ánh xạ key cũ sang key mới
   const newData = {
     ID: history.history_id,
-    // "Order ID": history.order_id,
-    // Branch: history.branch_id,
+    Step: index + 1,
     Shipper: history.shipper_name,
     "Date Time": history.date_time,
     "Action By": history.input_by,
     Note: history.note,
+  };
+
+  // Chuyển đổi kết quả thành JSON mới
+  return newData;
+}
+export function HistoryVoucherFromJson(history, index) {
+  // Ánh xạ key cũ sang key mới
+  const newData = {
+    ID: history.history_id,
+    Step: index + 1,
+    "Order ID": history.order_id,
+    "Date Time": history.date_time,
+    "Action By": history.input_by,
+  };
+
+  // Chuyển đổi kết quả thành JSON mới
+  return newData;
+}
+export function CityFromJson(city) {
+  // Ánh xạ key cũ sang key mới
+  const newData = {
+    ID: city.id,
+    Code: city.code,
+    Name: city.name,
+    Description: city.des,
   };
 
   // Chuyển đổi kết quả thành JSON mới
@@ -123,7 +143,7 @@ export function OrderDetailsFromJson(order) {
     user_name: order.user_name,
     city_name: order.city_name,
     area_name: order.area_name,
-    address: order.address,
+    address: JSON.parse(order.address),
     receiver: JSON.parse(order.receiver),
     product: JSON.parse(order.product),
     package_order: JSON.parse(order.package_order),

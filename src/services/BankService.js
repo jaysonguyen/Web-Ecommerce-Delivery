@@ -8,3 +8,11 @@ export async function getBankList() {
     return error;
   }
 }
+export async function getCustomerBankByUser(userId) {
+  try {
+    let data = await axios.get(`/api/customer_bank?customerId=${userId}`);
+    return data;
+  } catch (error) {
+    return error;
+  }
+}

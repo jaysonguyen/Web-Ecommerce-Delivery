@@ -29,6 +29,8 @@ import {
   URL_DASHBOARD,
   URL_CUSTOMER,
   URL_SHIPPER_PAGE,
+  URL_LOGIN,
+  URL_PROFILE,
 } from "./utils/constraint";
 
 import Customer from "./pages/admin/customer/Customer";
@@ -47,6 +49,7 @@ import StorePage from "./pages/customer/StorePage";
 import DashboardPage from "./pages/admin/dashboard/DashboardPage";
 import ShipperPage from "./pages/admin/staff/ShipperPage";
 import PackageShipmentDetail from "./pages/admin/staff/PackageShipmentDetail";
+import { ProfilePage } from "./pages/profile/ProfilePage";
 
 // const router = createBrowserRouter([
 //   {
@@ -150,12 +153,9 @@ const routes = [
     // role: ["admin", "shipper", "staff"],
   },
   {
-    path: URL_FORGET,
-    element: <Forget />,
-  },
-  {
-    path: URL_REGISTER,
-    element: <Register />,
+    path: URL_PROFILE,
+    element: <ProfilePage />,
+    // role: ["admin", "shipper", "staff"],
   },
   {
     path: URL_BRANCH,
@@ -223,8 +223,9 @@ root.render(
       {/* <RouterProvider router={router} /> */}
       <Router>
         <Routes>
-          <Route path="/login" index={true} element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path={URL_LOGIN} index={true} element={<Login />} />
+          <Route path={URL_REGISTER} element={<Register />} />
+          <Route path={URL_FORGET} element={<Forget />} />
           <Route path={URL_SHIPPER_PAGE} element={<ShipperPage />} />
           <Route path="/" element={<App />}>
             {routes.map((route, i) => {
