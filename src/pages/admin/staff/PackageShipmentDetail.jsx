@@ -15,6 +15,8 @@ import { ICON_SIZE_EXTRA_LARGE } from "../../../utils/constraint";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import useToken from "../../../hooks/useToken";
+import { handleInsertHistoryDelivery } from "../../../services/HistoryServices";
 
 function PackageShipmentDetail(props) {
   const navigate = useNavigate();
@@ -22,62 +24,99 @@ function PackageShipmentDetail(props) {
   const pkgSlice = useSelector(packageSelector);
   const [showShipmentReceive, setShipmentReceive] = useState(false);
   const [showShipmentReject, setShipmentReject] = useState(false);
+  const { userPayload } = useToken();
+  const [reasonReject, setReasonReject] = useState("Cannot contact");
 
-  const [formData, setFormData] = useState({
-    order_id: pkgSlice.packageDetails.orders.order_id,
-    branch_id: "",
-    data_time: "",
-    input_by: pkgSlice.packageDetails.orders.shipper_code,
-    state: "",
-    image: null,
-    shipper_code: pkgSlice.packageDetails.orders.shipper_code,
-    money_collect: pkgSlice.packageDetails.orders.collect_money || 0,
+  /* MAP */
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "AIzaSyDNI_ZWPqvdS6r6gPVO50I4TlYkfkZdXh8",
+    libraries: ["places"],
   });
+
+  const [map, setMap] = useState(/** @type google.maps.Map */ (null));
+  const [directionsResponse, setDirectionsResponse] = useState(null);
+  const [distance, setDistance] = useState("");
+  const [duration, setDuration] = useState("");
+
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const originRef = useRef();
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const destiantionRef = useRef();
+
+  if (!isLoaded) {
+    return "";
+  } else {
+    dispatch(displaySlice.actions.displaySidebar(false));
+    dispatch(displaySlice.actions.displayHeader(false));
+  }
+
+  async function calculateRoute() {
+    if (originRef.current.value === "" || destiantionRef.current.value === "") {
+      return;
+    }
+    // eslint-disable-next-line no-undef
+    const directionsService = new google.maps.DirectionsService();
+    const results = await directionsService.route({
+      origin: originRef.current.value,
+      destination: destiantionRef.current.value,
+      // eslint-disable-next-line no-undef
+      travelMode: google.maps.TravelMode.DRIVING,
+    });
+    setDirectionsResponse(results);
+    setDistance(results.routes[0].legs[0].distance.text);
+    setDuration(results.routes[0].legs[0].duration.text);
+  }
+
+  function clearRoute() {
+    setDirectionsResponse(null);
+    setDistance("");
+    setDuration("");
+    originRef.current.value = "";
+    destiantionRef.current.value = "";
+  }
 
   const handleNavigateShipper = () => {
     navigate("/shipper");
   };
 
-  const handleImageChange = (e) => {
-    setFormData({ ...formData, image: e.target.files[0] });
+  const center = {
+    lat: 59.95,
+    lng: 30.33,
   };
 
-  const handleConfirmReceive = async (e) => {
-    e.preventDefault();
+  const handleConfirmDelivery = async (action) => {
+    const formData = {
+      order_id: pkgSlice.packageDetails.orders.order_id,
+      branch_id: userPayload.branch.branch_id,
+      input_by: userPayload.userID,
+      state: "",
+      image: "",
+      shipper_code: userPayload.userID,
+      money_collect: pkgSlice.packageDetails.orders.total_cost,
+      reason_reject: reasonReject,
+    };
 
-    const data = new FormData();
-    for (const key in formData) {
-      data.append(key, formData[key]);
+    if (action == "confirm") {
+      formData.state = "confirm";
+      formData.reason_reject = null;
+    } else {
+      formData.state = "Reject";
+      formData.money_collect = 0;
+      formData.reason_reject = reasonReject;
     }
 
     try {
-      const checkInsert = await axios.post(
-        "http://localhost:8080/api/history/delivery",
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        },
-      );
-
-      console.log(checkInsert);
-
+      const checkInsert = await handleInsertHistoryDelivery(formData);
       if (checkInsert.status == 200) {
-        await toast.success("Received!");
-        await navigate("/shipper");
+        toast.success("Action success");
+        navigate("/shipper");
+      } else {
+        toast.error("Action failed");
       }
-
-      console.log("Delivery history created successfully.");
     } catch (error) {
-      console.error("Error creating delivery history:", error);
+      console.log("Error");
     }
   };
-
-  useEffect(() => {
-    dispatch(displaySlice.actions.displaySidebar(false));
-    dispatch(displaySlice.actions.displayHeader(false));
-  }, []);
 
   return (
     <>
@@ -103,12 +142,11 @@ function PackageShipmentDetail(props) {
                   id="evident_photo"
                   type="file"
                   hidden
-                  onChange={handleImageChange}
                   accept=".jpg,.jpeg,.png"
                 />
               </div>
               <button
-                onClick={handleConfirmReceive}
+                onClick={() => handleConfirmDelivery("confirm")}
                 className="shipment_confirm_button button button_primary"
               >
                 CONFIRM
@@ -117,6 +155,9 @@ function PackageShipmentDetail(props) {
           )}
           {!showShipmentReceive && showShipmentReject && (
             <ShipmentReject
+              setReasonReject={setReasonReject}
+              reasonReject={reasonReject}
+              callback={() => handleConfirmDelivery("reject")}
               setShipmentReceive={setShipmentReceive}
               setShipmentReject={setShipmentReject}
             />
@@ -130,7 +171,7 @@ function PackageShipmentDetail(props) {
                 className="map_container_icon button_go_back"
                 size={35}
               />
-              {/* <GoogleMap
+              <GoogleMap
                 center={center}
                 zoom={15}
                 mapContainerStyle={{ width: "100%", height: "100%" }}
@@ -146,7 +187,7 @@ function PackageShipmentDetail(props) {
                 {directionsResponse && (
                   <DirectionsRenderer directions={directionsResponse} />
                 )}
-              </GoogleMap> */}
+              </GoogleMap>
             </div>
             <div className="info_package">
               <PackageShipment
