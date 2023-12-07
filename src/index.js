@@ -32,6 +32,8 @@ import {
   URL_LOGIN,
   URL_PROFILE,
   URL_LANDING_PAGE,
+  URL_SEARCH_ORDER_PAGE,
+  URL_CUSTOMER_BANK_ACCOUNT,
 } from "./utils/constraint";
 
 import Customer from "./pages/admin/customer/Customer";
@@ -52,6 +54,8 @@ import ShipperPage from "./pages/admin/staff/ShipperPage";
 import PackageShipmentDetail from "./pages/admin/staff/PackageShipmentDetail";
 import { ProfilePage } from "./pages/profile/ProfilePage";
 import { LandingPage } from "./pages/social/LandingPage";
+import { SearchOrderPage } from "./pages/social/SearchOrderPage";
+import BankAccount from "./pages/customer/BankAccountPage";
 
 // const router = createBrowserRouter([
 //   {
@@ -216,6 +220,11 @@ const routes = [
     path: URL_DASHBOARD,
     element: <DashboardPage />,
   },
+  {
+    // index: true,
+    path: URL_CUSTOMER_BANK_ACCOUNT,
+    element: <BankAccount />,
+  },
 ];
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -229,6 +238,11 @@ root.render(
             path={URL_LANDING_PAGE}
             index={true}
             element={<LandingPage />}
+          />
+          <Route
+            path={URL_SEARCH_ORDER_PAGE}
+            index={true}
+            element={<SearchOrderPage />}
           />
           <Route path={URL_LOGIN} index={true} element={<Login />} />
           <Route path={URL_REGISTER} element={<Register />} />

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
 
-.padding-body {
+.padding-body-2 {
     padding: 0 10vw !important;
 }
 
@@ -80,6 +80,7 @@
 .banner-img .bg-banner {
     height: 50%;
     width: 100%;
+    width: 100%;
     position: absolute;
     top: 60%;
     z-index: 0;
@@ -109,4 +110,17 @@
 .footer {
     height: 30vh;
     background-color: var(--bg-slogan);
+}
+
+/*search order*/
+.header .nav-item {
+    height: 100%;
+    padding: 40px;
+    cursor: pointer;
+    align-items: center;
+}
+
+.header .nav-item:hover {
+    background-color: var(--primary-1);
+    color: white;
 }

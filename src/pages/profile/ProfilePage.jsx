@@ -1,7 +1,11 @@
 import profileImg from "../../assets/img/user_default_avatar.png";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { getUserByCode, getUserProfile } from "../../services/UserService";
+import {
+  getUserByCode,
+  getUserProfile,
+  updateUSer,
+} from "../../services/UserService";
 import useToken from "../../hooks/useToken";
 import { Input, MyButton } from "../../components";
 
@@ -9,6 +13,12 @@ export const ProfilePage = () => {
   const { userPayload } = useToken();
 
   const [profileInfo, setProfileInfo] = useState({});
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [purpose, setPurpose] = useState("");
+  const [account, setAccount] = useState("");
+  const [des, setDes] = useState("");
 
   const fetchInfoData = async () => {
     try {
@@ -16,12 +26,41 @@ export const ProfilePage = () => {
 
       if (res.status === 200) {
         setProfileInfo(res.data);
+
+        setFullName(res.data.fullName);
+        setEmail(res.data.email);
+        setAccount(res.data.account);
+        setPhone(res.data.phoneNumber);
+        setPurpose(res.data.purpose);
+        setDes(res.data.des);
       } else {
         toast.error("User's info not found");
       }
     } catch (err) {
       console.log(err.message);
       toast.error("Something went wrong");
+    }
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const checkInsert = await updateUSer({
+        fullName: fullName,
+        email: email,
+        account: account,
+        purpose: purpose,
+        phone: phone,
+        des: des,
+      });
+      if (checkInsert !== 200) {
+        toast.error("Update failed");
+      } else {
+        toast.success("Insert success");
+        // handleClearInput();
+        // fetchStaff();
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -67,20 +106,15 @@ export const ProfilePage = () => {
               <div className={"col"}>
                 <ProfileInput
                   title={"Full Name: "}
-                  value={profileInfo && profileInfo.fullName}
+                  value={fullName}
+                  onChange={setFullName}
                 />
               </div>
               <div className={"col"}>
-                <ProfileInput
-                  title={"Email: "}
-                  value={profileInfo && profileInfo.email}
-                />
+                <ProfileInput title={"Email: "} value={email} />
               </div>
             </div>
-            <ProfileInput
-              title={"Phone: "}
-              value={profileInfo && profileInfo.phone}
-            />
+            <ProfileInput title={"Phone: "} value={phone} />
 
             <div className="row">
               <div className={"col"}>
@@ -98,7 +132,7 @@ export const ProfilePage = () => {
                 />
               </div>
             </div>
-            <MyButton text={"Save"} />
+            <MyButton text={"Save"} callback={handleUpdate} />
           </div>
         </div>
       </div>
@@ -121,7 +155,7 @@ const ProfileInfo = ({ data = {} }) => {
   );
 };
 
-const ProfileInput = ({ title = "", value = "", type = "text" }) => {
+const ProfileInput = ({ title = "", value = "", type = "text", onChange }) => {
   return (
     <>
       <div
@@ -136,6 +170,7 @@ const ProfileInput = ({ title = "", value = "", type = "text" }) => {
         value={value}
         boxShadow={"none"}
         border={"solid 1px var(--border-gray_2)"}
+        onChange={(v) => onChange(v.target.value)}
       />
     </>
   );

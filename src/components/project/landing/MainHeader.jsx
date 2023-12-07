@@ -3,8 +3,9 @@ import bannerImg from "../../../assets/img/banner-img.png";
 import "../../../assets/css/Pages/landing_page.css";
 
 import { Slide } from "react-slideshow-image";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { House, Info, SignIn } from "phosphor-react";
+import { URL_SEARCH_ORDER_PAGE } from "../../../utils/constraint";
 
 export const MainHeader = () => {
   const navigate = useNavigate();
@@ -125,7 +126,7 @@ export const MainHeader = () => {
             <div className={"col menu"}>
               <div
                 onClick={() => {
-                  navigate("/");
+                  navigate(URL_SEARCH_ORDER_PAGE);
                 }}
               >
                 <span>Search Order</span>

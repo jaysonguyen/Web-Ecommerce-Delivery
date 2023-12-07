@@ -5,6 +5,7 @@ import * as Icon from "phosphor-react";
 export const MyButton = ({
   text,
   callback,
+  isDisable = false,
   prefix = null,
   surfix = null,
   bgColor,
@@ -22,13 +23,21 @@ export const MyButton = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const style = {
-    backgroundColor: isHovered && hoverColor ? hoverColor : bgColor,
+    backgroundColor: !isDisable
+      ? isHovered && hoverColor
+        ? hoverColor
+        : bgColor
+      : "rgb(61,61,61, 0.5)",
     width: width,
     height: height,
-    cursor: "pointer",
+    cursor: !isDisable ? "pointer" : "not-allowed",
     fontSize: fontSize,
     fontWeight: "bold",
-    color: isHovered && bgColor && hoverColor ? bgColor : fontColor,
+    color: !isDisable
+      ? isHovered && bgColor && hoverColor
+        ? bgColor
+        : fontColor
+      : "white",
     borderRadius: borderRadius,
     padding: padding,
     margin: margin,
@@ -38,9 +47,9 @@ export const MyButton = ({
 
   return (
     <button
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => !isDisable && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={callback}
+      onClick={!isDisable ? callback : () => {}}
       style={style}
       className={
         "mybutton d-inline-flex justify-content-around align align-items-center " +

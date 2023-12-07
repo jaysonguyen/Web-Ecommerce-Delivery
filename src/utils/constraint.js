@@ -18,6 +18,7 @@ export const URL_PRODUCTTYPE = "/productTyppe";
 export const URL_SHIPPER_PAGE = "/shipper";
 export const URL_SHIPPER_ASSIGNMENT_PAGE = "/shipping-assignment";
 export const URL_LANDING_PAGE = "/main";
+export const URL_SEARCH_ORDER_PAGE = "/search-order";
 
 /* API */
 export const URL_GET_STAFF = "/api/user/staff";
@@ -26,6 +27,7 @@ export const URL_GET_CUSTOMER = "/api/user/customer";
 export const URL_INSERT_USER = "/api/user";
 export const URL_USER = "/api/user";
 export const URL_CUSTOMER_STORE = "/customer/store";
+export const URL_CUSTOMER_BANK_ACCOUNT = "/customer/bank_account";
 export const URL_LOGIN_CUSTOMER = "/api/authentication";
 // export const URL_GET_SHIPPER_BY_BRANCH = "api/user/shipper/branch";
 export const URL_GET_ASSIGN_INFO = "/api/user/shipper/assignment";

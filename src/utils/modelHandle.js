@@ -15,6 +15,25 @@ export function OrderTableFromJson(order) {
   return newData;
 }
 
+export function OrderSearchFromJson(order) {
+  // Ánh xạ key cũ sang key mới
+  const newData = {
+    ID: order.id,
+    "Order Code": order.code,
+    Status: (
+      <div className={"order_status " + order.action_name}>
+        {order.action_name}
+      </div>
+    ),
+    City: order.city_name,
+    Area: order.area_name,
+    "Total Cost": order.total,
+  };
+
+  // Chuyển đổi kết quả thành JSON mới
+  return newData;
+}
+
 export function CustomerTableFromJson(data) {
   // Ánh xạ key cũ sang key mới
   const newData = {
@@ -39,6 +58,20 @@ export function BranchTableFromJson(data) {
     Name: data.name,
     Address: data.address,
     Description: data.des,
+  };
+
+  // Chuyển đổi kết quả thành JSON mới
+  return newData;
+}
+
+export function BankAccountTableFromJson(data) {
+  // Ánh xạ key cũ sang key mới
+  const newData = {
+    ID: data.user_id,
+    Number: data.bank_number,
+    Name: data.bank_name,
+    Address: data.address,
+    Created: data.date_time,
   };
 
   // Chuyển đổi kết quả thành JSON mới

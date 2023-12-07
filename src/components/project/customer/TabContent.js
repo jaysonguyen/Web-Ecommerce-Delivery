@@ -41,12 +41,12 @@ export const TabContent = ({ tab = "1", data }) => {
       )}
       {tab === "2" && (
         <div>
-          <MyTable list={data} hideToolkit={true} hideDetails={true} />
+          <MyTable list={data} hideDelete={true} hideDetails={true} />
         </div>
       )}
       {tab === "3" && (
         <div>
-          <MyTable list={data} hideDetails={true} />
+          <MyTable list={data} hideDelete={true} hideDetails={true} />
           {/*{data.length > 0 ? (*/}
           {/*  data.map((info, i) => (*/}
           {/*    <div className="row store_frame" key={i}>*/}

@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { deleteUser, getStoreByUser } from "../../services/UserService";
-import { isAuthenticated } from "../../auth/index";
-import { MyTable, Dropdown } from "../../components";
+import { deleteUser } from "../../services/UserService";
+import { MyTable } from "../../components";
 import toast from "react-hot-toast";
-import AddStore from "../../components/project/store/AddStore";
 import { CaretLeft } from "phosphor-react";
 import { ICON_SIZE_BIG } from "../../utils/constraint";
-import AddOrder from "../../components/project/order/AddOrder";
 import useToken from "../../hooks/useToken";
-import { StoreTableFromJson } from "../../utils/modelHandle";
+import { getBankAccountListByUser } from "../../services/BankAccountService";
+import AddBankAccount from "../../components/project/bank_account/AddBankAccount";
+import { BankAccountTableFromJson } from "../../utils/modelHandle";
 
-function StorePage(props) {
+function BankAccount(props) {
   const [isShowAdd, setIsShowAdd] = useState(false);
   const [isShowDetails, setIsShowDetails] = useState(false);
-  const [storeList, setStoreList] = useState([]);
-  const [storeTableList, setStoreTableList] = useState([]);
-  const [storeSelected, setStoreSelected] = useState({});
+  const [accountList, setBankAccountList] = useState([]);
+  const [accountTableList, setBankAccountTableList] = useState([]);
+  const [accountSelected, setBankAccountSelected] = useState({});
   const { userPayload } = useToken();
 
   const handleCloseDialog = (type) => {
@@ -37,7 +36,7 @@ function StorePage(props) {
   const handleButtonAction = async (data, type) => {
     switch (type) {
       case "details": {
-        setStoreSelected(data);
+        setBankAccountSelected(data);
         setIsShowDetails(true);
         break;
       }
@@ -50,18 +49,17 @@ function StorePage(props) {
     }
   };
 
-  const getStoreData = async () => {
-    setStoreTableList([]);
-    setStoreList([]);
+  const getBankAccountData = async () => {
     try {
-      let res = await getStoreByUser(userPayload.userID);
-
+      let res = await getBankAccountListByUser(userPayload.userID);
+      setBankAccountTableList([]);
+      setBankAccountList([]);
       if (res.status === 200) {
-        setStoreList(res.data);
+        setBankAccountList(res.data);
         for (let i = 0; i < res.data.length; i++) {
-          setStoreTableList((storeTableList) => [
-            ...storeTableList,
-            StoreTableFromJson(res.data[i]),
+          setBankAccountTableList((accountTableList) => [
+            ...accountTableList,
+            BankAccountTableFromJson(res.data[i]),
           ]);
         }
       }
@@ -72,7 +70,7 @@ function StorePage(props) {
   };
 
   useEffect(() => {
-    getStoreData();
+    getBankAccountData();
   }, [isShowDetails, isShowAdd]);
 
   return (
@@ -84,11 +82,11 @@ function StorePage(props) {
               <div className="col-8">
                 <div className="header_bar_left_Cus ">
                   <div className="title_total_number_Cus">
-                    <h3 className="title_Cus">Store list </h3>
-                    <p className="total_number_Cus">{storeList.length}</p>
+                    <h3 className="title_Cus">Bank Account list </h3>
+                    <p className="total_number_Cus">{accountList.length}</p>
                   </div>
                   <p className="introduce_Cus">
-                    View, add, edit and delete your store's details.{" "}
+                    View, add, edit and delete your account's details.{" "}
                   </p>
                 </div>
               </div>
@@ -107,10 +105,11 @@ function StorePage(props) {
           </div>
 
           <MyTable
-            list={storeTableList}
+            list={accountTableList}
             showCheckBox={true}
             callback={handleButtonAction}
             // deleteCallback={handleDelete}
+            hideDetails={true}
           />
         </>
       )}
@@ -122,7 +121,7 @@ function StorePage(props) {
           >
             <CaretLeft size={ICON_SIZE_BIG} />
           </div>
-          <AddStore
+          <AddBankAccount
             isCreate={true}
             isOpen={isShowAdd}
             handleClose={() => setIsShowAdd(false)}
@@ -137,9 +136,9 @@ function StorePage(props) {
           >
             <CaretLeft size={ICON_SIZE_BIG} />
           </div>
-          <AddStore
+          <AddBankAccount
             isCreate={false}
-            data={storeSelected}
+            data={accountSelected}
             isOpen={isShowDetails}
             handleClose={() => setIsShowDetails(false)}
           />
@@ -149,4 +148,4 @@ function StorePage(props) {
   );
 }
 
-export default StorePage;
+export default BankAccount;

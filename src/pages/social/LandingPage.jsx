@@ -4,12 +4,17 @@ import content11 from "../../assets/img/landing/content-1-1.png";
 import content12 from "../../assets/img/landing/content-1-2.png";
 import content13 from "../../assets/img/landing/content-1-3.png";
 import { MainHeader } from "../../components/project/landing/MainHeader";
+import { useEffect } from "react";
 
 export const LandingPage = () => {
+  useEffect(() => {
+    sessionStorage.clear();
+  }, []);
+
   return (
     <>
       <div
-        className={"padding-body"}
+        className={"padding-body-2"}
         style={{
           color: "var(--text-primary)",
         }}
@@ -18,7 +23,7 @@ export const LandingPage = () => {
         <Content1 />
       </div>
       <div className={"footer"}>
-        <div className={"padding-body"}></div>
+        <div className={"padding-body-2"}></div>
       </div>
     </>
   );

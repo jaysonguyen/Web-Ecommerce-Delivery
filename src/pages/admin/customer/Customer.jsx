@@ -115,7 +115,7 @@ function Customer(props) {
       <div className="go_back_button_container">
         <CaretLeft onClick={handleCloseDetail} size={ICON_SIZE_BIG} />
       </div>
-      <DetailCustomer userSelected={userSelected} />
+      <DetailCustomer userSelected={userSelected} isOpen={isShowDetail} />
     </>
   );
 

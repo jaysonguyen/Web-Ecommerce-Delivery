@@ -6,15 +6,13 @@ import {
   PencilSimple,
   Phone,
   Warning,
-  CaretLeft,
 } from "phosphor-react";
 import ActionCustomer from "./ActionCustomer";
 import { getStoreByUser, getUserByCode } from "../../../services/UserService";
 import { TabContent } from "./TabContent";
 import { getCustomerBankByUser } from "../../../services/BankService";
-import { MyButton } from "../../template/button/MyButton/MyButton";
 
-function DetailCustomer({ userSelected }) {
+function DetailCustomer({ userSelected, isOpen }) {
   const [currentTab, setCurrentTab] = useState("1");
   const [tabData, setTabData] = useState({});
   const [userData, setUserData] = useState({});
@@ -64,6 +62,7 @@ function DetailCustomer({ userSelected }) {
       const data = await getUserByCode(userSelected.Code);
       if (data.status === 200) {
         setUserData(data.data);
+        setTabData(data.data);
       }
     } catch (error) {
       // Handle the error here
@@ -76,6 +75,7 @@ function DetailCustomer({ userSelected }) {
       const data = await getStoreByUser(userData.id);
       if (data != null) {
         setStoreData(data.data);
+        setTabData(data.data);
       }
       return data;
     } catch (error) {
@@ -92,6 +92,7 @@ function DetailCustomer({ userSelected }) {
 
       if (res.status === 200) {
         setCustomerBankList(res.data);
+        setTabData(res.data);
       }
     } catch (e) {
       console.log(e);
@@ -103,19 +104,16 @@ function DetailCustomer({ userSelected }) {
       case "1": {
         //customer details
         await getCustomerDetails();
-        setTabData(userData);
         break;
       }
       case "2": {
         // bank account
         await getCustomerBank();
-        setTabData(customerBankList);
         break;
       }
       case "3": {
         // store
         await getStoreList();
-        setTabData(storeData);
         break;
       }
       default:
@@ -126,7 +124,7 @@ function DetailCustomer({ userSelected }) {
   useEffect(() => {
     initData();
     console.log(userData);
-  }, [currentTab, userSelected]);
+  }, [isOpen]);
 
   return (
     <>
@@ -181,12 +179,6 @@ function DetailCustomer({ userSelected }) {
             <button className="dotthree_icon" onClick={handleShowAction}>
               <DotsThreeVertical size={32} />
             </button>
-            <MyButton
-              text={"Add new store"}
-              width={"auto"}
-              height={"auto"}
-              padding={"10px 25px"}
-            />
             <div>{/*<button className="btn_Order"> Order</button>*/}</div>
           </div>
           {isShowAction && (

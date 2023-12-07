@@ -35,7 +35,16 @@ function Input({
       className={"input_container flex-direction-column" + className}
       style={style}
     >
-      {label && <label className="text_dark text_gray">{label}</label>}
+      {label && (
+        <label
+          className="text_dark text_gray"
+          style={{
+            textAlign: "left",
+          }}
+        >
+          {label}
+        </label>
+      )}
       <div className="d-flex input_content m-0" style={inputStyle}>
         {icon && (
           <MyButton
