@@ -12,7 +12,7 @@ const PrivateRoute = ({ role: roles, children }) => {
   }
 
   // not login => go back to login
-  return <Navigate to="/login" />;
+  return <Navigate to="/main" />;
 };
 
 export default PrivateRoute;

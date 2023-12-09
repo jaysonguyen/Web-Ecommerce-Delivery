@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../../assets/css/Pages/addOrder.css";
-import {
-  ImageSquare,
-  Link,
-  ListNumbers,
-  TextBolder,
-  TextItalic,
-  UploadSimple,
-  X,
-} from "phosphor-react";
+import voucherImg from "../../../assets/img/dashboard/win.png";
+import totalImg from "../../../assets/img/dashboard/list.png";
 import { Input, Dropdown, MyButton } from "../../index";
 import { MyTable } from "../../template/table/MyTable/MyTable";
 import toast from "react-hot-toast";
@@ -22,10 +15,9 @@ import {
 } from "../../../services/OrderService";
 import { JsonToString } from "../../../utils/modelHandle";
 import useToken from "../../../hooks/useToken";
-import {
-  getProductTypeDropdownList,
-  getProductTypeList,
-} from "../../../services/ProductType";
+import { getProductTypeDropdownList } from "../../../services/ProductType";
+import { getAreaDropdownList } from "../../../services/AreaService";
+import { getValidVoucherList } from "../../../services/VoucherService";
 
 function AddOrder({
   handleClose,
@@ -41,6 +33,9 @@ function AddOrder({
   });
   const tableData = useSelector(tableSelector);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [discount, setDiscount] = useState(0);
+  const [voucherUsed, setVoucherUsed] = useState([]);
   const { token, userPayload } = useToken();
 
   const handleImage = async (e) => {
@@ -48,7 +43,31 @@ function AddOrder({
     // await setImage(() => URL.createObjectURL(e.target.files[0]));
   };
 
+  const handleSelect = async (e, selected, checkValid) => {
+    if (!checkValid) {
+      setLoading(true);
+      let list = [...tableData.selectList];
+      let ids = list.map((ele) => ele.voucherId);
+
+      if (e.target.checked) {
+        setDiscount((e) => e + selected.cost);
+        list.push(selected);
+      } else {
+        setDiscount((e) => e - selected.cost);
+        let index = ids.indexOf(selected.voucherId);
+        list.splice(index, 1);
+      }
+      setVoucherUsed(list);
+      dispatch(tableSlice.actions.handleSelected(list));
+      setLoading(false);
+    } else {
+      toast.error("Not enough points");
+    }
+  };
+
   const [cityList, setCityList] = useState([]);
+  const [areaList, setAreaList] = useState([]);
+  const [voucherList, setVoucherList] = useState([]);
   const getCityData = async () => {
     try {
       let res = await getCityDropdownList();
@@ -62,7 +81,19 @@ function AddOrder({
       toast.error("Check your network");
     }
   };
-
+  const getAreaData = async (cityCode) => {
+    try {
+      let res = await getAreaDropdownList(cityCode);
+      if (res.status === 200) {
+        setAreaList(res.data);
+      } else {
+        // toast.error("Cannot get area data, please try again");
+      }
+    } catch (e) {
+      console.log("Error from get area data: " + e.message);
+      toast.error("Check your network");
+    }
+  };
   const getProductTypeData = async () => {
     try {
       let res = await getProductTypeDropdownList();
@@ -73,6 +104,19 @@ function AddOrder({
       }
     } catch (e) {
       console.log("Error from get product type data: " + e.message);
+      toast.error("Check your network");
+    }
+  };
+  const getValidVoucherData = async () => {
+    try {
+      let res = await getValidVoucherList();
+      if (res.status === 200) {
+        setVoucherList(res.data);
+      } else {
+        toast.error("Cannot get voucher data, please try again");
+      }
+    } catch (e) {
+      console.log("Error from get voucher data: " + e.message);
       toast.error("Check your network");
     }
   };
@@ -144,28 +188,21 @@ function AddOrder({
   const [packageLength, setPackageLength] = useState("");
   const [packageWidth, setPackageWidth] = useState("");
   const [packageCOD, setPackageCOD] = useState("0");
-  const [packageCostFailed, setPackageCostFailed] = useState("");
-  const [packageCost, setPackageCost] = useState("");
+  const [packageCostFailed, setPackageCostFailed] = useState("0");
+  const [packageCost, setPackageCost] = useState("0");
 
   const [receiverName, setReceiverName] = useState("");
   const [receiverPhone, setReceiverPhone] = useState("");
   const [receiverAddress, setReceiverAddress] = useState("");
+  const [receiverStreet, setReceiverStreet] = useState("");
+  const [receiverWard, setReceiverWard] = useState("");
   const [receiverCity, setReceiverCity] = useState("");
   const [receiverArea, setReceiverArea] = useState("");
-
-  const items = [
-    { content: "Business", code: "BS" },
-    { content: "Entertainment", code: "VH" },
-    { content: "General", code: "THS" },
-    { content: "Health", code: "KT" },
-    { content: "Science", code: "KT" },
-    { content: "Sports", code: "KT" },
-    { content: "Technology", code: "KT" },
-  ];
 
   useEffect(() => {
     getCityData();
     getProductTypeData();
+    getValidVoucherData();
     dispatch(tableSlice.actions.handleSelected([]));
   }, []);
 
@@ -213,10 +250,14 @@ function AddOrder({
     let receiverData = JsonToString({
       name: receiverName,
       phone: receiverPhone,
-      address: receiverAddress,
-      city: "",
-      area: "",
     });
+    let addressData = JsonToString({
+      ap_number: receiverAddress,
+      street: receiverStreet,
+      ward: receiverWard,
+    });
+
+    console.log(parseInt(packageCost) + parseInt(packageCostFailed) - discount);
 
     const checkAddOrders = await insertOrder({
       user_id: token,
@@ -226,6 +267,14 @@ function AddOrder({
       collect_money: false,
       product: productData,
       package_order: packageData,
+      address: addressData,
+      city_code: receiverCity,
+      area_code: receiverArea,
+      cost: packageCost,
+      total_cost:
+        parseInt(packageCost) + parseInt(packageCostFailed) - discount,
+      voucher_discount: discount,
+      voucher_used_list: voucherUsed,
     });
     if (checkAddOrders.status === 200) {
       // await getNewsListByAction();
@@ -319,16 +368,6 @@ function AddOrder({
               onChange={(v) => setReceiverName(v.target.value)}
               placeholder="Enter receiver's full name"
             />
-          </div>
-          <div className="col">
-            <OrderInput
-              title="Address"
-              isRequired={true}
-              isError={isError.title}
-              value={receiverAddress}
-              onChange={(v) => setReceiverAddress(v.target.value)}
-              placeholder="Enter receiver's address"
-            />
             <p className={isError.type ? "warning_empty" : ""}>
               City <span className="required">*</span>
             </p>
@@ -336,7 +375,12 @@ function AddOrder({
               item={cityList}
               value={receiverCity}
               bgColor="var(--text-white)"
-              setValue={(v) => setReceiverCity(v.target.value)}
+              onValue={(v) => {}}
+              onChange={async (v) => {
+                await getAreaData(v);
+                setReceiverArea("");
+                setReceiverCity(v);
+              }}
               placeholder="Choose city"
             />
             <p className={isError.type ? "warning_empty" : ""}>
@@ -344,10 +388,37 @@ function AddOrder({
             </p>
             <Dropdown
               // setValue={setType}
+              item={areaList}
               value={receiverArea}
               bgColor="var(--text-white)"
-              setValue={(v) => setReceiverArea(v.target.value)}
+              onChange={(v) => setReceiverArea(v)}
               placeholder="Choose area"
+            />
+          </div>
+          <div className="col">
+            <OrderInput
+              title="Address Number"
+              isRequired={true}
+              isError={isError.title}
+              value={receiverAddress}
+              onChange={(v) => setReceiverAddress(v.target.value)}
+              placeholder="Enter receiver's address"
+            />
+            <OrderInput
+              title="Street"
+              isRequired={true}
+              isError={isError.title}
+              value={receiverStreet}
+              onChange={(v) => setReceiverStreet(v.target.value)}
+              placeholder="Enter receiver's street"
+            />
+            <OrderInput
+              title="Ward"
+              isRequired={true}
+              isError={isError.title}
+              value={receiverWard}
+              onChange={(v) => setReceiverWard(v.target.value)}
+              placeholder="Enter receiver's ward"
             />
           </div>
         </div>
@@ -535,49 +606,186 @@ function AddOrder({
         </div>
       </div>
       <div
-        className="add_post_body_main_content"
+        className="add_post_body voucher_info"
         style={{ backgroundColor: "var(--bg-card-5)" }}
       >
-        <div className="main_content_image_box">
-          <p
-            className={
-              isError.title
-                ? "warning_empty header_content_title"
-                : "header_content_title"
-            }
-          >
-            Image Package<span className="required">*</span>
-          </p>
-          <p className={isError.image ? "warning_empty" : ""}>
-            Thumb nails<span className="required">*</span>
-          </p>
-          <div className="thumb_nails_img">
-            {/*<div className="thumb_nails_img--image">*/}
-            {/*  <div*/}
-            {/*    className="btn_delete_img"*/}
-            {/*    // onClick={() => setImage(null)}*/}
-            {/*  >*/}
-            {/*    <X size={ICON_SIZE_EXTRA_LARGE} />*/}
-            {/*  </div>*/}
-            {/*  <img*/}
-            {/*    // src={image}*/}
-            {/*    alt=""*/}
-            {/*  />*/}
-            {/*</div>*/}
+        <p
+          className={
+            isError.title
+              ? "warning_empty header_content_title"
+              : "header_content_title"
+          }
+        >
+          Voucher
+        </p>
+        <div className={"voucher_item"}>
+          <div className="package_img"></div>
+          <div className="row">
+            <div className="col">
+              {!loading &&
+                voucherList.length > 0 &&
+                voucherList.map((e, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className={"voucher_child"}
+                      id="checkbox-circle2"
+                    >
+                      <input
+                        type="checkbox"
+                        id="checkbox-circle2"
+                        name="check"
+                        onChange={(event) =>
+                          handleSelect(
+                            event,
+                            e,
+                            userPayload.point < parseInt(e.points),
+                          )
+                        }
+                      />
+                      <div
+                        className={"voucher_selector"}
+                        style={{
+                          backgroundColor: tableData.selectList.includes(e)
+                            ? "var(--text-color-primary)"
+                            : "var(--text-color-gray)",
+                        }}
+                      ></div>
+                      <div
+                        className={
+                          userPayload.point < parseInt(e.points)
+                            ? "voucher_card row py-4 px-2 mx-3 my-2 disable "
+                            : `voucher_card row py-4 px-2 mx-3 my-2 `
+                        }
+                      >
+                        <div className="col-3">
+                          <div className={"img"}>
+                            <img
+                              className="option-img"
+                              src={voucherImg}
+                              alt=""
+                            />
+                          </div>
+                          <div className={"name"}>{e.name}</div>
+                        </div>
+                        <div className="col ps-4">
+                          <div className={"cost my-1"}>
+                            {new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "VND",
+                            }).format(e.cost)}
+                            <span className={"ms-2"}>VND</span>
+                          </div>
+                          <div>Quantity: {e.quantity}</div>
+                          <div>Points: {e.points}</div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+            <div className={"col total_order d-flex flex-column"}>
+              <div className={"total_title d-flex flex-row-reverse"}>
+                <img className="total-img" src={totalImg} alt="" />
+                <div
+                  style={{
+                    color: "#3d3d3d",
+                    fontSize: "32px",
+                    margin: "0 10px 0 0",
+                  }}
+                >
+                  Total
+                  <div>Order</div>
+                </div>
+              </div>
 
-            <label htmlFor="thumb_nails_img">
-              <UploadSimple size={40} className="thumb_nails_img--icon" />
-            </label>
-            <p>Please enter a thumb nail for your post</p>
-            <input
-              onChange={handleImage}
-              hidden
-              id="thumb_nails_img"
-              type="file"
-            />
+              <TotalLine
+                title={"+ Package Cost:"}
+                value={new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(parseInt(packageCost))}
+              />
+              <TotalLine
+                title={"+ Return Cost:"}
+                value={new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(parseInt(packageCostFailed))}
+              />
+              <TotalLine
+                title={"- Discount:"}
+                value={new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(discount)}
+              />
+              <div
+                style={{
+                  margin: "10px 0",
+                  borderBottom: "solid 1px #3d3d3d",
+                }}
+              ></div>
+              <TotalLine
+                title={"Total: "}
+                value={new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(
+                  parseInt(packageCost) +
+                    parseInt(packageCostFailed) -
+                    discount,
+                )}
+              />
+            </div>
           </div>
         </div>
       </div>
+
+      {/*<div*/}
+      {/*  className="add_post_body_main_content"*/}
+      {/*  style={{ backgroundColor: "var(--bg-card-5)" }}*/}
+      {/*>*/}
+      {/*  <div className="main_content_image_box">*/}
+      {/*    <p*/}
+      {/*      className={*/}
+      {/*        isError.title*/}
+      {/*          ? "warning_empty header_content_title"*/}
+      {/*          : "header_content_title"*/}
+      {/*      }*/}
+      {/*    >*/}
+      {/*      Image Package<span className="required">*</span>*/}
+      {/*    </p>*/}
+      {/*    <p className={isError.image ? "warning_empty" : ""}>*/}
+      {/*      Thumb nails<span className="required">*</span>*/}
+      {/*    </p>*/}
+      {/*    <div className="thumb_nails_img">*/}
+      {/*      /!*<div className="thumb_nails_img--image">*!/*/}
+      {/*      /!*  <div*!/*/}
+      {/*      /!*    className="btn_delete_img"*!/*/}
+      {/*      /!*    // onClick={() => setImage(null)}*!/*/}
+      {/*      /!*  >*!/*/}
+      {/*      /!*    <X size={ICON_SIZE_EXTRA_LARGE} />*!/*/}
+      {/*      /!*  </div>*!/*/}
+      {/*      /!*  <img*!/*/}
+      {/*      /!*    // src={image}*!/*/}
+      {/*      /!*    alt=""*!/*/}
+      {/*      /!*  />*!/*/}
+      {/*      /!*</div>*!/*/}
+
+      {/*      <label htmlFor="thumb_nails_img">*/}
+      {/*        <UploadSimple size={40} className="thumb_nails_img--icon" />*/}
+      {/*      </label>*/}
+      {/*      <p>Please enter a thumb nail for your post</p>*/}
+      {/*      <input*/}
+      {/*        onChange={handleImage}*/}
+      {/*        hidden*/}
+      {/*        id="thumb_nails_img"*/}
+      {/*        type="file"*/}
+      {/*      />*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</div>*/}
       <p className="add_post_footer">
         <button onClick={handleSubmitPost} className="button button_primary">
           Submit
@@ -586,6 +794,15 @@ function AddOrder({
     </div>
   );
 }
+
+const TotalLine = ({ title = "", value = 0 }) => {
+  return (
+    <div className={"row"}>
+      <div className="col">{title}</div>
+      <div className="col total_order_value">{value}</div>
+    </div>
+  );
+};
 
 const OrderInput = ({
   value,

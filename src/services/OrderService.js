@@ -14,6 +14,16 @@ export async function getOrderDetails(orderCode) {
     return error;
   }
 }
+export async function searchOrderByIdAndUser(orderId, userName) {
+  try {
+    let data = await axios.get(
+      `/api/order/search?userName=${userName}&orderId=${orderId}`,
+    );
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
 export const getOrderListByAction = async (actionCode, userID, dateRange) => {
   console.log(dateRange);
   try {

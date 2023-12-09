@@ -70,39 +70,41 @@ function Login(props) {
         </div>
         <div className="login_form flex-center-center">
           <h6 className="margin-none font-weight-b title_size text_primary">
-            Đăng nhập
+            Sign-In
           </h6>
-          <dd>Đăng nhập mọi lúc mọi nơi</dd>
+          <dd>
+            If you need account for staff, shipper. Please contact to Admin
+          </dd>
           <form>
             <Input
               value={account}
               onChange={(e) => setAccount(e.target.value)}
-              label="Tài khoản"
-              placeholder="Nhập tài khoản"
+              label="Account"
+              placeholder="Enter account"
             />
             <Input
               value={pass}
               onChange={(e) => setPass(e.target.value)}
-              label="Mật khẩu"
+              label="Password"
               type="password"
-              placeholder="Nhập mật khẩu"
+              placeholder="Enter password"
             />
             <Link to="/forget" className="forget_pass text_decoration_none">
-              Quên mật khẩu
+              Forgot password
             </Link>
             <button
               onClick={handleLogin}
               className="button_login button button_primary font-weight-b"
             >
-              Đăng nhập
+              Sign In
             </button>
             <div className="text_center">
-              Bạn chưa có tài khoản?
+              You don't have an account?
               <Link
                 to="/register"
                 className="go_back_login text_decoration_none"
               >
-                Đăng ký ngay!
+                Register as customer
               </Link>
             </div>
           </form>

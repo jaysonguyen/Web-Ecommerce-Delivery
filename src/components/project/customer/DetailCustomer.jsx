@@ -6,13 +6,13 @@ import {
   PencilSimple,
   Phone,
   Warning,
-  CaretLeft,
 } from "phosphor-react";
 import ActionCustomer from "./ActionCustomer";
 import { getStoreByUser, getUserByCode } from "../../../services/UserService";
 import { TabContent } from "./TabContent";
+import { getCustomerBankByUser } from "../../../services/BankService";
 
-function DetailCustomer({ userSelected }) {
+function DetailCustomer({ userSelected, isOpen }) {
   const [currentTab, setCurrentTab] = useState("1");
   const [tabData, setTabData] = useState({});
   const [userData, setUserData] = useState({});
@@ -32,16 +32,11 @@ function DetailCustomer({ userSelected }) {
     },
     {
       id: 2,
-      tabTitle: "Orders list",
-      title: "Orders list",
-    },
-    {
-      id: 3,
       tabTitle: "Bank account",
       title: "Bank account",
     },
     {
-      id: 4,
+      id: 3,
       tabTitle: "Store",
       title: "Invoices",
     },
@@ -67,6 +62,7 @@ function DetailCustomer({ userSelected }) {
       const data = await getUserByCode(userSelected.Code);
       if (data.status === 200) {
         setUserData(data.data);
+        setTabData(data.data);
       }
     } catch (error) {
       // Handle the error here
@@ -79,6 +75,7 @@ function DetailCustomer({ userSelected }) {
       const data = await getStoreByUser(userData.id);
       if (data != null) {
         setStoreData(data.data);
+        setTabData(data.data);
       }
       return data;
     } catch (error) {
@@ -87,26 +84,36 @@ function DetailCustomer({ userSelected }) {
     }
   };
 
+  const [customerBankList, setCustomerBankList] = useState([]);
+
+  const getCustomerBank = async () => {
+    try {
+      let res = await getCustomerBankByUser(userData.id);
+
+      if (res.status === 200) {
+        setCustomerBankList(res.data);
+        setTabData(res.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const initData = async () => {
     switch (currentTab) {
       case "1": {
         //customer details
         await getCustomerDetails();
-        await setTabData(userData);
         break;
       }
       case "2": {
-        //order by user
+        // bank account
+        await getCustomerBank();
         break;
       }
       case "3": {
-        // bank account
-        break;
-      }
-      case "4": {
         // store
         await getStoreList();
-        await setTabData(storeData);
         break;
       }
       default:
@@ -117,7 +124,7 @@ function DetailCustomer({ userSelected }) {
   useEffect(() => {
     initData();
     console.log(userData);
-  }, [currentTab, userSelected]);
+  }, [isOpen]);
 
   return (
     <>

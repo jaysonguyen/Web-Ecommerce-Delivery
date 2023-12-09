@@ -33,6 +33,19 @@ export const getUserByCode = async (code) => {
     return error;
   }
 };
+export const getUserProfile = async (id) => {
+  try {
+    let data = await axios.get(`/api/user/profile`, {
+      headers: {
+        Authorization: `Bearer ${id}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
 export const getStoreByUser = async (userId) => {
   try {
     let data = await axios.get(`/api/user/${userId}/store`);

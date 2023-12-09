@@ -12,7 +12,7 @@ import AddCity from "../../../components/project/city/AddCity";
 import { Drawer } from "../../../components/project/drawer/Drawer";
 import { CaretLeft } from "phosphor-react";
 import { ICON_SIZE_BIG } from "../../../utils/constraint";
-import DetailsOrder from "../../../components/project/order/DetailsOrder";
+import { CityFromJson } from "../../../utils/modelHandle";
 
 function CityPage(props) {
   const [citySelected, setCitySelected] = useState({});
@@ -33,12 +33,17 @@ function CityPage(props) {
     try {
       const data = await getCityList();
       if (data.status === 200) {
+        setCityList([]);
         if (Array.isArray(data.data)) {
-          setCityList(data.data);
+          for (let i = 0; i < data.data.length; i++) {
+            setCityList((cityList) => [
+              ...cityList,
+              new CityFromJson(data.data[i]),
+            ]);
+          }
         }
         return data;
       } else {
-        console.log("city list: " + data);
         toast.error(data.data);
       }
     } catch (error) {
@@ -51,14 +56,14 @@ function CityPage(props) {
 
   useEffect(() => {
     dispatch(tableSlice.actions.handleSelected([]));
-    initData().then((r) => r === null && toast.error("Something went wrong!"));
+    initData().then((r) => true);
   }, [isShowAdd, isShowDetail]);
 
   const handleButtonAction = async (data, type) => {
     switch (type) {
       case "details": {
-        await setCitySelected(data);
-        await setIsShowDetail(true);
+        setCitySelected(data);
+        setIsShowDetail(true);
         break;
       }
       case "delete": {

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 //img
 import { userDefaultAvatar } from "../../assets/img";
-import { ArrowsDownUp, MagnifyingGlass } from "phosphor-react";
+import { ArrowsDownUp, MagnifyingGlass, Pencil } from "phosphor-react";
 //css
 import "../../assets/css/navigation/sidebar.css";
-import { ICON_SIZE_BIG } from "../../utils/constraint";
-import { Link } from "react-router-dom";
+import { ICON_SIZE_BIG, URL_PROFILE } from "../../utils/constraint";
+import { Link, useNavigate } from "react-router-dom";
 //component
 import { Notification } from "../index";
 import { isAuthenticated } from "../../auth/index";
@@ -25,6 +25,7 @@ function Sidebar({
   displayNotification,
 }) {
   const [activeTab, setActiveTab] = useState(0);
+  const navigate = useNavigate();
   const { userPayload } = useToken();
 
   // const dispatch = useDispatch();
@@ -57,10 +58,16 @@ function Sidebar({
                 <div>Point: {userPayload && userPayload.point}</div>
                 <div>COD: {userPayload && userPayload.cod}</div>
               </div>
-              <div className="sidebar_heading_dropdown">
-                <ArrowsDownUp
+              <div
+                className="sidebar_heading_dropdown"
+                style={{
+                  cursor: "pointer",
+                }}
+              >
+                <Pencil
                   className="sidebar_heading_dropdown--icon"
                   size={ICON_SIZE_BIG}
+                  onClick={() => navigate(URL_PROFILE)}
                 />
               </div>
             </div>

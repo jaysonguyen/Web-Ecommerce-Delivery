@@ -9,6 +9,14 @@ export async function getAreaList(cityId) {
     return error;
   }
 }
+export async function getAreaDropdownList(cityCode) {
+  try {
+    let data = await axios.get("/api/area/dropdown/" + cityCode);
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
 export const getAreaById = async (id) => {
   try {
     let data = await axios.get(`/api/area/${id}`);

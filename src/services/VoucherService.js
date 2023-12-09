@@ -8,6 +8,32 @@ export async function getVoucherList() {
     return error;
   }
 }
+export async function getVoucherHistoryListByVoucher(voucherId) {
+  try {
+    let data = await axios.get(
+      `/api/history_voucher/voucher?voucherId=${voucherId}`,
+    );
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+export async function getVoucherHistoryListByOrder(orderId) {
+  try {
+    let data = await axios.get(`/api/history_voucher/order?orderId=${orderId}`);
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+export async function getValidVoucherList() {
+  try {
+    let data = await axios.get("/api/voucher/valid");
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
 export const getVoucherById = async (id) => {
   try {
     let data = await axios.get(`/api/voucher/${id}`);
@@ -17,46 +43,18 @@ export const getVoucherById = async (id) => {
   }
 };
 
-export const insertVoucher = async ({
-  name,
-  cost,
-  status,
-  quantity,
-  period,
-  used,
-}) => {
+export const insertVoucher = async (data) => {
   try {
-    const checkData = await axios.post("/api/voucher", {
-      name,
-      cost,
-      status,
-      quantity,
-      period,
-      used,
-    });
+    const checkData = await axios.post("/api/voucher", data);
     return checkData.status;
   } catch (error) {
     return error;
   }
 };
 
-export const updateVoucher = async ({
-  name,
-  cost,
-  status,
-  quantity,
-  period,
-  used,
-}) => {
+export const updateVoucher = async (data) => {
   try {
-    const checkData = await axios.put("/api/voucher", {
-      name,
-      cost,
-      status,
-      quantity,
-      period,
-      used,
-    });
+    const checkData = await axios.put("/api/voucher", data);
     return checkData.status;
   } catch (error) {
     return error;

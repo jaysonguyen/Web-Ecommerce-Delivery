@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import Input from "../../template/Input/Input";
 import { insertUser, updateUSer } from "../../../services/UserService";
 import toast from "react-hot-toast";
-import { insertStore, updateStore } from "../../../services/StoreService";
+import {
+  getStoreById,
+  insertStore,
+  updateStore,
+} from "../../../services/StoreService";
 import useToken from "../../../hooks/useToken";
 import { MyButton } from "../../template/button/MyButton/MyButton";
 import { MyTable } from "../../template/table/MyTable/MyTable";
@@ -11,7 +15,7 @@ import { tableSelector } from "../../../selectors/consumerSelector";
 import tableSlice from "../../../features/table/tableSlice";
 import { JsonToString } from "../../../utils/modelHandle";
 
-function AddStore({ data, isCreate, handleClose }) {
+function AddStore({ data = {}, isCreate, handleClose, isOpen }) {
   const { userPayload } = useToken();
   const dispatch = useDispatch();
   const tableData = useSelector(tableSelector);
@@ -24,6 +28,8 @@ function AddStore({ data, isCreate, handleClose }) {
 
   const [address, setAddress] = useState([]);
   const [addressItem, setAddressItem] = useState("");
+
+  const [dataInfo, setDataInfo] = useState({});
 
   const handleInsertStore = async () => {
     if (address.length === 0) {
@@ -94,9 +100,23 @@ function AddStore({ data, isCreate, handleClose }) {
     toast.success("Deleted successfully");
   };
 
+  const fetchStoreInfo = async () => {
+    try {
+      let res = await getStoreById(data.ID);
+
+      if (res.status === 200) {
+        setDataInfo(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
+  };
+
   //update exists data => details
-  const initData = () => {
+  const initData = async () => {
     console.log("init data");
+    await fetchStoreInfo();
 
     setCode(data.code);
     setName(data.name);
@@ -109,7 +129,7 @@ function AddStore({ data, isCreate, handleClose }) {
   useEffect(() => {
     //update exists data
     !isCreate && data && initData();
-  }, []);
+  }, [isOpen]);
 
   return (
     <div className="add_staff_container">
@@ -125,11 +145,11 @@ function AddStore({ data, isCreate, handleClose }) {
             placeholder="Please enter a store code..."
           />
         ) : (
-          <h3>{code}</h3>
+          <h3>{dataInfo && dataInfo.code}</h3>
         )}
       </div>
       <div className="row">
-        {!isCreate && (
+        {isCreate && (
           <div className="col col-6">
             <Input label={"Code"} placeholder={(data && data.code) || ""} />
           </div>
@@ -139,7 +159,7 @@ function AddStore({ data, isCreate, handleClose }) {
           <Input
             onChange={(e) => setName(e.target.value)}
             label={"Store's name"}
-            value={name}
+            value={dataInfo ? dataInfo.name : name}
             placeholder={"Enter name.."}
           />
         </div>
@@ -147,7 +167,7 @@ function AddStore({ data, isCreate, handleClose }) {
           <Input
             onChange={(e) => setPhone(e.target.value)}
             label={"Phone"}
-            value={phone}
+            value={dataInfo ? dataInfo.phone : phone}
             placeholder={"Enter phone.."}
           />
         </div>

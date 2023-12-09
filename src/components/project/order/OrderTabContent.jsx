@@ -13,10 +13,12 @@ import {
   OrderItemFromJson,
   OrderTableFromJson,
 } from "../../../utils/modelHandle";
+import { getVoucherHistoryListByOrder } from "../../../services/VoucherService";
 
 export const OrderTabContent = ({ data = {}, tab = "1", clearData }) => {
   const [receiverInfo, setReceiverInfo] = useState({});
   const [historyList, setHistoryList] = useState([]);
+  const [voucherList, setVoucherList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const styleTitle = {
@@ -33,7 +35,25 @@ export const OrderTabContent = ({ data = {}, tab = "1", clearData }) => {
         for (let i = 0; i < res.data.length; i++) {
           setHistoryList((historyList) => [
             ...historyList,
-            new HistoryOrderFromJson(res.data[i]),
+            new HistoryOrderFromJson(res.data[i], i),
+          ]);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong");
+    }
+  };
+
+  const getVoucherList = async () => {
+    try {
+      let res = await getVoucherHistoryListByOrder(data.order_id);
+      if (res.status === 200) {
+        setVoucherList([]);
+        for (let i = 0; i < res.data.length; i++) {
+          setVoucherList((historyList) => [
+            ...historyList,
+            new HistoryOrderFromJson(res.data[i], i),
           ]);
         }
       }
@@ -45,13 +65,14 @@ export const OrderTabContent = ({ data = {}, tab = "1", clearData }) => {
   const initData = async () => {
     switch (tab) {
       case "1": {
+        console.log(data);
         //receiver details
         setReceiverInfo({
           name: data.receiver ? data.receiver.name : "",
-          address: data.receiver ? data.receiver.address : "",
+          address: data ? data.address : "",
           phone: data.receiver ? data.receiver.phone : "",
-          city: data.receiver ? data.receiver.city : "",
-          area: data.receiver ? data.receiver.area : "",
+          city: data ? data.city_name : "",
+          area: data ? data.area_name : "",
         });
         break;
       }
@@ -60,6 +81,10 @@ export const OrderTabContent = ({ data = {}, tab = "1", clearData }) => {
         break;
       }
       case "3": {
+        await getVoucherList();
+        break;
+      }
+      case "4": {
         await getHistoryList();
         break;
       }
@@ -90,9 +115,17 @@ export const OrderTabContent = ({ data = {}, tab = "1", clearData }) => {
               label="Phone"
             />
             <Input
-              value={receiverInfo.address ?? ""}
+              value={
+                receiverInfo.address
+                  ? receiverInfo.address.ap_number +
+                    ", " +
+                    receiverInfo.address.street +
+                    ", " +
+                    receiverInfo.address.ward
+                  : ""
+              }
               // onChange={handleEmailChange}
-              placeholder={receiverInfo.address}
+              // placeholder={receiverInfo.address}
               label="Address"
             />
           </div>
@@ -151,6 +184,11 @@ export const OrderTabContent = ({ data = {}, tab = "1", clearData }) => {
         </>
       )}
       {tab === "3" && (
+        <div>
+          <MyTable list={voucherList} hideToolkit={true} hideDetails={true} />
+        </div>
+      )}
+      {tab === "4" && (
         <div>
           <MyTable list={historyList} hideToolkit={true} hideDetails={true} />
         </div>

@@ -21,13 +21,23 @@
   --bg-card-5: rgba(245, 192, 191, 0.3);
 
   --border-gray: rgba(148, 148, 148, 0.3);
+  --border-gray_2: rgb(216, 216, 216);
 
+  --color-money: rgb(22, 141, 16);
   --color-warning: rgb(245, 245, 53);
   --color-error: rgb(255, 108, 108);
   --bg-danger: rgb(245, 67, 67);
   --color-success: rgb(100, 199, 63);
   --box-shadow: 0 0 5px #cdcdcd;
   --box-shadow-color: #cdcdcd;
+
+  --primary-1: #ef7434;
+  --primary-2: #17479c;
+
+  --text-voucher: rgb(209, 209, 28);
+  --text-slogan: #044e73;
+
+  --bg-slogan: var(--primary-1);
 
   --border-radius: 3px;
   --text-weight: 500;

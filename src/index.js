@@ -5,8 +5,6 @@ import ReactDOM from "react-dom/client";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
 import store from "./store/store";
 import "./index.css";
 
@@ -21,7 +19,6 @@ import StatusButton from "./components/project/order/StatusButton";
 import {
   URL_STAFF,
   URL_FORGET,
-  URL_LOGIN,
   URL_REGISTER,
   URL_ORDER,
   URL_BRANCH,
@@ -32,6 +29,11 @@ import {
   URL_DASHBOARD,
   URL_CUSTOMER,
   URL_SHIPPER_PAGE,
+  URL_LOGIN,
+  URL_PROFILE,
+  URL_LANDING_PAGE,
+  URL_SEARCH_ORDER_PAGE,
+  URL_CUSTOMER_BANK_ACCOUNT,
 } from "./utils/constraint";
 
 import Customer from "./pages/admin/customer/Customer";
@@ -50,6 +52,10 @@ import StorePage from "./pages/customer/StorePage";
 import DashboardPage from "./pages/admin/dashboard/DashboardPage";
 import ShipperPage from "./pages/admin/staff/ShipperPage";
 import PackageShipmentDetail from "./pages/admin/staff/PackageShipmentDetail";
+import { ProfilePage } from "./pages/profile/ProfilePage";
+import { LandingPage } from "./pages/social/LandingPage";
+import { SearchOrderPage } from "./pages/social/SearchOrderPage";
+import BankAccount from "./pages/customer/BankAccountPage";
 
 // const router = createBrowserRouter([
 //   {
@@ -153,12 +159,9 @@ const routes = [
     // role: ["admin", "shipper", "staff"],
   },
   {
-    path: URL_FORGET,
-    element: <Forget />,
-  },
-  {
-    path: URL_REGISTER,
-    element: <Register />,
+    path: URL_PROFILE,
+    element: <ProfilePage />,
+    // role: ["admin", "shipper", "staff"],
   },
   {
     path: URL_BRANCH,
@@ -217,6 +220,11 @@ const routes = [
     path: URL_DASHBOARD,
     element: <DashboardPage />,
   },
+  {
+    // index: true,
+    path: URL_CUSTOMER_BANK_ACCOUNT,
+    element: <BankAccount />,
+  },
 ];
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -226,8 +234,19 @@ root.render(
       {/* <RouterProvider router={router} /> */}
       <Router>
         <Routes>
-          <Route path="/login" index={true} element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path={URL_LANDING_PAGE}
+            index={true}
+            element={<LandingPage />}
+          />
+          <Route
+            path={URL_SEARCH_ORDER_PAGE}
+            index={true}
+            element={<SearchOrderPage />}
+          />
+          <Route path={URL_LOGIN} index={true} element={<Login />} />
+          <Route path={URL_REGISTER} element={<Register />} />
+          <Route path={URL_FORGET} element={<Forget />} />
           <Route path={URL_SHIPPER_PAGE} element={<ShipperPage />} />
           <Route path="/" element={<App />}>
             {routes.map((route, i) => {

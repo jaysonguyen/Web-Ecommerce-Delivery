@@ -112,15 +112,15 @@ function Register(props) {
         </div>
         <div className="login_form flex-center-center">
           <h6 className="margin-none font-weight-b title_size text_primary">
-            Tạo tài khoản
+            Create an account
           </h6>
-          <dd>DMNL luôn đồng hành cùng bạn</dd>
+          <dd>Huflit Delivery - Choose Huflit - Bright Future</dd>
           <form className="register_form">
             <div className="row">
               <div className="col col-6">
                 <Dropdown
-                  placeholder="Nhập mục đích..."
-                  label={"Mục đích sử dụng"}
+                  placeholder="Choose purpose..."
+                  label={"Business purpose"}
                   textColor="var(--text-color-gray)"
                   item={itemPropose}
                   value={aim}
@@ -139,15 +139,15 @@ function Register(props) {
               <div className="col col-6">
                 <Input
                   label="Full name"
-                  placeholder="Nhập tài khoản"
+                  placeholder="Enter your name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                 />
               </div>
               <div className="col col-6">
                 <Dropdown
-                  placeholder="Chọn quy mô vận chuyển..."
-                  label={"Quy mô vận chuyển"}
+                  placeholder="Choose scale..."
+                  label={"Business scale"}
                   item={itemScale}
                   textColor="var(--text-color-gray)"
                   margin="0"
@@ -157,16 +157,16 @@ function Register(props) {
               </div>
               <div className="col col-6">
                 <Input
-                  label="Ngành hàng"
-                  placeholder="Nhập ngành hàng"
+                  label="Business type"
+                  placeholder="Enter business type"
                   value={major}
                   onChange={(e) => setMajor(e.target.value)}
                 />
               </div>
               <div className="col col-6">
                 <Input
-                  label="Số điện thoại"
-                  placeholder="Nhập số điện thoại"
+                  label="Phone number"
+                  placeholder="Enter phone number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
@@ -174,15 +174,15 @@ function Register(props) {
               <div className="col col-6">
                 <Input
                   label="Email"
-                  placeholder="Nhập email"
+                  placeholder="Enter email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="col col-6">
                 <Input
-                  label="Mật khẩu"
-                  placeholder="Nhập mật khẩu"
+                  label="Password"
+                  placeholder="Enter password"
                   value={ps}
                   onChange={(e) => setPs(e.target.value)}
                 />
@@ -192,8 +192,8 @@ function Register(props) {
                 <Input
                   value={conPs}
                   onChange={(e) => setConPs(e.target.value)}
-                  label="Nhập lại mật khẩu"
-                  placeholder="Nhập lại mật khẩu"
+                  label="Re-Enter password "
+                  placeholder="Enter your password again"
                 />
               </div>
             </div>
@@ -201,12 +201,12 @@ function Register(props) {
               onClick={handleRegisterUser}
               className="button_login button button_primary font-weight-b"
             >
-              Đăng ký
+              Sign up
             </button>
             <div className="text_center">
-              Bạn đã có tài khoản?
+              You're already have an account?
               <Link to="/login" className="go_back_login text_decoration_none">
-                Đăng nhập!
+                Go to Login page!
               </Link>
             </div>
           </form>

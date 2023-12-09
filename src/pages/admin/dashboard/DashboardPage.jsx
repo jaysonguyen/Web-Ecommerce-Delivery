@@ -7,6 +7,8 @@ import { getOrderReport } from "../../../services/ReportService";
 import toast from "react-hot-toast";
 import { DayPickerDialog } from "../../../components/template/dialog/DayPickerDialog";
 import useToken from "../../../hooks/useToken";
+import CustomerOption from "./CustomerOption";
+import { subDays } from "date-fns";
 
 export default function DashboardPage() {
   // dataAPI: {labels: [], points: [{key: string, values: []}]}
@@ -52,10 +54,12 @@ export default function DashboardPage() {
   const fetchData = async () => {
     try {
       const options = { day: "numeric", month: "numeric", year: "numeric" };
-      dayBeginSelected.setDate(dayEndSelected.getDate() - 7);
+      // dayBeginSelected.setDate(dayEndSelected.getDate() - 7);
+      let startDay = new Date();
+      startDay.setDate(dayEndSelected.getDate() - 7);
       let res = await getOrderReport({
         start: new Intl.DateTimeFormat("en-US", options)
-          .format(dayBeginSelected)
+          .format(startDay)
           .replace(/\//g, "-"),
         end: new Intl.DateTimeFormat("en-US", options)
           .format(dayEndSelected)
@@ -67,7 +71,7 @@ export default function DashboardPage() {
         setchartData(res.data);
       }
     } catch (ex) {
-      console.log(ex);
+      console.log(ex.message);
       toast.error("Cannot get order report, check your connection!");
     }
   };
@@ -91,7 +95,7 @@ export default function DashboardPage() {
               />
             </div>
             {chartData.points.length > 0 ? (
-              <LineChart title="Chart example" dataList={chartData} />
+              <LineChart title="Orders in 7 days" dataList={chartData} />
             ) : (
               <div>No Connection {chartData.points.length}</div>
             )}
@@ -101,6 +105,8 @@ export default function DashboardPage() {
               <SettingOptionOne />
             ) : userPayload.role === "shipper" ? (
               <div>shipper logged in</div>
+            ) : userPayload.role === "customer" ? (
+              <CustomerOption />
             ) : (
               <div>Customer or staff?</div>
             )}

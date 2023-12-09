@@ -37,8 +37,8 @@ function StorePage(props) {
   const handleButtonAction = async (data, type) => {
     switch (type) {
       case "details": {
-        await setStoreSelected(data);
-        await setIsShowDetails(true);
+        setStoreSelected(data);
+        setIsShowDetails(true);
         break;
       }
       case "delete": {
@@ -52,7 +52,7 @@ function StorePage(props) {
 
   const getStoreData = async () => {
     setStoreTableList([]);
-
+    setStoreList([]);
     try {
       let res = await getStoreByUser(userPayload.userID);
 
@@ -73,7 +73,7 @@ function StorePage(props) {
 
   useEffect(() => {
     getStoreData();
-  }, []);
+  }, [isShowDetails, isShowAdd]);
 
   return (
     <div className="">
@@ -111,8 +111,6 @@ function StorePage(props) {
             showCheckBox={true}
             callback={handleButtonAction}
             // deleteCallback={handleDelete}
-            hideDelete={true}
-            hideDetais={true}
           />
         </>
       )}
@@ -124,7 +122,11 @@ function StorePage(props) {
           >
             <CaretLeft size={ICON_SIZE_BIG} />
           </div>
-          <AddStore isCreate={true} handleClose={() => setIsShowAdd(false)} />
+          <AddStore
+            isCreate={true}
+            isOpen={isShowAdd}
+            handleClose={() => setIsShowAdd(false)}
+          />
         </div>
       )}
       {isShowDetails && (
@@ -138,6 +140,7 @@ function StorePage(props) {
           <AddStore
             isCreate={false}
             data={storeSelected}
+            isOpen={isShowDetails}
             handleClose={() => setIsShowDetails(false)}
           />
         </div>

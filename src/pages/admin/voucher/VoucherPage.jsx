@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { MyTable } from "../../../components/template/table/MyTable/MyTable";
-import { DetailCustomer, Dropdown } from "../../../components";
+import { DetailCustomer, Dropdown, MyTable } from "../../../components";
 import "../../../assets/css/Pages/customer.css";
 import {
   deleteVoucher,
+  getVoucherById,
   getVoucherList,
 } from "../../../services/VoucherService";
 import toast from "react-hot-toast";
@@ -15,6 +15,8 @@ import { tableSelector } from "../../../selectors/consumerSelector";
 import tableSlice from "../../../features/table/tableSlice";
 import { VoucherTableFromJson } from "../../../utils/modelHandle";
 import useToken from "../../../hooks/useToken";
+import { Drawer } from "../../../components/project/drawer/Drawer";
+import DetailsVoucher from "../../../components/project/voucher/DetailsVoucher";
 
 function VoucherPage(props) {
   const [voucherSelected, setVoucherSelected] = useState({});
@@ -36,7 +38,7 @@ function VoucherPage(props) {
     setIsLoading(true);
     try {
       const data = await getVoucherList();
-      console.log(data);
+      setVoucherList([]);
       if (data.status === 200) {
         for (let i = 0; i < data.data.length; i++) {
           setVoucherList((voucherList) => [
@@ -78,20 +80,11 @@ function VoucherPage(props) {
     initData().then((r) => r === null && toast.error("Something went wrong!"));
   }, [isShowAdd]);
 
-  const handleButtonAction = async (data, type) => {
-    console.log("click");
-    switch (type) {
-      case "details": {
-        await setVoucherSelected(data);
-        await setIsShowDetail(true);
-        break;
-      }
-      case "delete": {
-      }
-      default:
-        break;
-    }
+  const handleShowDetail = async (data) => {
+    setVoucherSelected(data);
+    setIsShowDetail(true);
   };
+
   const handleCloseDetail = () => {
     setIsShowDetail(false);
   };
@@ -105,68 +98,85 @@ function VoucherPage(props) {
     },
   ];
 
-  return (
-    <div className="">
-      {!isShowDetail && !isShowAdd && (
-        <>
-          <div className="header_of_customer">
-            <div className="row">
-              <div className="col-8">
-                <div className="header_bar_left_Cus ">
-                  <div className="title_total_number_Cus">
-                    <h3 className="title_Cus">Voucher list </h3>
-                    <p className="total_number_Cus">{voucherList.length}</p>
-                  </div>
-                  <p className="introduce_Cus">
-                    View, add, edit and delete your voucher's details.{" "}
-                  </p>
-                </div>
-              </div>
+  const detailsModal = (
+    <>
+      <div className="go_back_button_container">
+        <CaretLeft
+          onClick={() => setIsShowDetail(false)}
+          size={ICON_SIZE_BIG}
+        />
+      </div>
+      <DetailsVoucher isOpen={isShowDetail} dataSelected={voucherSelected} />
+    </>
+  );
 
-              <div className="col-4">
-                <div className="feature_of_customer">
-                  <div className="option_dropdown">
-                    <Dropdown placeholder="Options" item={itemOptions} />
+  return (
+    <>
+      <div className="">
+        {!isShowAdd && (
+          <>
+            <div className="header_of_customer">
+              <div className="row">
+                <div className="col-8">
+                  <div className="header_bar_left_Cus ">
+                    <div className="title_total_number_Cus">
+                      <h3 className="title_Cus">Voucher list </h3>
+                      <p className="total_number_Cus">{voucherList.length}</p>
+                    </div>
+                    <p className="introduce_Cus">
+                      View, add, edit and delete your voucher's details.{" "}
+                    </p>
                   </div>
-                  <button className="btnAdd" onClick={() => setIsShowAdd(true)}>
-                    Add
-                  </button>
+                </div>
+
+                <div className="col-4">
+                  <div className="feature_of_customer">
+                    <div className="option_dropdown">
+                      <Dropdown placeholder="Options" item={itemOptions} />
+                    </div>
+                    <button
+                      className="btnAdd"
+                      onClick={() => setIsShowAdd(true)}
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <MyTable
-            hideDelete={userPayload.role !== "admin"}
-            list={voucherList}
-            showCheckBox={!(userPayload.role !== "admin")}
-            callback={handleButtonAction}
-            hideDetails={true}
-            deleteCallback={handleDelete}
-          />
-        </>
-      )}
-
-      {isShowDetail && (
-        <DetailCustomer
-          closeDetail={handleCloseDetail}
-          voucherSelected={voucherSelected}
-        />
-      )}
-
-      {isShowAdd && (
-        <div className="add_employee_container">
-          <div className="go_back_button_container">
-            <CaretLeft
-              size={ICON_SIZE_BIG}
-              onClick={() => setIsShowAdd(false)}
+            <MyTable
+              hideDelete={userPayload.role !== "admin"}
+              list={voucherList}
+              showCheckBox={!(userPayload.role !== "admin")}
+              callback={handleShowDetail}
+              deleteCallback={handleDelete}
             />
+          </>
+        )}
+
+        {isShowAdd && (
+          <div className="add_employee_container">
+            <div className="go_back_button_container">
+              <CaretLeft
+                size={ICON_SIZE_BIG}
+                onClick={() => setIsShowAdd(false)}
+              />
+            </div>
+            <h3>Add Voucher</h3>
+            <AddVoucher />
           </div>
-          <h3>Add Voucher</h3>
-          <AddVoucher />
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+      <div className="w-100">
+        <Drawer
+          anchor="right"
+          open={isShowDetail}
+          onClose={() => setIsShowDetail(false)}
+          child={detailsModal}
+        />
+      </div>
+    </>
   );
 }
 

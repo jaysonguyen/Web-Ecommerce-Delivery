@@ -32,16 +32,16 @@ export default function SettingOptionOne() {
               </div>
             </div>
           </Link>
-          <Link to={URL_SHIPPER_ASSIGNMENT_PAGE}>
-            <div className="option-card">
-              <div className="option-title">Shipper Assignment</div>
-              <div className="option-icon">
-                <img className="option-img" src={shipperImg} alt="" />
-              </div>
-            </div>
-          </Link>
         </div>
       </div>
+      <Link to={URL_SHIPPER_ASSIGNMENT_PAGE}>
+        <div className="option-card">
+          <div className="option-title">Shipper Assignment</div>
+          <div className="option-icon">
+            <img className="option-img" src={shipperImg} alt="" />
+          </div>
+        </div>
+      </Link>
     </>
   );
 }
