@@ -96,14 +96,14 @@ function DetailsVoucher({ isOpen, dataSelected = {} }) {
               <span>D</span>
             </div>
             <div className="name_email_cus">
-              <h3>{dataSelected.name}</h3>
+              <h3>{dataSelected.Name}</h3>
             </div>
           </div>
           <div className="status_customer_blaclist_frame">
             <div className="type_cus me-2">
               create:
               <div className="ms-3" style={{ color: "var(--text-color)" }}>
-                {dataSelected.created ? formatDate(dataSelected.created) : ""}
+                {dataSelected.Created ? formatDate(dataSelected.Created) : ""}
               </div>
             </div>
             <div className="type_cus">

@@ -30,7 +30,7 @@ export const ProfilePage = () => {
         setFullName(res.data.fullName);
         setEmail(res.data.email);
         setAccount(res.data.account);
-        setPhone(res.data.phoneNumber);
+        setPhone(res.data.phone);
         setPurpose(res.data.purpose);
         setDes(res.data.des);
       } else {
@@ -103,18 +103,40 @@ export const ProfilePage = () => {
           >
             <div>Profile</div>
             <div className="row">
-              <div className={"col"}>
+              <div className={"col-6"}>
                 <ProfileInput
                   title={"Full Name: "}
                   value={fullName}
                   onChange={setFullName}
                 />
               </div>
-              <div className={"col"}>
-                <ProfileInput title={"Email: "} value={email} />
+              <div className={"col-6"}>
+                <ProfileInput
+                  title={"Email: "}
+                  value={email}
+                  onChange={setEmail}
+                />
+              </div>
+              <div className={"col-6"}>
+                <ProfileInput
+                  title={"Phone: "}
+                  value={phone}
+                  onChange={setPhone}
+                />
+              </div>
+              <div className={"col-6"}>
+                <ProfileInput
+                  title={"Purpose: "}
+                  value={purpose}
+                  onChange={setPurpose}
+                />
               </div>
             </div>
-            <ProfileInput title={"Phone: "} value={phone} />
+            <ProfileInput
+              title={"Description: "}
+              value={des}
+              onChange={setDes}
+            />
 
             <div className="row">
               <div className={"col"}>

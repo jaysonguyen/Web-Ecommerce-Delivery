@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../template/Input/Input";
-import { insertUser, updateUSer } from "../../../services/UserService";
 import toast from "react-hot-toast";
-import {
-  getStoreById,
-  insertStore,
-  updateStore,
-} from "../../../services/StoreService";
 import useToken from "../../../hooks/useToken";
 import { MyButton } from "../../template/button/MyButton/MyButton";
 import { MyTable } from "../../template/table/MyTable/MyTable";
@@ -14,98 +8,70 @@ import { useDispatch, useSelector } from "react-redux";
 import { tableSelector } from "../../../selectors/consumerSelector";
 import tableSlice from "../../../features/table/tableSlice";
 import { JsonToString } from "../../../utils/modelHandle";
+import { addCustomerBank, getBankList } from "../../../services/BankService";
+import { Dropdown } from "../../index";
 
 function AddBankAccount({ data = {}, isCreate, handleClose, isOpen }) {
   const { userPayload } = useToken();
   const dispatch = useDispatch();
   const tableData = useSelector(tableSelector);
 
-  const [code, setCode] = useState("");
   const [name, setName] = useState("");
-  const [des, setDes] = useState("");
-  const [phone, setPhone] = useState("");
-  const [state, setState] = useState("");
+  const [number, setNumber] = useState("");
+  const [accountList, setAccountList] = useState([]);
+  const [bankList, setBankList] = useState([]);
 
-  const [address, setAddress] = useState([]);
-  const [addressItem, setAddressItem] = useState("");
-
-  const [dataInfo, setDataInfo] = useState({});
-
-  const handleInsertStore = async () => {
-    if (address.length === 0) {
-      toast.error("Add address to your new store");
-      return;
-    }
-
-    if (code === "") {
-      toast.error("Enter your store code");
+  const handleInsertAccount = async () => {
+    if (accountList.length === 0) {
+      toast.error("Add bank account");
       return;
     }
 
     try {
-      let addressList = JsonToString(address);
-
-      const checkInsert = await insertStore({
-        store_code: code,
-        name,
-        des,
-        address: addressList,
-        phone,
-        state,
-        user_id: userPayload.userID,
-      });
-      if (checkInsert !== 200) {
-        toast.error("Create store failed");
-      } else {
-        toast.success("Create store successfully");
-        handleClose();
+      for (var i = 0; i < accountList.length; i++) {
+        const checkInsert = await addCustomerBank({
+          user_id: userPayload.userID,
+          bank_name: accountList[i].Bank,
+          bank_number: accountList[i].Number,
+        });
+        if (checkInsert !== 200) {
+          toast.error("Add account failed");
+          return;
+        }
       }
+      toast.success("Add account successfully");
+      handleClose();
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
     }
   };
+  //
+  // const handleUpdateAccount = async () => {
+  //   try {
+  //     const checkUpdate = await updateAccount({
+  //       name: name || data.name,
+  //       des: des || data.des,
+  //       address: address || data.address,
+  //       phone: phone || data.phone,
+  //       state: state || data.state,
+  //     });
+  //     if (checkUpdate !== 200) {
+  //       toast.error("Update failed");
+  //     } else {
+  //       toast.success("Insert success");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  const handleUpdateStore = async () => {
+  const fetchBankInfo = async () => {
     try {
-      const checkUpdate = await updateStore({
-        name: name || data.name,
-        des: des || data.des,
-        address: address || data.address,
-        phone: phone || data.phone,
-        state: state || data.state,
-      });
-      if (checkUpdate !== 200) {
-        toast.error("Update failed");
-      } else {
-        toast.success("Insert success");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleDelete = async () => {
-    let list = [...tableData.selectList];
-    if (list.length === 0) {
-      toast.error("Choose item to delete");
-      return;
-    }
-
-    for (let i = 0; i < list.length; i++) {
-      let index = address.indexOf(list[i]);
-      address.splice(index, 1);
-    }
-    dispatch(tableSlice.actions.handleSelected([]));
-    toast.success("Deleted successfully");
-  };
-
-  const fetchStoreInfo = async () => {
-    try {
-      let res = await getStoreById(data.ID);
+      let res = await getBankList(data.ID);
 
       if (res.status === 200) {
-        setDataInfo(res.data);
+        setBankList(res.data);
       }
     } catch (error) {
       console.log(error);
@@ -114,64 +80,15 @@ function AddBankAccount({ data = {}, isCreate, handleClose, isOpen }) {
   };
 
   //update exists data => details
-  const initData = async () => {
-    console.log("init data");
-    await fetchStoreInfo();
-
-    setCode(data.code);
-    setName(data.name);
-    setDes(data.des);
-    setAddress(data.address);
-    setPhone(data.phone);
-    setState(data.state);
-  };
 
   useEffect(() => {
     //update exists data
-    !isCreate && data && initData();
+    fetchBankInfo();
   }, [isOpen]);
 
   return (
     <div className="add_staff_container">
-      <h3>{isCreate ? "Create Store" : "Store Details"}</h3>
-      <div className="add_post_header_title_box mt-5">
-        <p className={""}>
-          Store code<span className="required">*</span>
-        </p>
-        {isCreate ? (
-          <input
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            placeholder="Please enter a store code..."
-          />
-        ) : (
-          <h3>{dataInfo && dataInfo.code}</h3>
-        )}
-      </div>
-      <div className="row">
-        {isCreate && (
-          <div className="col col-6">
-            <Input label={"Code"} placeholder={(data && data.code) || ""} />
-          </div>
-        )}
-
-        <div className="col col-6">
-          <Input
-            onChange={(e) => setName(e.target.value)}
-            label={"Store's name"}
-            value={dataInfo ? dataInfo.name : name}
-            placeholder={"Enter name.."}
-          />
-        </div>
-        <div className="col col-6">
-          <Input
-            onChange={(e) => setPhone(e.target.value)}
-            label={"Phone"}
-            value={dataInfo ? dataInfo.phone : phone}
-            placeholder={"Enter phone.."}
-          />
-        </div>
-      </div>
+      <h3>{isCreate ? "Add Account" : "Account Details"}</h3>
       <div
         className="add_post_body product_info mt-4"
         // style={{ backgroundColor: "var(--bg-card-3)" }}
@@ -180,13 +97,19 @@ function AddBankAccount({ data = {}, isCreate, handleClose, isOpen }) {
           <div className="product_img"></div>
           <div className="row">
             <div className="col product_form">
+              <Dropdown
+                label={"Bank List"}
+                item={bankList}
+                placeholder={"Choose bank"}
+                value={name}
+                onValue={setName}
+              />
               <FormInput
-                value={addressItem}
-                title="Address"
+                value={number}
+                title="Bank Number"
                 isRequired={true}
-                // isError={isError.title}
-                onChange={(v) => setAddressItem(v.target.value)}
-                placeholder="Enter address"
+                onChange={setNumber}
+                placeholder="Enter account's number"
               />
               <MyButton
                 width="100%"
@@ -194,11 +117,12 @@ function AddBankAccount({ data = {}, isCreate, handleClose, isOpen }) {
                 bgColor="var(--primary-color)"
                 fontColor="var(--text-white)"
                 callback={() => {
-                  setAddress((address) => [
+                  setAccountList((address) => [
                     ...address,
-                    { ID: address.length, content: addressItem },
+                    { STT: address.length, Bank: name, Number: number },
                   ]);
-                  setAddressItem("");
+                  setName("");
+                  setNumber("");
                 }}
               />
             </div>
@@ -207,7 +131,7 @@ function AddBankAccount({ data = {}, isCreate, handleClose, isOpen }) {
                 hideToolkit={true}
                 hideDetails={true}
                 showCheckBox={true}
-                list={address}
+                list={accountList}
               />
               {tableData.selectList.length > 0 && (
                 <MyButton
@@ -215,18 +139,15 @@ function AddBankAccount({ data = {}, isCreate, handleClose, isOpen }) {
                   text="Remove From List"
                   bgColor="var(--color-error)"
                   fontColor="var(--text-white)"
-                  callback={handleDelete}
+                  // callback={handleDelete}
                 />
               )}
             </div>
           </div>
         </div>
       </div>
-      <button
-        onClick={isCreate ? handleInsertStore : handleUpdateStore}
-        className="btnAdd"
-      >
-        {isCreate ? "Create" : "Save"}
+      <button onClick={handleInsertAccount} className="btnAdd">
+        {"Create"}
       </button>
     </div>
   );
@@ -251,7 +172,7 @@ const FormInput = ({
         className="input_summary"
         boxShadow="none"
         border="1px solid var(--border-color)"
-        onChange={onChange}
+        onChange={(v) => onChange(v.target.value)}
         placeholder={placeholder}
       />
     </>
