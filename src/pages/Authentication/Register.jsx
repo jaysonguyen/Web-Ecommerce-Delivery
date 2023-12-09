@@ -61,18 +61,6 @@ function Register(props) {
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();
-    console.log({
-      fullName: fullName,
-      des: "Sample description",
-      account: acc,
-      password: ps,
-      email: email,
-      phone: phone,
-      purpose: aim,
-      major: major,
-      sclae: scale,
-      role: "2",
-    });
     try {
       const data = await insertUser({
         fullName: fullName,
@@ -84,7 +72,7 @@ function Register(props) {
         purpose: aim,
         major: major,
         scale: scale,
-        role: 2,
+        role_id: 2,
       });
       if (data == 200) {
         toast.success("Register success");
