@@ -18,7 +18,7 @@ import {
 
 //css
 import "../../../assets/css/Pages/shipper.css";
-import { PackageShipment } from "../../../components";
+import { PackageShipment, ShipmentStatistic } from "../../../components";
 import { getOrderListByShipperCode } from "../../../services/UserService";
 import toast from "react-hot-toast";
 import useToken from "../../../hooks/useToken";
@@ -27,6 +27,9 @@ function ShipperPage(props) {
   const dispatch = useDispatch();
   const [orderList, setOrderList] = useState([]);
   const { userPayload } = useToken();
+  const [showTag, setShowTag] = useState([true, false, false]);
+  const shipperCode = userPayload.userCode;
+  const shipperID = userPayload.userID;
 
   const fetchData = async () => {
     try {
@@ -40,6 +43,11 @@ function ShipperPage(props) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleShowTag = (pos) => {
+    setShowTag([false, false, false]);
+    setShowTag((prev) => [...prev, (prev[pos] = true)]);
   };
 
   useEffect(() => {
@@ -58,44 +66,81 @@ function ShipperPage(props) {
         </div>
         <div className="shipper_page_header flex-center-center">
           <span className="shipper_page_background flex-center-center">S</span>
-          <span>Shipper03928</span>
+          <span>{shipperCode}</span>
         </div>
       </div>
       <div className="shipper_page_body">
-        <h3 className="font-weight-b">Shipment package</h3>
-        <div className="shipper_page_package_container">
-          {orderList &&
-            orderList.map((item, index) => {
-              return <PackageShipment key={index} packageInfo={item} />;
-            })}
-        </div>
+        {showTag[0] == true && (
+          <>
+            <h3 className="font-weight-b">Shipment package</h3>
+            <div className="shipper_page_package_container">
+              {orderList &&
+                orderList
+                  .filter(
+                    (item) =>
+                      item?.orders?.action_code != "7" &&
+                      item?.orders?.action_code != "5"
+                  )
+                  .map((item, index) => (
+                    <PackageShipment key={index} packageInfo={item} />
+                  ))}
+            </div>
+          </>
+        )}
+        {showTag[1] == true && (
+          <div>
+            <h3 className="font-weight-b">Shipment statistic</h3>
+            <ShipmentStatistic orderList={orderList} shipperID={shipperID} />
+          </div>
+        )}
+        {showTag[2] == true && (
+          <>
+            <h3 className="font-weight-b">History shipment</h3>
+            {orderList &&
+              orderList
+                .filter(
+                  (item) =>
+                    item?.orders?.action_code === "7" ||
+                    item?.orders?.action_code === "5"
+                )
+                .map((item, index) => (
+                  <PackageShipment key={index} packageInfo={item} />
+                ))}
+          </>
+        )}
       </div>
       <div className="shipper_page_tool_bar flex-center-center">
-        <div className="tool_item">
+        <div
+          onClick={() => handleShowTag(0)}
+          className={showTag[0] ? "tool_item active" : "tool_item"}
+        >
           <span className="flex-center-center">
             <Package size={ICON_SIZE_EXTRA_LARGE} />
           </span>
           <p>Package</p>
         </div>
-        <div className="tool_item">
+        <div
+          onClick={() => handleShowTag(2)}
+          className={showTag[2] ? "tool_item active" : "tool_item"}
+        >
           <span className="flex-center-center">
             <Clock size={ICON_SIZE_EXTRA_LARGE} />
           </span>
           <p>History</p>
         </div>
-        <div className="tool_item">
+        <div
+          onClick={() => handleShowTag(1)}
+          className={showTag[1] ? "tool_item active" : "tool_item"}
+        >
           <span className="flex-center-center">
             <ChartPieSlice size={ICON_SIZE_EXTRA_LARGE} />
           </span>
           <p>Statistic</p>
         </div>
-        <div className="tool_item">
-          <span className="flex-center-center">
-            <Notification size={ICON_SIZE_EXTRA_LARGE} />
-          </span>
-          <p>Notification</p>
-        </div>
-        <div className="tool_item">
+        <div
+          onClick={() => handleShowTag(4)}
+          className={showTag[4] ? "tool_item active" : "tool_item"}
+        >
           <span className="flex-center-center">
             <User size={ICON_SIZE_EXTRA_LARGE} />
           </span>

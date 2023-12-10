@@ -1,3 +1,4 @@
+import { ca } from "date-fns/locale";
 import axios from "../config/axios";
 import {
   URL_GET_CUSTOMER,
@@ -5,6 +6,7 @@ import {
   URL_GET_SHIPPER_BY_BRANCH,
   URL_LOGIN_CUSTOMER,
   URL_USER,
+  USER_GET_SHIPPER_POINT_AMOUNT,
   URL_GET_ASSIGN_INFO,
 } from "../utils/constraint";
 
@@ -132,3 +134,12 @@ export const setAssignShipment = async (area_code, branch_code, user_code) => {
     console.log(error);
   }
 };
+
+export const getShipperPointAmount = async(shipperID) => {
+  try {
+    const getShipperPointAndAmount = await axios.get(USER_GET_SHIPPER_POINT_AMOUNT + `/${shipperID}`)
+    return getShipperPointAndAmount;
+  } catch(error) {
+    console.log(error);
+  }
+}

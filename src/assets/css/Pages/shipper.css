@@ -40,6 +40,10 @@
   cursor: pointer;
 }
 
+.tool_item.active {
+  opacity: 1;
+}
+
 .tool_item p {
   font-size: 10px;
 }
@@ -168,4 +172,47 @@
   border-radius: 50%;
   margin: 20px;
   background-color: #fff;
+}
+
+.selected-image-preview {
+  width: 100%;
+  height: 100%;
+}
+
+.selected-image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shipment_dashboard {
+  margin-top: 30px;
+}
+
+.shipment_dashboard_item {
+  width: 45%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #000;
+  margin-left: 10px;
+  margin-bottom: 30px;
+  padding: 15px 5px;
+  border-radius: 3px;
+}
+
+.shipment_dashboard_item caption {
+  margin-right: 10px;
+  margin-bottom: 20px;
+  position: relative;
+  text-align: left;
+  top: -20px;
+}
+.shipment_dashboard_item span {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.width-100 {
+  width: 95%;
 }

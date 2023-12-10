@@ -17,6 +17,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import useToken from "../../../hooks/useToken";
 import { handleInsertHistoryDelivery } from "../../../services/HistoryServices";
+import { Skeleton } from "@mui/material";
 
 function PackageShipmentDetail(props) {
   const navigate = useNavigate();
@@ -26,6 +27,8 @@ function PackageShipmentDetail(props) {
   const [showShipmentReject, setShipmentReject] = useState(false);
   const { userPayload } = useToken();
   const [reasonReject, setReasonReject] = useState("Cannot contact");
+  const [image, setImage] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
 
   /* MAP */
   const { isLoaded } = useJsApiLoader({
@@ -44,11 +47,31 @@ function PackageShipmentDetail(props) {
   const destiantionRef = useRef();
 
   if (!isLoaded) {
-    return "";
+    return <Skeleton />;
   } else {
     dispatch(displaySlice.actions.displaySidebar(false));
     dispatch(displaySlice.actions.displayHeader(false));
   }
+
+  const getDataUri = (file) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleChangeImage = async (e) => {
+    const selectedImage = e.target.files[0];
+
+    if (selectedImage) {
+      const imageDataUri = await getDataUri(selectedImage);
+      setImage(imageDataUri);
+      setImagePreview(URL.createObjectURL(selectedImage));
+    }
+  };
 
   async function calculateRoute() {
     if (originRef.current.value === "" || destiantionRef.current.value === "") {
@@ -80,8 +103,8 @@ function PackageShipmentDetail(props) {
   };
 
   const center = {
-    lat: 59.95,
-    lng: 30.33,
+    lat: 10.85907,
+    lng: 106.77012,
   };
 
   const handleConfirmDelivery = async (action) => {
@@ -90,7 +113,7 @@ function PackageShipmentDetail(props) {
       branch_id: userPayload.branch.branch_id,
       input_by: userPayload.userID,
       state: "",
-      image: "",
+      image: image,
       shipper_code: userPayload.userID,
       money_collect: pkgSlice.packageDetails.orders.total_cost,
       reason_reject: reasonReject,
@@ -135,15 +158,25 @@ function PackageShipmentDetail(props) {
                 Please take a photo with customer to evident that they received
               </dd>
               <div className="evident_photo_container flex-center-center">
-                <label htmlFor="evident_photo">
-                  <Upload size={ICON_SIZE_EXTRA_LARGE} />
-                </label>
-                <input
-                  id="evident_photo"
-                  type="file"
-                  hidden
-                  accept=".jpg,.jpeg,.png"
-                />
+                {imagePreview ? (
+                  <div className="selected-image-preview">
+                    <img src={imagePreview} alt="Selected" />
+                  </div>
+                ) : (
+                  <>
+                    <label htmlFor="evident_photo">
+                      <Upload size={ICON_SIZE_EXTRA_LARGE} />
+                    </label>
+                    <input
+                      id="evident_photo"
+                      onChange={handleChangeImage}
+                      type="file"
+                      hidden
+                      value={image}
+                      accept=".jpg,.jpeg,.png"
+                    />
+                  </>
+                )}
               </div>
               <button
                 onClick={() => handleConfirmDelivery("confirm")}
@@ -176,8 +209,8 @@ function PackageShipmentDetail(props) {
                 zoom={15}
                 mapContainerStyle={{ width: "100%", height: "100%" }}
                 options={{
-                  zoomControl: false,
-                  streetViewControl: false,
+                  zoomControl: true,
+                  streetViewControl: true,
                   mapTypeControl: false,
                   fullscreenControl: false,
                 }}
