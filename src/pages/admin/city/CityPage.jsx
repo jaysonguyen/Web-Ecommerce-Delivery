@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MyTable } from "../../../components/template/table/MyTable/MyTable";
-import { Dropdown } from "../../../components";
+import { Dropdown, MyButton } from "../../../components";
 import "../../../assets/css/Pages/customer.css";
 import { deleteCity, getCityList } from "../../../services/CityService";
 import toast from "react-hot-toast";
@@ -10,7 +10,7 @@ import tableSlice from "../../../features/table/tableSlice";
 import DetailCity from "../../../components/project/city/DetailCity";
 import AddCity from "../../../components/project/city/AddCity";
 import { Drawer } from "../../../components/project/drawer/Drawer";
-import { CaretLeft } from "phosphor-react";
+import { CaretLeft, Plus } from "phosphor-react";
 import { ICON_SIZE_BIG } from "../../../utils/constraint";
 import { CityFromJson } from "../../../utils/modelHandle";
 
@@ -142,9 +142,14 @@ function CityPage(props) {
                   <div className="option_dropdown">
                     <Dropdown placeholder="Options" item={itemOptions} />
                   </div>
-                  <button className="btnAdd" onClick={() => setIsShowAdd(true)}>
-                    Add
-                  </button>
+                  <div className="feature_of_customer ms-3">
+                    <MyButton
+                      prefix={<Plus size={26} color="#ffffff" weight="fill" />}
+                      callback={() => setIsShowAdd(true)}
+                      bgColor={"var(--primary-color)"}
+                      borderRadius={"5px"}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

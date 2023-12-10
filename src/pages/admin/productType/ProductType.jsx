@@ -84,7 +84,6 @@ function ProductType(props) {
                   </p>
                 </div>
               </div>
-
               <div className="col-4">
                 <UploadFileButton />
               </div>

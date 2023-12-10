@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../template/Input/Input";
-import { insertUser, updateUSer } from "../../../services/UserService";
+import { insertUser } from "../../../services/UserService";
 import toast from "react-hot-toast";
 import { Dropdown } from "../../../components";
 
-function AddStaff({ data, isCreate, isOpen, fetchStaff, fetchShipper }) {
+function AddStaff({ isOpen, setOpen }) {
+  const [code, setCode] = useState("");
   const [nameStaff, setNameStaff] = useState("");
   const [account, setAccount] = useState("");
   const [email, setEmail] = useState("");
@@ -12,6 +13,9 @@ function AddStaff({ data, isCreate, isOpen, fetchStaff, fetchShipper }) {
   const [phoneNum, setPhoneNum] = useState("");
   const [des, setDes] = useState("");
   const handleClearInput = () => {
+    console.log("clear input");
+
+    setCode("");
     setNameStaff("");
     setAccount("");
     setEmail("");
@@ -22,10 +26,12 @@ function AddStaff({ data, isCreate, isOpen, fetchStaff, fetchShipper }) {
   const handleInsertStaff = async () => {
     try {
       const checkInsert = await insertUser({
+        code,
         fullName: nameStaff,
         account,
         email,
-        role,
+        password: "123456",
+        role_id: role,
         phone: phoneNum,
         des,
       });
@@ -34,32 +40,11 @@ function AddStaff({ data, isCreate, isOpen, fetchStaff, fetchShipper }) {
       } else {
         toast.success("Insert success");
         handleClearInput();
-        fetchStaff();
+        setOpen(false);
       }
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const handleUpdateStaff = async () => {
-    try {
-      const checkInsert = await updateUSer({
-        fullName: nameStaff || data.fullName,
-        email: email || data.email,
-        account: data.account,
-        purpose: "nothing",
-        phone: phoneNum || data.phoneNumber,
-        des: des || data.des,
-      });
-      if (checkInsert !== 200) {
-        toast.error("Update failed");
-      } else {
-        toast.success("Insert success");
-        handleClearInput();
-        fetchStaff();
-      }
-    } catch (error) {
-      console.log(error);
+      toast.error("error");
     }
   };
 
@@ -78,80 +63,76 @@ function AddStaff({ data, isCreate, isOpen, fetchStaff, fetchShipper }) {
     handleClearInput();
   }, [isOpen]);
 
-  console.log("data: " + data);
-
   return (
-    <div className="add_staff_container">
-      <div className="row">
-        {isCreate && (
+    <>
+      <h3>Add new staff</h3>
+      <div className="add_staff_container">
+        <div className="row">
           <div className="col col-6">
-            <Input label={"Code"} placeholder={(data && data.code) || ""} />
+            <Input
+              label={"Code"}
+              placeholder={"Enter staff's code"}
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+            />
           </div>
-        )}
 
-        <div className="col col-6">
-          <Input
-            onChange={(e) => setNameStaff(e.target.value)}
-            label={"Full name"}
-            value={nameStaff}
-            placeholder={data.fullName || ""}
-          />
+          <div className="col col-6">
+            <Input
+              onChange={(e) => setNameStaff(e.target.value)}
+              label={"Full name"}
+              value={nameStaff}
+              placeholder={"Enter staff's name"}
+            />
+          </div>
+          <div className="col col-6">
+            <Input
+              onChange={(e) => setAccount(e.target.value)}
+              label={"Account"}
+              value={account}
+              placeholder={"Enter account"}
+            />
+          </div>
+          <div className="col col-6">
+            <Input
+              onChange={(e) => setEmail(e.target.value)}
+              label={"Email"}
+              value={email}
+              placeholder={"Enter email"}
+            />
+          </div>
+          <div className="col pt-2 col-6">
+            <Dropdown
+              item={roles}
+              label={"Role"}
+              bgColor="var(--text-white)"
+              onChange={(v) => setRole(v)}
+              fontSize="14px"
+              placeholder="Choose role"
+            />
+          </div>
+          <div className="col col-6">
+            <Input
+              onChange={(e) => setPhoneNum(e.target.value)}
+              label={"Phone number"}
+              value={phoneNum}
+              placeholder={"Enter staff's phone number"}
+            />
+          </div>
+          <div className="col col-12">
+            <Input
+              value={des}
+              onChange={(e) => setDes(e.target.value)}
+              label={"Description"}
+              placeholder={"Enter description"}
+            />
+          </div>
         </div>
-        <div className="col col-6">
-          <Input
-            onChange={(e) => setAccount(e.target.value)}
-            label={"Account"}
-            value={account}
-            placeholder={data.account || ""}
-          />
-        </div>
-        <div className="col col-6">
-          <Input
-            onChange={(e) => setEmail(e.target.value)}
-            label={"Email"}
-            value={email}
-            placeholder={data.email || ""}
-          />
-        </div>
-        <div className="col pt-2 col-6">
-          {/*<Input*/}
-          {/*  onChange={(e) => setRole(e.target.value)}*/}
-          {/*  label={"Role"}*/}
-          {/*  value={role}*/}
-          {/*  placeholder={data.roleName || ""}*/}
-          {/*/>*/}
-          <Dropdown
-            placeholder={"Choose Role"}
-            item={roles}
-            width="200px"
-            fontSize="14px"
-            onChange={setRole}
-          />
-        </div>
-        <div className="col col-6">
-          <Input
-            onChange={(e) => setPhoneNum(e.target.value)}
-            label={"Phone number"}
-            value={phoneNum}
-            placeholder={data.phoneNumber || ""}
-          />
-        </div>
-        <div className="col col-12">
-          <Input
-            value={des}
-            onChange={(e) => setDes(e.target.value)}
-            label={"Description"}
-            placeholder={data.des || ""}
-          />
-        </div>
+        <button onClick={handleInsertStaff} className="btnAdd">
+          Add
+        </button>
       </div>
-      <button
-        onClick={isCreate ? handleInsertStaff : handleUpdateStaff}
-        className="btnAdd"
-      >
-        {isCreate ? "Add" : "Save"}
-      </button>
-    </div>
+    </>
   );
 }
 

@@ -43,7 +43,7 @@ import { OrderPage } from "./pages/admin/order/OrderPage";
 import VoucherPage from "./pages/admin/voucher/VoucherPage";
 import AddVoucher from "./components/project/voucher/AddVoucher";
 import CityPage from "./pages/admin/city/CityPage";
-import ProductType from "./pages/admin/productTyppe/ProductType";
+import ProductType from "./pages/admin/productType/ProductType";
 import ShippingAssignment from "./pages/admin/staff/ShippingAssignment";
 import PrivateRoute from "./auth/PrivateRoute";
 

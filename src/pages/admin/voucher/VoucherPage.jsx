@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { DetailCustomer, Dropdown, MyTable } from "../../../components";
+import {
+  DetailCustomer,
+  Dropdown,
+  MyButton,
+  MyTable,
+} from "../../../components";
 import "../../../assets/css/Pages/customer.css";
 import {
   deleteVoucher,
@@ -9,7 +14,7 @@ import {
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { ICON_SIZE_BIG } from "../../../utils/constraint";
-import { CaretLeft } from "phosphor-react";
+import { CaretLeft, Plus } from "phosphor-react";
 import AddVoucher from "../../../components/project/voucher/AddVoucher";
 import { tableSelector } from "../../../selectors/consumerSelector";
 import tableSlice from "../../../features/table/tableSlice";
@@ -134,12 +139,16 @@ function VoucherPage(props) {
                     <div className="option_dropdown">
                       <Dropdown placeholder="Options" item={itemOptions} />
                     </div>
-                    <button
-                      className="btnAdd"
-                      onClick={() => setIsShowAdd(true)}
-                    >
-                      Add
-                    </button>
+                    <div className="feature_of_customer ms-3">
+                      <MyButton
+                        prefix={
+                          <Plus size={26} color="#ffffff" weight="fill" />
+                        }
+                        callback={() => setIsShowAdd(true)}
+                        bgColor={"var(--primary-color)"}
+                        borderRadius={"5px"}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

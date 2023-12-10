@@ -3,7 +3,13 @@ import CustomMultiSelect from "../../../components/template/multiselect/CustomMu
 import { Dropdown, MyButton } from "../../../components";
 import "../../../assets/css/Pages/customer.css";
 import { OrderList } from "../../../components/project/order/OrderList";
-import { CalendarBlank, CaretLeft, Rows, SquaresFour } from "phosphor-react";
+import {
+  CalendarBlank,
+  CaretLeft,
+  Plus,
+  Rows,
+  SquaresFour,
+} from "phosphor-react";
 import { ButtonState } from "../../../components/template/multiselect/CustomMultiSelect/ButtonState";
 import { MyTable } from "../../../components";
 import {
@@ -225,8 +231,13 @@ export const OrderPage = () => {
             <div className="title_total_number_table">
               <h3 className="title_table">Order List </h3>
               <p className="total_number_table">{orderCardList.length}</p>
-              <div className="ms-2">
-                <MyButton text="Add" callback={() => setIsShowAdd(true)} />
+              <div className="feature_of_customer ms-3">
+                <MyButton
+                  prefix={<Plus size={26} color="#ffffff" weight="fill" />}
+                  callback={() => setIsShowAdd(true)}
+                  bgColor={"var(--primary-color)"}
+                  borderRadius={"5px"}
+                />
               </div>
               <div className="ms-auto">
                 <ButtonState

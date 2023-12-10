@@ -17,43 +17,36 @@ import { StaffTableFromJson } from "../../../utils/modelHandle";
 export const StaffPage = () => {
   const navigate = useNavigate();
 
-  const [staffs, setStaffs] = useState([]);
+  const [dataList, setDataList] = useState([]);
   const [isShowAdd, setIsShowAdd] = useState(false);
   const [data, setData] = useState({});
-  const [buttonType, setButtonType] = useState("Add");
+  const [activeTab, setActiveTab] = useState("staff");
 
   const tableData = useSelector(tableSelector);
   const dispatch = useDispatch();
 
-  const fetchStaff = async () => {
+  const fetchData = async (type) => {
     try {
-      const data = await getStaffList();
-      dispatch(consumerSlice.actions.setShipperList([]));
+      let data = [];
 
-      if (data) {
+      if (type === "staff") {
+        data = await getStaffList();
+      } else {
+        data = await getShipperList();
+      }
+
+      if (data.status === 200) {
+        // setDataList(data.data);
+        setDataList([]);
         for (let i = 0; i < data.data.length; i++) {
-          setStaffs((list) => [...list, StaffTableFromJson(data.data[i])]);
+          setDataList((list) => [...list, StaffTableFromJson(data.data[i])]);
         }
-        dispatch(consumerSlice.actions.setStaffList([data.data]));
+      } else {
+        toast.error("Something went wrong");
       }
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const fetchShipper = async () => {
-    try {
-      const data = await getShipperList();
-      dispatch(consumerSlice.actions.setShipperList([]));
-
-      if (data) {
-        for (let i = 0; i < data.data.length; i++) {
-          setStaffs((list) => [...list, StaffTableFromJson(data.data[i])]);
-        }
-        dispatch(consumerSlice.actions.setShipperList([data.data]));
-      }
-    } catch (error) {
-      console.log(error);
+      toast.error("Something went wrong");
     }
   };
 
@@ -73,12 +66,10 @@ export const StaffPage = () => {
     }
     toast.success("Deleted successfully");
     dispatch(tableSlice.actions.handleSelected([]));
-    fetchStaff();
   };
 
   const handleAddButton = () => {
     setIsShowAdd(true);
-    setButtonType("Add");
   };
 
   const handleButtonAction = async (data, type) => {
@@ -86,7 +77,6 @@ export const StaffPage = () => {
       case "details": {
         setIsShowAdd(true);
         setData(data);
-        setButtonType("Save");
         break;
       }
       case "delete": {
@@ -99,7 +89,7 @@ export const StaffPage = () => {
   };
 
   useEffect(() => {
-    fetchStaff();
+    fetchData(activeTab);
 
     return () => {
       console.log("Not thing");
@@ -119,37 +109,63 @@ export const StaffPage = () => {
                   height="44px"
                   width="auto"
                   hoverColor="var(--text-white)"
-                  bgColor="var(--primary-color)"
-                  fontColor="var(--text-white)"
+                  bgColor={
+                    activeTab === "staff"
+                      ? "var(--text-white)"
+                      : "var(--primary-color)"
+                  }
+                  fontColor={
+                    activeTab === "staff"
+                      ? "var(--primary-color)"
+                      : "var(--text-white)"
+                  }
                   borderRadius="5px"
                   padding="5px 20px"
                   margin="0 10px 0 0"
                   borderColor="var(--primary-color)"
-                  callback={fetchStaff}
+                  callback={async () => {
+                    setActiveTab("staff");
+                    await fetchData("staff");
+                  }}
                 />
                 <MyButton
                   text="Shipper"
                   height="44px"
                   width="auto"
                   hoverColor="var(--text-white)"
-                  bgColor="var(--primary-color)"
-                  fontColor="var(--text-white)"
+                  bgColor={
+                    activeTab === "shipper"
+                      ? "var(--text-white)"
+                      : "var(--primary-color)"
+                  }
+                  fontColor={
+                    activeTab === "shipper"
+                      ? "var(--primary-color)"
+                      : "var(--text-white)"
+                  }
                   borderRadius="5px"
                   padding="5px 20px"
                   borderColor="var(--primary-color)"
-                  callback={fetchShipper}
+                  callback={async () => {
+                    setActiveTab("shipper");
+                    await fetchData("shipper");
+                  }}
                 />
               </div>
             </div>
-            <button onClick={handleAddButton} className="btnAdd">
-              <Plus size={ICON_SIZE_BIG} />
-              Add
-            </button>
+            <div className="feature_of_customer">
+              <MyButton
+                prefix={<Plus size={26} color="#ffffff" weight="fill" />}
+                callback={() => setIsShowAdd(true)}
+                bgColor={"var(--primary-color)"}
+                borderRadius={"5px"}
+              />
+            </div>
           </div>
           <div className="staff_page_content">
             <MyTable
               callback={handleButtonAction}
-              list={staffs && staffs}
+              list={dataList}
               showCheckBox={true}
               deleteCallback={handleDelete}
             />
@@ -164,14 +180,11 @@ export const StaffPage = () => {
               size={ICON_SIZE_BIG}
             />
           </div>
-          <h3>{buttonType === "Add" ? "Add staff" : "Staff Detals"}</h3>
           <AddStaff
             isOpen={isShowAdd}
-            fetchShipper={fetchShipper}
-            fetchStaff={fetchStaff}
+            setOpen={setIsShowAdd}
+            isCreate={true}
             data={data}
-            buttonType={buttonType}
-            setButtonType={setButtonType}
           />
         </div>
       )}

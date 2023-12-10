@@ -4,6 +4,7 @@ import {
   DetailCustomer,
   AddCustomer,
   MyTable,
+  MyButton,
 } from "../../../components";
 import "../../../assets/css/Pages/customer.css";
 import { deleteUser, getCustomerList } from "../../../services/UserService";
@@ -13,7 +14,7 @@ import { tableSelector } from "../../../selectors/consumerSelector";
 import tableSlice from "../../../features/table/tableSlice";
 import { CustomerTableFromJson } from "../../../utils/modelHandle";
 import { Drawer } from "../../../components/project/drawer/Drawer";
-import { CaretLeft } from "phosphor-react";
+import { CaretLeft, Plus } from "phosphor-react";
 import { ICON_SIZE_BIG } from "../../../utils/constraint";
 import DetailsOrder from "../../../components/project/order/DetailsOrder";
 
@@ -142,9 +143,14 @@ function Customer(props) {
                   <div className="option_dropdown">
                     <Dropdown placeholder="Options" item={itemOptions} />
                   </div>
-                  <button className="btnAdd" onClick={() => setIsShowAdd(true)}>
-                    Add
-                  </button>
+                  <div className="feature_of_customer ms-3">
+                    <MyButton
+                      prefix={<Plus size={26} color="#ffffff" weight="fill" />}
+                      callback={() => setIsShowAdd(true)}
+                      bgColor={"var(--primary-color)"}
+                      borderRadius={"5px"}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

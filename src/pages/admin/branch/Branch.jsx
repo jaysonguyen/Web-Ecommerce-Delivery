@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { MyTable } from "../../../components/template/table/MyTable/MyTable";
 import { deleteBranch, getBranchList } from "../../../services/BranchService";
 import "../../../assets/css/Pages/branch.css";
-import { CaretLeft } from "phosphor-react";
+import { CaretLeft, Plus } from "phosphor-react";
 import { ICON_SIZE_BIG } from "../../../utils/constraint";
 import AddBranch from "../../../components/project/branch/AddBranch";
 import { useDispatch, useSelector } from "react-redux";
 import { tableSelector } from "../../../selectors/consumerSelector";
 import toast from "react-hot-toast";
 import tableSlice from "../../../features/table/tableSlice";
-import { Dropdown } from "../../../components/index";
+import { Dropdown, MyButton } from "../../../components/index";
 import { BranchTableFromJson } from "../../../utils/modelHandle";
 
 function Branch(props) {
@@ -87,9 +87,9 @@ function Branch(props) {
   const handleButtonAction = async (data, type) => {
     switch (type) {
       case "details": {
-        await setIsShowAdd(true);
-        await setData(data);
-        await setButtonType("Save");
+        setIsShowAdd(true);
+        setData(data);
+        setButtonType("Save");
         break;
       }
       case "delete": {
@@ -101,9 +101,9 @@ function Branch(props) {
     }
   };
 
-  const handleAddButton = async () => {
-    await setIsShowAdd(true);
-    await setButtonType("Add");
+  const handleAddButton = () => {
+    setIsShowAdd(true);
+    setButtonType("Add");
     setData({});
   };
 
@@ -135,9 +135,14 @@ function Branch(props) {
                   <div className="option_dropdown">
                     <Dropdown placeholder="Options" item={itemOptions} />
                   </div>
-                  <button className="btnAdd" onClick={() => setIsShowAdd(true)}>
-                    Add
-                  </button>
+                  <div className="feature_of_customer ms-3">
+                    <MyButton
+                      prefix={<Plus size={26} color="#ffffff" weight="fill" />}
+                      callback={() => setIsShowAdd(true)}
+                      bgColor={"var(--primary-color)"}
+                      borderRadius={"5px"}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
