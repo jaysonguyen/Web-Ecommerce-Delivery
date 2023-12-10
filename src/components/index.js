@@ -15,11 +15,13 @@ import StaffWithImage from "./project/staff/StaffWithImage";
 import { MyTable } from "./template/table/MyTable/MyTable";
 import PackageShipment from "./project/staff/PackageShipment";
 import ShipmentReject from "./project/staff/ShipmentReject.jsx";
+import ShipmentStatistic from "./project/staff/ShipmentStatistic";
 
 export {
   ShipmentReject,
   PackageShipment,
   TextInfo,
+  ShipmentStatistic,
   MyTable,
   Sidebar,
   Dropdown,

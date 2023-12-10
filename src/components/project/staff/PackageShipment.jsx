@@ -27,17 +27,17 @@ function PackageShipment({ packageInfo = {}, hideLocation }) {
           </span>
           <span
             className={
-              (packageInfo?.orders?.action_code == 0 &&
+              (packageInfo?.orders?.action_code <= 3 &&
                 "shipper_page_package_status status_shipping") ||
-              (packageInfo?.orders?.action_code == 1 &&
+              (packageInfo?.orders?.action_code == 5 &&
                 "shipper_page_package_status status_shipping") ||
-              (packageInfo?.orders?.action_code == 2 &&
+              (packageInfo?.orders?.action_code == 7 &&
                 "shipper_page_package_status status_receive")
             }
           >
-            {(packageInfo?.orders?.action_code == 0 && "Shipping") ||
-              (packageInfo?.orders?.action_code == 1 && "Reject") ||
-              (packageInfo?.orders?.action_code == 2 && "Receive")}
+            {(packageInfo?.orders?.action_code <= 3 && "Shipping") ||
+              (packageInfo?.orders?.action_code == 5 && "Reject") ||
+              (packageInfo?.orders?.action_code == 7 && "Receive")}
           </span>
         </span>
         <h6 className="font-weight-b">{packageInfo.customerName}</h6>
