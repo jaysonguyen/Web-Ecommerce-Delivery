@@ -87,6 +87,16 @@ export function StoreTableFromJson(data) {
     Created: data.created,
     State: data.state,
   };
+}
+export function StaffTableFromJson(data) {
+  // Ánh xạ key cũ sang key mới
+  const newData = {
+    ID: data.id,
+    Code: data.code,
+    Name: data.fullName,
+    Phone: data.phoneNumber,
+    Role: data.roleName,
+  };
 
   // Chuyển đổi kết quả thành JSON mới
   return newData;

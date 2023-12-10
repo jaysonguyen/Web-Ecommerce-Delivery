@@ -24,3 +24,11 @@ export async function addCustomerBank(data2) {
     return error;
   }
 }
+export async function deleteCustomerBank(data2) {
+  try {
+    let data = await axios.put(`/api/customer_bank`, data2);
+    return data.status;
+  } catch (error) {
+    return error;
+  }
+}

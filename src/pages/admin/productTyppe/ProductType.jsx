@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MyTable } from "../../../components/template/table/MyTable/MyTable";
 import { getProductTypeList } from "../../../services/ProductType";
-import { CaretLeft } from "phosphor-react";
+import { CaretLeft, Plus } from "phosphor-react";
 import AddProductType from "../../../components/project/order/AddProductType";
 import { ICON_SIZE_BIG } from "../../../utils/constraint";
 import { tableSelector } from "../../../selectors/consumerSelector";
@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import tableSlice from "../../../features/table/tableSlice";
 import { deleteProductType } from "../../../services/ProductType";
 import toast from "react-hot-toast";
+import { UploadFileButton } from "../../../components/template/button/upload_file_button";
+import { MyButton } from "../../../components";
 
 function ProductType(props) {
   const [isShowAdd, setIsShowAdd] = useState(false);
@@ -71,7 +73,7 @@ function ProductType(props) {
         <>
           <div className="header_of_customer">
             <div className="row">
-              <div className="col-8">
+              <div className="col">
                 <div className="header_bar_left_Cus ">
                   <div className="title_total_number_Cus">
                     <h3 className="title_Cus">Product Type List </h3>
@@ -84,10 +86,16 @@ function ProductType(props) {
               </div>
 
               <div className="col-4">
+                <UploadFileButton />
+              </div>
+              <div className="col-4">
                 <div className="feature_of_customer">
-                  <button className="btnAdd" onClick={() => setIsShowAdd(true)}>
-                    Add product type
-                  </button>
+                  <MyButton
+                    prefix={<Plus size={26} color="#ffffff" weight="fill" />}
+                    callback={() => setIsShowAdd(true)}
+                    bgColor={"var(--primary-color)"}
+                    borderRadius={"5px"}
+                  />
                 </div>
               </div>
             </div>

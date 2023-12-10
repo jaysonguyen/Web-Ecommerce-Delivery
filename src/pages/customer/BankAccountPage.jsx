@@ -8,6 +8,11 @@ import useToken from "../../hooks/useToken";
 import { getBankAccountListByUser } from "../../services/BankAccountService";
 import AddBankAccount from "../../components/project/bank_account/AddBankAccount";
 import { BankAccountTableFromJson } from "../../utils/modelHandle";
+import { deleteArea } from "../../services/AreaService";
+import tableSlice from "../../features/table/tableSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { tableSelector } from "../../selectors/consumerSelector";
+import { deleteCustomerBank } from "../../services/BankService";
 
 function BankAccount(props) {
   const [isShowAdd, setIsShowAdd] = useState(false);
@@ -16,6 +21,8 @@ function BankAccount(props) {
   const [accountTableList, setBankAccountTableList] = useState([]);
   const [accountSelected, setBankAccountSelected] = useState({});
   const { userPayload } = useToken();
+  const dispatch = useDispatch();
+  const tableData = useSelector(tableSelector);
 
   const handleCloseDialog = (type) => {
     switch (type) {
@@ -47,6 +54,28 @@ function BankAccount(props) {
       default:
         break;
     }
+  };
+
+  const handleDelete = async () => {
+    let list = [...tableData.selectList];
+    if (list.length === 0) {
+      toast.error("Choose area to delete");
+      return;
+    }
+    for (let i = 0; i < list.length; i++) {
+      let res = await deleteCustomerBank({
+        user_id: userPayload.userID,
+        bank_name: list[i].Name,
+        bank_number: list[i].Number,
+      });
+      if (res !== 200) {
+        toast.error("Something went wrong");
+        return;
+      }
+    }
+    toast.success("Deleted successfully");
+    dispatch(tableSlice.actions.handleSelected([]));
+    await getBankAccountData();
   };
 
   const getBankAccountData = async () => {
@@ -108,7 +137,7 @@ function BankAccount(props) {
             list={accountTableList}
             showCheckBox={true}
             callback={handleButtonAction}
-            // deleteCallback={handleDelete}
+            deleteCallback={handleDelete}
             hideDetails={true}
           />
         </>

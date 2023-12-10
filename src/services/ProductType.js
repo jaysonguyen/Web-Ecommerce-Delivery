@@ -8,6 +8,20 @@ export async function getProductTypeList() {
     return error;
   }
 }
+
+export async function uploadFile(file) {
+  try {
+    let data = await axios.post(`/api/productType/upload-file`, file, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+
 export async function getProductTypeDropdownList() {
   try {
     let data = await axios.get("/api/productType/dropdown");

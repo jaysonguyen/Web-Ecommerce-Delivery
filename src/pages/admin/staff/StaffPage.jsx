@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import tableSlice from "../../../features/table/tableSlice";
 import { tableSelector } from "../../../selectors/consumerSelector";
 import { useNavigate } from "react-router-dom";
+import { StaffTableFromJson } from "../../../utils/modelHandle";
 
 export const StaffPage = () => {
   const navigate = useNavigate();
@@ -27,8 +28,12 @@ export const StaffPage = () => {
   const fetchStaff = async () => {
     try {
       const data = await getStaffList();
+      dispatch(consumerSlice.actions.setShipperList([]));
+
       if (data) {
-        setStaffs(data.data);
+        for (let i = 0; i < data.data.length; i++) {
+          setStaffs((list) => [...list, StaffTableFromJson(data.data[i])]);
+        }
         dispatch(consumerSlice.actions.setStaffList([data.data]));
       }
     } catch (error) {
@@ -39,8 +44,12 @@ export const StaffPage = () => {
   const fetchShipper = async () => {
     try {
       const data = await getShipperList();
+      dispatch(consumerSlice.actions.setShipperList([]));
+
       if (data) {
-        setStaffs(data.data);
+        for (let i = 0; i < data.data.length; i++) {
+          setStaffs((list) => [...list, StaffTableFromJson(data.data[i])]);
+        }
         dispatch(consumerSlice.actions.setShipperList([data.data]));
       }
     } catch (error) {
