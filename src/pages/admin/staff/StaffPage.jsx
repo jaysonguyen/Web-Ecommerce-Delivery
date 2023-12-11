@@ -58,14 +58,15 @@ export const StaffPage = () => {
     }
 
     for (let i = 0; i < list.length; i++) {
-      let res = await deleteUser(list[i].id);
+      let res = await deleteUser(list[i].ID);
       if (!res) {
         toast.error("Something went wrong");
         return;
       }
     }
-    toast.success("Deleted successfully");
+    fetchData(activeTab);
     dispatch(tableSlice.actions.handleSelected([]));
+    toast.success("Deleted successfully");
   };
 
   const handleAddButton = () => {
@@ -94,7 +95,7 @@ export const StaffPage = () => {
     return () => {
       console.log("Not thing");
     };
-  }, [isShowAdd]);
+  }, [isShowAdd, tableData.selectList]);
 
   return (
     <div className="">
