@@ -36,3 +36,20 @@
 .login_form > .register_form {
     width: 90%;
 }
+
+.otp_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10%;
+    flex-direction: column;
+}
+
+.otp_input > input {
+    border: 1px solid #000;
+    color: #000 !important;
+}
+
+.otp_button {
+    margin-top: 20px;
+}
