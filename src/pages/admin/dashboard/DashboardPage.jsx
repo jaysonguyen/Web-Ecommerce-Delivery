@@ -9,6 +9,8 @@ import { DayPickerDialog } from "../../../components/template/dialog/DayPickerDi
 import useToken from "../../../hooks/useToken";
 import CustomerOption from "./CustomerOption";
 import { subDays } from "date-fns";
+import { getCityDropdownList } from "../../../services/OrderService";
+import { Dropdown } from "../../../components";
 
 export default function DashboardPage() {
   // dataAPI: {labels: [], points: [{key: string, values: []}]}
@@ -33,6 +35,9 @@ export default function DashboardPage() {
   const [chartData, setchartData] = useState(dataList);
   const [dayBeginSelected, setDayStartSelected] = useState(new Date());
   const [dayEndSelected, setDayEndSelected] = useState(new Date());
+  const [cityList, setCityList] = useState([]);
+  const [citySelected, setCitySelected] = useState("");
+  const [cityValueSelected, setCityValueSelected] = useState("");
   const { userPayload } = useToken();
 
   const handleCloseDayStart = (day) => {
@@ -51,20 +56,41 @@ export default function DashboardPage() {
     }
   };
 
+  const fetchCityList = async () => {
+    try {
+      let res = await getCityDropdownList();
+      if (res.status === 200) {
+        setCitySelected(res.data[0].code);
+        setCityValueSelected(res.data[0].content);
+        setCityList(res.data);
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error("Something went wrong");
+    }
+  };
+
   const fetchData = async () => {
+    if (citySelected === "") return;
+
     try {
       const options = { day: "numeric", month: "numeric", year: "numeric" };
       // dayBeginSelected.setDate(dayEndSelected.getDate() - 7);
       let startDay = new Date();
       startDay.setDate(dayEndSelected.getDate() - 7);
-      let res = await getOrderReport({
-        start: new Intl.DateTimeFormat("en-US", options)
-          .format(startDay)
-          .replace(/\//g, "-"),
-        end: new Intl.DateTimeFormat("en-US", options)
-          .format(dayEndSelected)
-          .replace(/\//g, "-"),
-      });
+      let res = await getOrderReport(
+        {
+          start: new Intl.DateTimeFormat("en-US", options)
+            .format(startDay)
+            .replace(/\//g, "-"),
+          end: new Intl.DateTimeFormat("en-US", options)
+            .format(dayEndSelected)
+            .replace(/\//g, "-"),
+        },
+        citySelected,
+      );
       if (res.status !== 200) {
         toast.error("Cannot get order report, check your connection!");
       } else {
@@ -77,8 +103,12 @@ export default function DashboardPage() {
   };
 
   useEffect(() => {
+    fetchCityList();
+  }, []);
+
+  useEffect(() => {
     fetchData();
-  }, [dayEndSelected]);
+  }, [dayEndSelected, citySelected]);
 
   return (
     <div className="">
@@ -92,6 +122,14 @@ export default function DashboardPage() {
               <DayPickerDialog
                 selectedValue={dayEndSelected}
                 onClose={setDayEndSelected}
+              />
+              City:
+              <Dropdown
+                padding={"7px 15px"}
+                item={cityList}
+                value={cityValueSelected}
+                onChange={setCitySelected}
+                onValue={setCityValueSelected}
               />
             </div>
             {chartData.points.length > 0 ? (

@@ -8,6 +8,7 @@ import "../../assets/css/dropdown.css";
 function DropDown({
   isShowIcon = false,
   label = "",
+  padding = "12.5px 15px",
   fontSize = "16px",
   item = [],
   isShowSearchField = false,
@@ -43,7 +44,7 @@ function DropDown({
   };
 
   const style = {
-    padding: "12.5px 15px",
+    padding: padding,
     width: width,
     backgroundColor: bgColor,
     boxShadow:
@@ -61,7 +62,7 @@ function DropDown({
 
   return (
     <div
-      className="pt-2"
+      className={label && "pt-2"}
       style={{
         position: "relative",
       }}
