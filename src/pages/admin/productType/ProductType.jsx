@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MyTable } from "../../../components/template/table/MyTable/MyTable";
-import { getProductTypeList } from "../../../services/ProductType";
+import { getProductTypeList, uploadFile } from "../../../services/ProductType";
 import { CaretLeft, Plus } from "phosphor-react";
 import AddProductType from "../../../components/project/order/AddProductType";
 import { ICON_SIZE_BIG } from "../../../utils/constraint";
@@ -24,12 +24,31 @@ function ProductType(props) {
     try {
       const data = await getProductTypeList();
       if (data != null) {
-        console.log(data);
-        console.log(data.data);
         setTypeList(data.data);
       }
     } catch (error) {
       return error;
+    }
+  };
+
+  const handleFormSubmit = async (e, file) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await uploadFile(formData);
+
+      // Handle the response as needed
+      if (res.status === 200) {
+        toast.success("Upload file successfully");
+        getTypeList();
+      } else {
+        toast.error("Upload file failed");
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
     }
   };
 
@@ -85,7 +104,7 @@ function ProductType(props) {
                 </div>
               </div>
               <div className="col-4">
-                <UploadFileButton />
+                <UploadFileButton handleSubmit={handleFormSubmit} />
               </div>
               <div className="col-4">
                 <div className="feature_of_customer">

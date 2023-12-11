@@ -10,6 +10,7 @@ import {
   deleteVoucher,
   getVoucherById,
   getVoucherList,
+  uploadVoucherFile,
 } from "../../../services/VoucherService";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +23,8 @@ import { VoucherTableFromJson } from "../../../utils/modelHandle";
 import useToken from "../../../hooks/useToken";
 import { Drawer } from "../../../components/project/drawer/Drawer";
 import DetailsVoucher from "../../../components/project/voucher/DetailsVoucher";
+import { uploadFile } from "../../../services/ProductType";
+import { UploadFileButton } from "../../../components/template/button/upload_file_button";
 
 function VoucherPage(props) {
   const [voucherSelected, setVoucherSelected] = useState({});
@@ -90,6 +93,27 @@ function VoucherPage(props) {
     setIsShowDetail(true);
   };
 
+  const handleFormSubmit = async (e, file) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await uploadVoucherFile(formData);
+
+      // Handle the response as needed
+      if (res.status === 200) {
+        toast.success("Upload file successfully");
+        initData();
+      } else {
+        toast.error("Upload file failed");
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+  };
+
   const handleCloseDetail = () => {
     setIsShowDetail(false);
   };
@@ -122,7 +146,7 @@ function VoucherPage(props) {
           <>
             <div className="header_of_customer">
               <div className="row">
-                <div className="col-8">
+                <div className="col">
                   <div className="header_bar_left_Cus ">
                     <div className="title_total_number_Cus">
                       <h3 className="title_Cus">Voucher list </h3>
@@ -134,9 +158,12 @@ function VoucherPage(props) {
                   </div>
                 </div>
 
-                <div className="col-4">
-                  <div className="feature_of_customer">
-                    <div className="option_dropdown">
+                <div className="col">
+                  <div className="feature_of_customer d-flex">
+                    <div className={""}>
+                      <UploadFileButton handleSubmit={handleFormSubmit} />
+                    </div>
+                    <div className="option_dropdown ">
                       <Dropdown placeholder="Options" item={itemOptions} />
                     </div>
                     <div className="feature_of_customer ms-3">

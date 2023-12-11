@@ -18,6 +18,19 @@ export async function getVoucherHistoryListByVoucher(voucherId) {
     return error;
   }
 }
+
+export async function uploadVoucherFile(file) {
+  try {
+    let data = await axios.post(`/api/voucher/upload-file`, file, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
 export async function getVoucherHistoryListByOrder(orderId) {
   try {
     let data = await axios.get(`/api/history_voucher/order?orderId=${orderId}`);
