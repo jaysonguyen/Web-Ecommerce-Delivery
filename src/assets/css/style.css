@@ -292,7 +292,21 @@ a {
   background: var(--color-error);
 }
 
-/* DISTANCE */
+.header_of_customer {
+  margin-bottom:10px;
+}
+
+.feature_of_customer {
+  padding-top: 6px;
+}
+
+.feature_of_customer,
+.feature_of_customer button
+{
+  height: 98% !important;
+}
+
+  /* DISTANCE */
 .pd-bt-10 {
   padding-bottom: 10px;
 }

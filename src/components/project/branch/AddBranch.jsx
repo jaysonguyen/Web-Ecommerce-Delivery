@@ -114,7 +114,7 @@ function AddBranch({
             label={"Branch name"}
           />
         </div>
-        <div className="col-6 ">
+        <div className="col-6">
           <Dropdown
             placeholder="Choose city"
             label="City"

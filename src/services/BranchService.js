@@ -9,6 +9,14 @@ export async function getBranchList() {
     return error;
   }
 }
+export async function getBranchDropdownList() {
+  try {
+    const data = await axios.get("/api/branch/dropdown");
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
 
 export const createBranch = async (branch) => {
   try {
@@ -36,7 +44,6 @@ export const getUserByBranchCode = async (branchCode) => {
     return error;
   }
 };
-
 
 export const deleteBranch = async (id) => {
   try {

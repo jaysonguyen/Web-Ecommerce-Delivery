@@ -6,6 +6,7 @@ import StaffWithImage from "./StaffWithImage";
 import { getUserByBranchCode } from "../../../services/BranchService";
 import { setAssignShipment } from "../../../services/UserService";
 import toast from "react-hot-toast";
+import useToken from "../../../hooks/useToken";
 
 function AssignShipperTag({
   assignInfo,
@@ -16,6 +17,9 @@ function AssignShipperTag({
   const [isShowSearchFeed, setShowSearchFeed] = useState(false);
   const [isShowSearchInput, setIsShowSearchInput] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const { userPayload } = useToken();
+
+  console.log(assignInfo);
 
   const handleOnchangeInputSearchShipper = (e) => {
     setShowSearchFeed(true);
@@ -28,7 +32,11 @@ function AssignShipperTag({
   const handleAddAssign = async () => {
     console.log("click click click ne");
     try {
-      var checkInsert = await setAssignShipment("ARBD", "TD01", "shipper5385");
+      var checkInsert = await setAssignShipment(
+        assignInfo.area.code,
+        assignInfo.branch.code,
+        userPayload.userCode,
+      );
       if (checkInsert.status == 200) {
         toast.success("Insert success");
         fetchAssignmentInfo();

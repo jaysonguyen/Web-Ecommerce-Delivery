@@ -3,6 +3,10 @@ import Input from "../../template/Input/Input";
 import { insertUser } from "../../../services/UserService";
 import toast from "react-hot-toast";
 import { Dropdown } from "../../../components";
+import {
+  getBranchDropdownList,
+  getBranchList,
+} from "../../../services/BranchService";
 
 function AddStaff({ isOpen, setOpen }) {
   const [code, setCode] = useState("");
@@ -12,6 +16,9 @@ function AddStaff({ isOpen, setOpen }) {
   const [role, setRole] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
   const [des, setDes] = useState("");
+  const [branchCode, setBranchCode] = useState("");
+
+  const [branchList, setBranchList] = useState([]);
   const handleClearInput = () => {
     console.log("clear input");
 
@@ -22,6 +29,7 @@ function AddStaff({ isOpen, setOpen }) {
     setRole("");
     setPhoneNum("");
     setDes("");
+    setBranchCode("");
   };
   const handleInsertStaff = async () => {
     try {
@@ -34,6 +42,7 @@ function AddStaff({ isOpen, setOpen }) {
         role_id: role,
         phone: phoneNum,
         des,
+        branch_code: branchCode,
       });
       if (checkInsert != 200) {
         toast.error("insert failed");
@@ -59,9 +68,28 @@ function AddStaff({ isOpen, setOpen }) {
     },
   ];
 
+  const fetchBranchData = async () => {
+    try {
+      let res = await getBranchDropdownList();
+
+      if (res.status === 200) {
+        setBranchList(res.data);
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error("Something went wrong");
+    }
+  };
+
   useEffect(() => {
+    fetchBranchData();
     handleClearInput();
   }, [isOpen]);
+
+  console.log(branchList);
+  console.log(roles);
 
   return (
     <>
@@ -102,14 +130,28 @@ function AddStaff({ isOpen, setOpen }) {
             />
           </div>
           <div className="col pt-2 col-6">
-            <Dropdown
-              item={roles}
-              label={"Role"}
-              bgColor="var(--text-white)"
-              onChange={(v) => setRole(v)}
-              fontSize="14px"
-              placeholder="Choose role"
-            />
+            <div className={"row"}>
+              <div className={"col"}>
+                <Dropdown
+                  item={roles}
+                  label={"Role"}
+                  bgColor="var(--text-white)"
+                  onChange={(v) => setRole(v)}
+                  fontSize="14px"
+                  placeholder="Choose role"
+                />
+              </div>
+              <div className={"col"}>
+                <Dropdown
+                  item={branchList}
+                  label={"Branch"}
+                  bgColor="var(--text-white)"
+                  onChange={(v) => setBranchCode(v)}
+                  fontSize="14px"
+                  placeholder="Choose branch"
+                />
+              </div>
+            </div>
           </div>
           <div className="col col-6">
             <Input

@@ -43,7 +43,7 @@ function DropDown({
   };
 
   const style = {
-    padding: "10px 15px",
+    padding: "12.5px 15px",
     width: width,
     backgroundColor: bgColor,
     boxShadow:
@@ -61,7 +61,7 @@ function DropDown({
 
   return (
     <div
-      className=""
+      className="pt-2"
       style={{
         position: "relative",
       }}

@@ -112,6 +112,7 @@
 .shipping_assignment_list_shipper_container {
   border: 1px solid #f0f0f0;
   padding: 10px 4px 4px 4px;
+  height: 75vh;
 }
 
 .shipper_list {

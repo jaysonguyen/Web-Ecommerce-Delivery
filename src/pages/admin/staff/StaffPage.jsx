@@ -94,7 +94,7 @@ export const StaffPage = () => {
     return () => {
       console.log("Not thing");
     };
-  }, []);
+  }, [isShowAdd]);
 
   return (
     <div className="">
