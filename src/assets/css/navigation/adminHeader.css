@@ -1,0 +1,23 @@
+:root {
+  --admin-header-height: 80px;
+  --admin-header-backgroundColor: #fff;
+}
+
+.admin_header {
+  padding: 20px;
+  position: fixed;
+  width: calc(100% - var(--sidebar-width));
+  height: var(--admin-header-height);
+  box-shadow: 0px 0px 3px var(--box-shadow-color);
+  z-index: 99;
+  background-color: var(--admin-header-backgroundColor);
+}
+
+.adminHeader_icon:nth-child(2) {
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.adminHeader_icon:hover {
+  opacity: 0.8;
+}

@@ -1,0 +1,218 @@
+.shipper_page {
+  padding: 30px 20px;
+  background-color: #f0f0f0;
+  overflow: hidden;
+}
+
+.shipper_page_body {
+  margin-top: 20px;
+}
+
+.shipper_page_background {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  display: block;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--border-color);
+}
+
+.shipping_location {
+  font-weight: 500;
+}
+
+.shipper_page_tool_bar {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #000;
+  padding: 10px 3px;
+}
+
+.tool_item {
+  margin: 0 auto;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.tool_item.active {
+  opacity: 1;
+}
+
+.tool_item p {
+  font-size: 10px;
+}
+
+.tool_item span {
+  color: #fff;
+}
+
+/* PACKAGE ITEM */
+.package_item {
+  margin-top: 10px;
+  background-color: #fff;
+  padding: 10px;
+  width: 103%;
+  border-radius: var(--border-radius);
+}
+
+.shipper_detail_icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+}
+
+.shipper_detail_icon_call {
+  transform: translate(50px, -30px);
+  border: 8px solid #f0f0f0;
+  background: #000;
+  color: #fff !important;
+}
+
+.shipper_page_package_status,
+.shipper_page_package_id {
+  font-size: 12px;
+  background-color: #000;
+  border-radius: 5px;
+  color: #fff;
+  padding: 3px 10px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.shipper_page_package_status.status_shipping {
+  background-color: var(--color-unassign);
+  color: #000;
+}
+
+.shipper_page_package_status.status_received {
+  background-color: var(--color-assign);
+  color: #000;
+}
+
+.shipper_page_address {
+  font-size: 13px;
+}
+
+.shipper_page_cost {
+  margin-top: 10px;
+}
+
+.shipper_page_cost span {
+  margin-left: 3px;
+}
+
+.shipper_address_details {
+  margin-right: 4px;
+}
+
+/* DETAIL */
+.package_shipment_detail {
+  overflow: hidden;
+}
+
+.info_package {
+  width: 95%;
+  margin-top: auto;
+}
+
+.package_shipment_detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.map_container {
+  height: 60vh;
+}
+
+.action_button {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.action_button button {
+  width: 50%;
+  padding: 10px 0;
+}
+
+.receive_procedure_container section {
+  padding: 10px;
+}
+
+.evident_photo_container {
+  padding: 3px 5px;
+  height: 50vh;
+  margin: 0 10px;
+  border: 1px dashed var(--primary-color);
+}
+
+.shipment_confirm_button {
+  padding: 10px 10px;
+  margin: 10px;
+  float: right;
+}
+
+.button_go_back {
+  background-color: transparent;
+}
+
+.map_container_icon {
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  color: #565555;
+  border-radius: 50%;
+  margin: 20px;
+  background-color: #fff;
+}
+
+.selected-image-preview {
+  width: 100%;
+  height: 100%;
+}
+
+.selected-image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shipment_dashboard {
+  margin-top: 30px;
+}
+
+.shipment_dashboard_item {
+  width: 45%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #000;
+  margin-left: 10px;
+  margin-bottom: 30px;
+  padding: 15px 5px;
+  border-radius: 3px;
+}
+
+.shipment_dashboard_item caption {
+  margin-right: 10px;
+  margin-bottom: 20px;
+  position: relative;
+  text-align: left;
+  top: -20px;
+}
+.shipment_dashboard_item span {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.width-100 {
+  width: 95%;
+}

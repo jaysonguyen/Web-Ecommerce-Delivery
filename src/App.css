@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+/* Config app */
+
+
+.content_container {
+  margin-left: calc(var(--sidebar-width)) ;
+}

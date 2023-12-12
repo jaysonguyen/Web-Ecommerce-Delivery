@@ -1,0 +1,30 @@
+* {
+    --text-primary: #3d3d3d;
+}
+
+.option-card {
+    height: 20vh;
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 2em;
+    background-color: var(--text-white);
+    border-radius: 10px;
+    box-shadow: 0 30px 40px #d3d3d3;
+}
+
+.option-title {
+    font-size: 18px;
+    font-weight: bolder;
+    text-align: center;
+    margin: auto 0;
+    color: var(--text-primary);
+}
+
+.option-icon {
+    margin: auto 0;
+}
+
+.option-img {
+    width: 5em;
+}
