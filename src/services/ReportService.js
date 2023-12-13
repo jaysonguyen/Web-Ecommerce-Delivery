@@ -8,3 +8,11 @@ export async function getOrderReport(data2, cityCode) {
     return error;
   }
 }
+export async function getProductTypeReport(data2) {
+  try {
+    let data = await axios.post(`/api/report/product_type`, data2);
+    return data;
+  } catch (error) {
+    return error;
+  }
+}

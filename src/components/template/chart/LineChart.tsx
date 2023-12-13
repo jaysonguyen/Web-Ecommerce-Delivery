@@ -44,7 +44,7 @@ export default function LineChart({ title, dataList }: props) {
   return (
     <div className="chart-container">
       <div className="chart-title">{title}</div>
-      <ResizableBox resizable={false} width={550}>
+      <ResizableBox resizable={false} width={"550px"}>
         <Chart
           options={{
             data,

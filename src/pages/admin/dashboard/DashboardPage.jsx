@@ -3,7 +3,10 @@ import SettingOptionOne from "./SettingOptionOne";
 import "../../../assets/css/Pages/dashboard.css";
 import SettingOptionTwo from "./SettingOptionTwo";
 import React, { useEffect, useState } from "react";
-import { getOrderReport } from "../../../services/ReportService";
+import {
+  getOrderReport,
+  getProductTypeReport,
+} from "../../../services/ReportService";
 import toast from "react-hot-toast";
 import { DayPickerDialog } from "../../../components/template/dialog/DayPickerDialog";
 import useToken from "../../../hooks/useToken";
@@ -33,11 +36,18 @@ export default function DashboardPage() {
   };
 
   const [chartData, setchartData] = useState(dataList);
+  const [chartProductTypeData, setchartProductTypeData] = useState(dataList);
+
   const [dayBeginSelected, setDayStartSelected] = useState(new Date());
   const [dayEndSelected, setDayEndSelected] = useState(new Date());
   const [cityList, setCityList] = useState([]);
   const [citySelected, setCitySelected] = useState("");
   const [cityValueSelected, setCityValueSelected] = useState("");
+
+  const [dayProductTypeEndSelected, setDayProductTypeEndSelected] = useState(
+    new Date(),
+  );
+
   const { userPayload } = useToken();
 
   const handleCloseDayStart = (day) => {
@@ -102,9 +112,38 @@ export default function DashboardPage() {
     }
   };
 
+  const fetchProductTypeChartData = async () => {
+    try {
+      const options = { day: "numeric", month: "numeric", year: "numeric" };
+      // dayBeginSelected.setDate(dayEndSelected.getDate() - 7);
+      let startDay = new Date();
+      startDay.setDate(dayProductTypeEndSelected.getDate() - 7);
+      let res = await getProductTypeReport({
+        start: new Intl.DateTimeFormat("en-US", options)
+          .format(startDay)
+          .replace(/\//g, "-"),
+        end: new Intl.DateTimeFormat("en-US", options)
+          .format(dayProductTypeEndSelected)
+          .replace(/\//g, "-"),
+      });
+      if (res.status !== 200) {
+        toast.error("Cannot get product type report, check your connection!");
+      } else {
+        setchartProductTypeData(res.data);
+      }
+    } catch (ex) {
+      console.log(ex.message);
+      toast.error("Cannot get product type report, check your connection!");
+    }
+  };
+
   useEffect(() => {
     fetchCityList();
   }, []);
+
+  useEffect(() => {
+    fetchProductTypeChartData();
+  }, [dayProductTypeEndSelected]);
 
   useEffect(() => {
     fetchData();
@@ -158,6 +197,24 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
+      <div>
+        {/* SORT BY DATE  */}
+        <div className="d-flex gap-3 align-items-center">
+          Date Picked:
+          <DayPickerDialog
+            selectedValue={dayProductTypeEndSelected}
+            onClose={setDayProductTypeEndSelected}
+          />
+        </div>
+        {chartProductTypeData.points.length > 0 ? (
+          <LineChart
+            title="Products by product type in 7 days"
+            dataList={chartProductTypeData}
+          />
+        ) : (
+          <div>No Connection {chartProductTypeData.points.length}</div>
+        )}
+      </div>
     </div>
   );
 }
