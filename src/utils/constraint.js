@@ -35,3 +35,4 @@ export const URL_GET_ASSIGN_INFO = "/api/user/shipper/assignment";
 export const URL_GET_ORDER_BY_SHIPPER_CODE = "/api/order/shipper";
 export const URL_GET_SHIPPER_BY_BRANCH = "/api/user/shipper/assignment";
 export const USER_GET_SHIPPER_POINT_AMOUNT = "/api/user/shipper/point/amount";
+export const USER_GET_OTP = "/api/authentication/generate/otp"

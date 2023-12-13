@@ -8,6 +8,7 @@ import {
   URL_USER,
   USER_GET_SHIPPER_POINT_AMOUNT,
   URL_GET_ASSIGN_INFO,
+  USER_GET_OTP,
 } from "../utils/constraint";
 
 export async function getUserList() {
@@ -105,7 +106,7 @@ export const getShipperAssignmentByBranchId = async (data) => {
 export const getShipperListByBranchId = async (branchCode) => {
   try {
     const shipperList = await axios.get(
-      "/api/user/shipper/branch" + `/${branchCode}`,
+      "/api/user/shipper/branch" + `/${branchCode}`
     );
     return shipperList;
   } catch (error) {
@@ -116,7 +117,7 @@ export const getShipperListByBranchId = async (branchCode) => {
 export const getOrderListByShipperCode = async (shipperCode) => {
   try {
     const getListOrder = await axios.get(
-      URL_GET_ORDER_BY_SHIPPER_CODE + `/${shipperCode}`,
+      URL_GET_ORDER_BY_SHIPPER_CODE + `/${shipperCode}`
     );
     return getListOrder;
   } catch (error) {
@@ -127,7 +128,7 @@ export const getOrderListByShipperCode = async (shipperCode) => {
 export const setAssignShipment = async (area_code, branch_code, user_code) => {
   try {
     const setListOrder = await axios.post(
-      `/api/user/shipper/assignment/${area_code}/${branch_code}/${user_code}`,
+      `/api/user/shipper/assignment/${area_code}/${branch_code}/${user_code}`
     );
     return setListOrder;
   } catch (error) {
@@ -135,11 +136,22 @@ export const setAssignShipment = async (area_code, branch_code, user_code) => {
   }
 };
 
-export const getShipperPointAmount = async(shipperID) => {
+export const getShipperPointAmount = async (shipperID) => {
   try {
-    const getShipperPointAndAmount = await axios.get(USER_GET_SHIPPER_POINT_AMOUNT + `/${shipperID}`)
+    const getShipperPointAndAmount = await axios.get(
+      USER_GET_SHIPPER_POINT_AMOUNT + `/${shipperID}`
+    );
     return getShipperPointAndAmount;
-  } catch(error) {
+  } catch (error) {
     console.log(error);
   }
-}
+};
+
+export const getOTP = async (email) => {
+  try {
+    const getOTP = await axios.post(USER_GET_OTP + `/${email}`);
+    return getOTP;
+  } catch (error) {
+    console.log(error);
+  }
+};
